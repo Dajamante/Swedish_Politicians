@@ -4,4 +4,5 @@
 
 ## Influencers Swedish Politician Edition.
 ### Version 0.0
+Last Updated: 03-02-2020
 
