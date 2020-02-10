@@ -1,4 +1,4 @@
-docUrl = "http://data.riksdagen.se/dokumentlista/?sok=&doktyp=mot&rm=&from=&tom=&ts=&bet=&tempbet=&nr=&org=&iid=&w        ebbtv=&talare=&exakt=&planering=&sort=datum&sortorder=desc&rapport=&utformat=json&a=s#soktraff";
+docUrl = "http://data.riksdagen.se/dokumentlista/?sok=&doktyp=mot&rm=&from=&tom=&ts=&bet=&tempbet=&nr=&org=&iid=&ebbtv=&talare=&exakt=&planering=&sort=datum&sortorder=desc&rapport=&utformat=json&a=s#soktraff";
 
 var request = require("request");
 motioner = [];
@@ -15,7 +15,7 @@ function parse(url) {
                     motioner.push([response.dokumentlista.dokument[i].id,
                     response.dokumentlista.dokument[i].summary,
                     response.dokumentlista.dokument[i].dokintressent.intressent[0].intressent_id,
-                    response.dokumentlista.dokument[i].dokintressent.intressent[0].partibet,
+                    response.dokumentlista.dokument[i].dokintressent.intressent[0].partibet]);
                 }
                 resolve(motioner);
             } catch(e) {
