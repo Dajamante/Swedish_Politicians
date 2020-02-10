@@ -16,7 +16,6 @@ function parse(url) {
                     response.dokumentlista.dokument[i].summary,
                     response.dokumentlista.dokument[i].dokintressent.intressent[0].intressent_id,
                     response.dokumentlista.dokument[i].dokintressent.intressent[0].partibet,
-                    response.dokumentlista.@nasta_sida]);
                 }
                 resolve(motioner);
             } catch(e) {
