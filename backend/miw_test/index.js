@@ -44,15 +44,27 @@ async function looplkinks(links) {
   let proms = [];
   for (let i = 0; i < links.length; i++) {
     proms.push(getText(links[i]));
+
   }
   const res = await Promise.all(proms);
+  writeToFile(res);
   return res;
+}
+
+function writeToFile(data) {
+  var fs = require('fs');
+  var stream = fs.createWriteStream("test.json");
+  stream.once('open', function(fd) {
+  stream.write(JSON.stringify(data));
+  stream.end();
+});
 }
 
 getTextLink(docUrl)
   .then(arr => looplkinks(arr))
   .then(res => console.log(res))
   .catch(() => console.log("Something went wrong!"));
+
 
 /*async function main() {
   const res = await looplkinks();
