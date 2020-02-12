@@ -46,6 +46,7 @@ async function looplkinks(links) {
     proms.push(getText(links[i]));
   }
   const res = await Promise.all(proms);
+  fs.writeFile('test.txt', res);
   return res;
 }
 

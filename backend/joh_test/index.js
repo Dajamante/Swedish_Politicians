@@ -8,22 +8,20 @@ texts = [];
 
 
 function getTextLink(url) {
-  return new Promise(function(resolve, reject) {
       request(url, function (error, response, body) {
           // in addition to parsing the value, deal with possible errors
           if (error) return reject(error);
           try {
               // JSON.parse() can throw an exception if not valid JSON
               response = JSON.parse(body);
-              for (var i = 0; i < anforandelista.anforande; i++) {
-                links.push([anforandelista.anforande[i].anforande_url_html]);
+              for (var i = 0; i < response.anforandelista.anforande.length; i++) {
+                links.push([anforandelista.anforande[i].anforande_url_html.substring(0,-4) + "json"]);
             }
               resolve(links);
           } catch(e) {
               reject(e);
           }
       });
-  });
 }
 
 function getText(url) {
@@ -50,13 +48,13 @@ function looplkinks(){
 }
 
 async function main(){
-  var j = await getTextLink(url);
+  var j = await getTextLink(docUrl);
   var h = await looplkinks();
   var k = await proms.all();
 
 }
 
-
+main();
 
 
 
