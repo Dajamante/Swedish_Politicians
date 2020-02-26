@@ -3,6 +3,8 @@ docUrl =
 
 var request = require("request");
 var fs = require('fs');
+const db = require('./db')
+
 
 
 function getTextLink(url) {
@@ -49,15 +51,15 @@ async function looplkinks(links) {
 
   }
   const res = await Promise.all(proms);
-  writeToDB(res);
+  //writeToDB(res);
   return res;
 }
 //Write anforandetext to database
-function writeToDB(data) {
+async function writeToDB(data) {
     db.connect();
-    db.addAnfText(data);
+    db.addAnfText(data);  
+    //return res;
 }
-const db = require('./db')
 /* function readFromFile() {
   fs.readFile('./pythondata.json', 'utf8', (err, data) => {
     if (err) throw err;
@@ -68,6 +70,6 @@ const db = require('./db')
 
 getTextLink(docUrl)
   .then(arr => looplkinks(arr))
-  .then(res => console.log(res))
+  .then(res => writeToDB(res))
   .catch(() => console.log("Something went wrong!"));
 //readFromFile();
