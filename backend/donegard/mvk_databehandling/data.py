@@ -91,7 +91,7 @@ class Data:
                     if index == data_frame_processed.shape[0] - 1:
                         insert_table_query += str(row[key]) + "');"
                     else:
-                        insert_table_query += str(row[key]) + ") ,\n"
+                        insert_table_query += str(row[key]) + "') ,\n"
                 else:
                     insert_table_query += str(row[key]) + " , "
 

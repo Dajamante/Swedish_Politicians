@@ -9,8 +9,8 @@ var pyShell = require('python-shell');
 
 
 function getTextLink(url) {
-  return new Promise(function(resolve, reject) {
-    request(url, function(error, response, body) {
+  return new Promise(function (resolve, reject) {
+    request(url, function (error, response, body) {
       // in addition to parsing the value, deal with possible errors
       let links = [];
       if (error) return reject(error);
@@ -30,8 +30,8 @@ function getTextLink(url) {
 }
 
 function getText(url) {
-  return new Promise(function(resolve, reject) {
-    request(url, function(error, response, body) {
+  return new Promise(function (resolve, reject) {
+    request(url, function (error, response, body) {
       // in addition to parsing the value, deal with possible errors
       if (error) return reject(error);
       try {
@@ -55,21 +55,28 @@ async function looplinks(links) {
 }
 //Write anforandetext to database
 async function writeToDB(data) {
-    db.connect();
-    db.addAnfText(data);  
+  db.connect();
+  db.addAnfText(data);
 }
 
 //Skapa promise för att behandla datan 
-async function processData() {
-  
-  pyShell.PythonShell.run('./mvk_databehandling/test_data.py', null, function (err) {
-    if (err) throw err;
-    console.log('finished');
+function processData() {
+  return new Promise(function (resolve, reject) {
+    pyShell.PythonShell.run('./mvk_databehandling/test_data.py', null, function (err) {
+      if (err) {
+        console.log(err);
+        reject(err)
+      } else {
+        resolve('finished');
+      }
+
+    })
   })
 }
 
 getTextLink(docUrl)
   .then(arr => looplinks(arr))
   .then(res => writeToDB(res))
-  .then(processData())
+  .then(() => processData())
+  .then((t) => console.log(t))
   .catch(() => console.log("Something went wrong!"));
