@@ -4,6 +4,7 @@ docUrl =
 var request = require("request");
 var fs = require('fs');
 const db = require('./db')
+var pyShell = require('python-shell');
 
 
 
@@ -60,6 +61,16 @@ async function writeToDB(data) {
     db.addAnfText(data);  
     //return res;
 }
+
+//Skapa promise för att behandla datan 
+async function processData() {
+  
+  pyShell.PythonShell.run('test_data.py', null, function (err) {
+    if (err) throw err;
+    console.log('finished');
+  })
+}
+
 /* function readFromFile() {
   fs.readFile('./pythondata.json', 'utf8', (err, data) => {
     if (err) throw err;
@@ -69,7 +80,9 @@ async function writeToDB(data) {
 } */
 
 getTextLink(docUrl)
-  .then(arr => looplkinks(arr))
-  .then(res => writeToDB(res))
+  .then(arr => looplinks(arr))
+  .then(res => console.log(res))
+  .then(writeToDB())
+  .then(processData())
   .catch(() => console.log("Something went wrong!"));
 //readFromFile();
