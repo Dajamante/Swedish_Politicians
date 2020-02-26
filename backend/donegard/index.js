@@ -44,45 +44,32 @@ function getText(url) {
   });
 }
 
-async function looplkinks(links) {
-  //links[0] = docUrl;
+async function looplinks(links) {
   let proms = [];
   for (let i = 0; i < links.length; i++) {
     proms.push(getText(links[i]));
 
   }
   const res = await Promise.all(proms);
-  //writeToDB(res);
   return res;
 }
 //Write anforandetext to database
 async function writeToDB(data) {
     db.connect();
     db.addAnfText(data);  
-    //return res;
 }
 
 //Skapa promise för att behandla datan 
 async function processData() {
   
-  pyShell.PythonShell.run('test_data.py', null, function (err) {
+  pyShell.PythonShell.run('./mvk_databehandling/test_data.py', null, function (err) {
     if (err) throw err;
     console.log('finished');
   })
 }
 
-/* function readFromFile() {
-  fs.readFile('./pythondata.json', 'utf8', (err, data) => {
-    if (err) throw err;
-    console.log(JSON.parse(data));
-  });
-
-} */
-
 getTextLink(docUrl)
   .then(arr => looplinks(arr))
-  .then(res => console.log(res))
-  .then(writeToDB())
+  .then(res => writeToDB(res))
   .then(processData())
   .catch(() => console.log("Something went wrong!"));
-//readFromFile();

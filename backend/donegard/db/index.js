@@ -25,7 +25,7 @@ function connect() {
 async function addAnfText(data) {
     var i;
     for (i = 0; i < data.length; i++) {
-        await client.query('INSERT INTO anforande(text) VALUES($1)', [data[i]])
+        await client.query('INSERT INTO anforandetext(text) VALUES($1)', [data[i]])
     }
     disconnect();
 }
