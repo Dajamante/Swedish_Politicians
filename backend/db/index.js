@@ -21,14 +21,36 @@ function connect() {
 
 
 
+function storeData(data, i) {
+    return new Promise(function (resolve, reject) {
+        if (error) return reject(error);
+        try {
+            resolve(
+            client.query('INSERT INTO anforandetext(text) VALUES($1)', [data[i]])
+            //client.query('INSERT INTO anforandeperson(name) VALUES ($1)', [data.talare[i]]),
+            //client.query('INSERT INTO parti(partinamn) VALUES ($1)', [data.parti[i]])
+            );
+        }
+        catch (e) {
+            reject(e);
+          }
+      });
+}
+
+
 //Function to add anforandetext to database
 async function addAnfText(data) {
+    let proms = [];
     var i;
     for (i = 0; i < data.length; i++) {
-        await client.query('INSERT INTO anforandetext(text) VALUES($1)', [data[i]])
+        proms.push(storeData(data, i));
     }
+    res = await Promise.all(proms);
     disconnect();
+    return res;
 }
+
+
 //Disconnect the client from the database
 function disconnect() {
     client.end(err => {

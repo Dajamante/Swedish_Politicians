@@ -10,5 +10,8 @@
     "pg": "^7.18.2",
     "python-shell": "^1.0.8",
     "request": "^2.88.2"
+  },
+  "devDependencies": {
+    "jest": "^25.1.0"
   }
 }

@@ -1,3 +1,4 @@
+
 docUrl =
   "http://data.riksdagen.se/anforandelista/?rm=&anftyp=&d=&ts=&parti=M&iid=&sz=2&utformat=json";
 
@@ -60,9 +61,9 @@ async function writeToDB(data) {
 }
 
 //Skapa promise för att behandla datan 
-function processData() {
+/* function processData() {
   return new Promise(function (resolve, reject) {
-    pyShell.PythonShell.run('./mvk_databehandling/test_data.py', null, function (err) {
+    pyShell.PythonShell.run('../dataprocessing/test_data.py', null, function (err) {
       if (err) {
         console.log(err);
         reject(err)
@@ -72,11 +73,11 @@ function processData() {
 
     })
   })
-}
+} */
 
 getTextLink(docUrl)
   .then(arr => looplinks(arr))
   .then(res => writeToDB(res))
-  .then(() => processData())
+  //.then(() => processData())
   .then((t) => console.log(t))
   .catch(() => console.log("Something went wrong!"));
