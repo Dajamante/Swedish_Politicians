@@ -1,5 +1,6 @@
+
 docUrl =
-  "http://data.riksdagen.se/anforandelista/?rm=&anftyp=&d=&ts=&parti=M&iid=&sz=2&utformat=json";
+  "http://data.riksdagen.se/anforandelista/?rm=&anftyp=&d=&ts=&parti=&iid=&sz=15&utformat=json";
 
 var request = require("request");
 var fs = require('fs');
@@ -36,7 +37,7 @@ function getText(url) {
       if (error) return reject(error);
       try {
         const data = JSON.parse(body); // can throw an exception if not valid JSON
-        resolve(data.anforande.anforandetext);
+        resolve(data.anforande);
       } catch (e) {
         reject(e);
       }
@@ -72,11 +73,11 @@ function processData() {
 
     })
   })
-}
+} */
 
 getTextLink(docUrl)
   .then(arr => looplinks(arr))
   .then(res => writeToDB(res))
-  .then(() => processData())
+  //.then(() => processData())
   .then((t) => console.log(t))
   .catch(() => console.log("Something went wrong!"));
