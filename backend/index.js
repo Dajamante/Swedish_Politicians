@@ -59,10 +59,10 @@ async function writeToDB(data) {
   db.addAnfText(data);
 }
 
-//Skapa promise för att behandla datan 
+//Skapa promise för att behandla datan
 function processData() {
   return new Promise(function (resolve, reject) {
-    pyShell.PythonShell.run('./mvk_databehandling/test_data.py', null, function (err) {
+    pyShell.PythonShell.run('../dataprocessing/test_data.py', null, function (err) {
       if (err) {
         console.log(err);
         reject(err)

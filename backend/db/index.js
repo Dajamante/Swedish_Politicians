@@ -6,7 +6,7 @@ const client = new Client({
     port: 5432,
     database: 'riksdagen',
     user: 'root',
-    password: $DBPASS,
+    password: process.env.DBPASS,
 })
 //Connect client to database
 function connect() {
