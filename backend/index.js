@@ -60,8 +60,8 @@ async function writeToDB(data) {
   db.addAnfText(data);
 }
 
-//Skapa promise för att behandla datan 
-/* function processData() {
+//Skapa promise för att behandla datan
+function processData() {
   return new Promise(function (resolve, reject) {
     pyShell.PythonShell.run('../dataprocessing/test_data.py', null, function (err) {
       if (err) {
@@ -73,7 +73,7 @@ async function writeToDB(data) {
 
     })
   })
-} */
+} 
 
 getTextLink(docUrl)
   .then(arr => looplinks(arr))
