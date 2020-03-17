@@ -1,4 +1,4 @@
-Site can be previewed at https://gits-15.sys.kth.se/pages/pontuscm/mvk-react/index.html
+Site can be previewed at... 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
