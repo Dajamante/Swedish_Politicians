@@ -73,7 +73,7 @@ function processData() {
 
     })
   })
-} */
+} 
 
 getTextLink(docUrl)
   .then(arr => looplinks(arr))
