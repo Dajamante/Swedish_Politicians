@@ -2,11 +2,11 @@ const { Client } = require('pg')
 // pools will use environment variables
 // for connection information
 const client = new Client({
-    host: 'riksdagen.cntjqjzfg4nq.us-east-1.rds.amazonaws.com',
+    host: process.env.DBHOST || "localhost",
     port: 5432,
-    database: 'riksdagen',
-    user: 'root',
-    password: process.env.DBPASS,
+    database: process.env.DBDB || "mvk",
+    user: process.env.DBUSER || "postgres",
+    password: process.env.DBPASS || "",
 })
 //Connect client to database
 function connect() {
