@@ -10,7 +10,7 @@ def main():
     user = os.environ.get('DBUSER', 'postgres')
     password = os.environ.get('DBPASS', '')
 
-    test = Data(user, host, port, database)
+    test = Data(user, host, port, database, password)
 
     #df = pd.read_csv("nba.csv")
     df = test.get_data_table('anforandetext')

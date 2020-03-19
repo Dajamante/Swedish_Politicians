@@ -10,7 +10,8 @@ class Data:
                  user="aissata",
                  host="127.0.0.1",
                  port="5432",
-                 database="lms"):
+                 database="lms",
+                 password=""):
 
         super().__init__()
         self.connection, self.cursor = self.database_connection(
@@ -21,7 +22,8 @@ class Data:
                             user,
                             host,
                             port,
-                            database):
+                            database,
+                            password):
         '''
         ===INITIAL CONNECTION TO DATABASE===
         INPUT: connection infromation for database
@@ -32,7 +34,8 @@ class Data:
             connection = psycopg2.connect(user=user,
                                           host=host,
                                           port=port,
-                                          database=database)
+                                          database=database,
+                                          password=password)
 
             cursor = connection.cursor()
             # Print PostgreSQL Connection properties
