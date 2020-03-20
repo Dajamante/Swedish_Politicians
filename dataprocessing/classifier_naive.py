@@ -2,7 +2,7 @@ from parser import Parser
 
 
 def main():
-    path_text_to_classify = "/Users/aissata/Desktop/negative.txt"
+    path_text_to_classify = "/Users/aissata/mySkolfiler2/mvk/MVK-influencers/dataprocessing/negative.txt"
     file = open(path_text_to_classify, 'rt')
     text = file.read()
     file.close()
@@ -16,10 +16,11 @@ def main():
 def compare(classified_words, words_array):
     total_score = 0
     for w in words_array:
-        for w2, score in classified_words:
-            if w == w2:
-                total_score += score
-    return score
+        print(w)
+        for key, value in classified_words:
+            if w == key:
+                total_score += int(value)
+    return total_score
 
 
 if __name__ == '__main__':

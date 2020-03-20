@@ -1,7 +1,7 @@
 class Parser:
 
     def __init__(self):
-        self.path_text = "/Users/aissata/Desktop/dickhead.txt"
+        self.path_text = "/Users/aissata/mySkolfiler2/mvk/MVK-influencers/dataprocessing/dickhead.txt"
 
     def parse(self):
         result = []
