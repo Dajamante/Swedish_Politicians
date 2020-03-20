@@ -134,13 +134,13 @@ class Data:
     # table creation
 
     # def database_create_table(self, target_table_name
-, nr_of_keys, attributes): # '''
+    #, nr_of_keys, attributes): # '''
     #    NR_OF_KEYS = NR OF PRIMARY KEY
     #    ATTRIBUTES = [(name,data_type),...]
     #    '''
 
     #    create_table_query= 'CREATE TABLE ' + str(target_table_name
-)
+    #)
 
     #    '''
     #    (ID INT PRIMARY KEY     NOT NULL,
