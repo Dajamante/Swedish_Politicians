@@ -10,13 +10,15 @@ def main():
     user = os.environ.get('DBUSER', 'postgres')
     password = os.environ.get('DBPASS', '')
 
-    test = Data(user, host, port, database)
+    test = Data(user, host, port, database, password)
 
-    #df = pd.read_csv("nba.csv")
     df = test.get_data_table('anforandetext')
+    df_target = test.get_data_table('resultat')
 
     # TEST INSERT QUERY
-    test.insert_data_table(df, 'resultat')
+    # Should work as long as there is as many columns in target_table as in processed_table)
+    test.insert_data_table(data_frame_processed=df,
+                           data_frame_target=df_target, target_table_name="resultat")
     # print(test.cursor)
     # test.get_data_table('"'+'Books'+'"')
 
