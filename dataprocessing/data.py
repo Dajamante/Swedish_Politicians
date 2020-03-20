@@ -15,7 +15,7 @@ class Data:
 
         super().__init__()
         self.connection, self.cursor = self.database_connection(
-            user, host, port, database)
+            user, host, port, database, password)
 
     # Connecting to database
     def database_connection(self,
@@ -111,7 +111,7 @@ class Data:
         if True:
             self.connection.commit()
 
-    def get_data_table(self, target_table_nam):
+    def get_data_table(self, target_table_name):
         '''
         ===FETCHING DATA FROM DATATABLE===
         '''
