@@ -1,22 +1,34 @@
 from parser import Parser
+from pathlib import Path
 
 
 def main():
-    path_text_to_classify = "/Users/aissata/mySkolfiler2/mvk/MVK-influencers/dataprocessing/negative.txt"
-    file = open(path_text_to_classify, 'rt')
-    text = file.read()
-    file.close()
+    path_text_neg_to_classify = Path("negative.txt")
+    path_text_pos_to_classify = Path("positive.txt")
+
+    file_neg = open(path_text_neg_to_classify, 'rt')
+    file_pos = open(path_text_pos_to_classify, 'rt')
+
+    text_neg = file_neg.read()
+    text_pos = file_pos.read()
+
+    file_neg.close()
+    file_pos.close()
+
     # split into words by white space
-    words_array = text.split()
-    # print(words[:100])
+    words_array_neg = text_neg.split()
+    words_array_pos = text_pos.split()
+
     classified_words = Parser().parse()
-    print(compare(classified_words, words_array))
+    print("Negative text score :" +
+          str(compare(classified_words, words_array_neg)))
+    print("Positive text score :" +
+          str(compare(classified_words, words_array_pos)))
 
 
 def compare(classified_words, words_array):
     total_score = 0
     for w in words_array:
-        # print(w)
         for key, value in classified_words:
             if w == key:
                 total_score += int(value)
