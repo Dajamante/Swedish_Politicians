@@ -16,7 +16,7 @@ def main():
 def compare(classified_words, words_array):
     total_score = 0
     for w in words_array:
-        print(w)
+        # print(w)
         for key, value in classified_words:
             if w == key:
                 total_score += int(value)
