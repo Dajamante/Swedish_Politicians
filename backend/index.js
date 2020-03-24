@@ -98,7 +98,7 @@ async function looplinks(links) {
  * @param {array} data - contains all data fetch from getRiksdagsledamot
  */
 async function writeToRiksdagsledamot(data) {
-  db.addDataRiksdagsledamot(data);
+  await db.addDataRiksdagsledamot(data);
 }
 
 /**
@@ -106,7 +106,7 @@ async function writeToRiksdagsledamot(data) {
  * @param {array} data - contains all data from getText
  */
 async function writeToAnforandetext(data) {
-  db.addDataAnforandetext(data);
+  await db.addDataAnforandetext(data);
 }
 
 //Skapa promise för att behandla datan
