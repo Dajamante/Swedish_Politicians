@@ -6,14 +6,22 @@ class AboutTeam extends Component {
       <div className="container">
         <div className="mainItem">
           <small>
-          <br />Pontus Cowling Mantefors
-          <br />Erik Wanhainen
-          <br />Aïssata Maiga
-          <br />Johanna Löv
-          <br />Michael Wink
-          <br />Viktor Åryd
-          <br />Markus Tollet
-          <br />Daniel Onegård
+            <br />
+            Pontus Cowling Mantefors
+            <br />
+            Erik Wanhainen
+            <br />
+            Aïssata Maiga
+            <br />
+            Johanna Löv
+            <br />
+            Michael Wink
+            <br />
+            Viktor Åryd
+            <br />
+            Markus Tollet
+            <br />
+            Daniel Onegård
           </small>
           <br />
         </div>

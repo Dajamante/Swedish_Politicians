@@ -1,7 +1,6 @@
 import React, { Component } from "react";
-import BarChart from './BarChart'
+import BarChart from "./BarChart";
 import * as d3 from "d3";
-
 
 class Charts extends Component {
   render() {
