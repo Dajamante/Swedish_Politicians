@@ -10,13 +10,19 @@ class Submenu extends React.Component {
     return (
       <ul className="nav__submenu">
         <li className="nav__submenu-item ">
-          <a><NavLink to="/aboutTeam">Team</NavLink></a>
+          <a>
+            <NavLink to="/aboutTeam">Team</NavLink>
+          </a>
         </li>
         <li className="nav__submenu-item ">
-          <a><NavLink to="/aboutFindwise">Findwise</NavLink></a>
+          <a>
+            <NavLink to="/aboutFindwise">Findwise</NavLink>
+          </a>
         </li>
         <li className="nav__submenu-item ">
-          <a><NavLink to="/aboutProject">Project</NavLink></a>
+          <a>
+            <NavLink to="/aboutProject">Project</NavLink>
+          </a>
         </li>
       </ul>
     );
@@ -44,27 +50,32 @@ class Menu extends React.Component {
 
   render() {
     return (
-            <nav className="nav">
-                <ul className="nav__menu">
-                <li className="nav__menu-item">
-                    <a><NavLink to="/home">Home</NavLink></a>
-                </li>
+      <nav className="nav">
+        <ul className="nav__menu">
+          <li className="nav__menu-item">
+            <a>
+              <NavLink to="/home">Home</NavLink>
+            </a>
+          </li>
 
-                <li className="nav__menu-item">
-                    <a><NavLink to="/charts">Charts</NavLink></a>
-                </li>
+          <li className="nav__menu-item">
+            <a>
+              <NavLink to="/charts">Charts</NavLink>
+            </a>
+          </li>
 
+          <li className="nav__menu-item">
+            <a>
+              <NavLink to="/sample">Sample</NavLink>
+            </a>
+          </li>
 
-                <li className="nav__menu-item">
-                    <a><NavLink to="/sample">Sample</NavLink></a>
-                </li>
-
-                <li className="nav__menu-item" onMouseLeave={this.handleLeave}>
-                    <a onMouseEnter={this.handleHover}>About</a>
-                    {this.state.showAboutMenu && <Submenu />}
-                </li>
-                </ul>
-            </nav>
+          <li className="nav__menu-item" onMouseLeave={this.handleLeave}>
+            <a onMouseEnter={this.handleHover}>About</a>
+            {this.state.showAboutMenu && <Submenu />}
+          </li>
+        </ul>
+      </nav>
     );
   }
 }

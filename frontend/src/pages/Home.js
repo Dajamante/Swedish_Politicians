@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../components/stylesheet.scss"
+import "../components/stylesheet.scss";
 
 /**
  * Home component containing the first page of the site with logos and link to GitHub.
@@ -26,12 +26,12 @@ class Home extends Component {
             <p>
               <center>
                 View the project on GitHub:{" "}
-                <a 
+                <a
                   href="https://gits-15.sys.kth.se/pontuscm/mvk-react"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
-                gits-15.sys.kth.se/pages/pontuscm/mvk-react
+                  gits-15.sys.kth.se/pages/pontuscm/mvk-react
                 </a>
               </center>
             </p>

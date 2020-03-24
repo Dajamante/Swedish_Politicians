@@ -1,11 +1,11 @@
-import React from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
-import Home from '../pages/Home';
-import Charts from '../pages/Charts';
-import AboutTeam from '../pages/AboutTeam';
-import AboutProject from '../pages/AboutProject';
-import AboutFindwise from '../pages/AboutFindwise';
-import Sample from '../pages/Sample';
+import React from "react";
+import { Route, Switch, Redirect } from "react-router-dom";
+import Home from "../pages/Home";
+import Charts from "../pages/Charts";
+import AboutTeam from "../pages/AboutTeam";
+import AboutProject from "../pages/AboutProject";
+import AboutFindwise from "../pages/AboutFindwise";
+import Sample from "../pages/Sample";
 
 /**
  * Routes component containing the switch with paths to the different pages to be displayed in the "main" section of the website.
