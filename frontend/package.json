@@ -41,6 +41,7 @@
   },
   "devDependencies": {
     "gh-pages": "^2.2.0",
+    "jsdoc": "^3.6.3",
     "react-image-webp": "^0.7.0"
   }
 }
