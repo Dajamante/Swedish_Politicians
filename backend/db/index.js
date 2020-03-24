@@ -6,7 +6,7 @@ const client = new Client({
   port: 5432,
   database: process.env.DBDB || "MVK",
   user: process.env.DBUSER || "postgres",
-  password: process.env.DBPASS || ""
+  password: process.env.DBPASS || "123"
 });
 /**
  * Connect client to database
@@ -43,7 +43,9 @@ function storeDataRiksdagsledamot(data, i) {
       resolve();
     }
   }).catch(function(err) {
+    console.log(err);
     //Maybe we should log errors that occure? Errors will be inserts of duplicates etc
+
   });
 }
 /**
@@ -77,6 +79,7 @@ function storeDataAnforandetext(data, i) {
       resolve();
     }
   }).catch(function(err) {
+      console.log(err);
     //Maybe we should log errors that occure? Errors will be inserts of duplicates etc
   });
 }

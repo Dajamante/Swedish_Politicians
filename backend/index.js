@@ -35,7 +35,7 @@ function createAnforandeURL(date, iid) {
     date +
     "&ts=&parti=&iid=" +
     iid +
-    "&sz=100&utformat=json"
+    "&sz=100000&utformat=json"
   );
 }
 /**
@@ -127,9 +127,9 @@ function processData() {
 db.connect();
 getRiksdagsledamot(ledamotUrl)
   .then(arr => writeToRiksdagsledamot(arr))
-  .then(getTextLink(createAnforandeURL("2020-03-18", "")))
+  .then(() => getTextLink(createAnforandeURL("2020-03-18", "")))
   .then(arr => looplinks(arr))
   .then(res => writeToAnforandetext(res))
   //.then(() => processData())
   .then(t => console.log(t))
-  .catch(() => console.log("Something went wrong!"));
+  .catch((err) => console.log(err));
