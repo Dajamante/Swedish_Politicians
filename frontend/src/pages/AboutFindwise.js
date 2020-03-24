@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+/**
+ * AboutFindwise component presenting information about the company and linking to their website.
+ */
 class AboutFindwise extends Component {
   render() {
     return (

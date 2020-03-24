@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+/**
+ * AboutProject component presenting information about the project.
+ */
 class AboutProject extends Component {
   render() {
     return (

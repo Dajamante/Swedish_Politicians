@@ -2,7 +2,9 @@ import React, { Component } from "react";
 import BarChart from './BarChart'
 import * as d3 from "d3";
 
-
+/**
+ * Charts component containing an example page with a D3 chart component "fetched" from BarChart.js.
+ */
 class Charts extends Component {
   render() {
     return (
