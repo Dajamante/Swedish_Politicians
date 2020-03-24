@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import test_data from "../data/test_data";
 
+/**
+ * Sample component printing out info as an example from the test_data.json file.
+ */
 class Sample extends Component {
     render () {      
         function getJson(string){
