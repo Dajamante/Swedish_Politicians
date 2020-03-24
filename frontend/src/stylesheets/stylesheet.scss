@@ -14,36 +14,6 @@ $bkg-color: #ffffff;
   grid-row: 2 / 3;
 }
 
-ul.navbar {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-image: linear-gradient(to right, #ff884aff, #ff5073ff);
-  background-size: cover;
-  position: sticky;
-  top: 0px;
-  padding: 0;
-  margin: 0;
-}
-
-li.nb {
-  display: block;
-  text-align: center;
-  padding: 10px 25px;
-  float: left;
-  border-right: 2px solid #000;
-}
-
-a.navtxt {
-  text-decoration: none;
-  color: #000;
-  font-size: 20px;
-}
-
-a.navtxt:hover {
-  color: #222;
-}
-
 body {
   background-color: $bkg-color;
   margin: 0;

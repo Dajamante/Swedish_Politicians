@@ -1,7 +1,7 @@
 import React, { Component } from "react";
-import "./App.css";
-import NavigationBar from "./components/NavigationBar";
-import Routes from "./routes/Routes";
+import "../stylesheets/App.scss";
+import NavigationBar from "./NavigationBar";
+import Routes from "./Routes";
 
 class App extends Component {
   render() {

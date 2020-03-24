@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./menu.scss";
+import "../stylesheets/menu.scss";
 
 class Submenu extends React.Component {
   render() {
