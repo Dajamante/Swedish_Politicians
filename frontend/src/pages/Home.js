@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import "../components/stylesheet.scss";
 
+/**
+ * Home component containing the first page of the site with logos and link to GitHub.
+ */
 class Home extends Component {
   render() {
     return (

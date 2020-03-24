@@ -7,6 +7,9 @@ import AboutProject from "../pages/AboutProject";
 import AboutFindwise from "../pages/AboutFindwise";
 import Sample from "../pages/Sample";
 
+/**
+ * Routes component containing the switch with paths to the different pages to be displayed in the "main" section of the website.
+ */
 const Routes = () => (
   <Switch>
     <Route path="/home" component={Home} />
