@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-
+import "../stylesheets/TopLists.scss";
 /**
  * List post component.
  */
@@ -7,8 +7,8 @@ class ListPost extends Component {
 
   render() {
     return (
-        <li>
-            {this.props.listPost.namn} - {this.props.listPost.parti} - {this.props.listPost.avg}
+        <li className="listPost">
+            {this.props.listPost.namn} - {this.props.listPost.parti} - <br/> {this.props.listPost.avg}
         </li>
     );
   }
