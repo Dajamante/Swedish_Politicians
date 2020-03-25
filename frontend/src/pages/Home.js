@@ -24,7 +24,7 @@ class Home extends Component {
               <center>
                 View the project on GitHub:{" "}
                 <a
-                  href="https://gits-15.sys.kth.se/pontuscm/mvk-react"
+                  href="https://gits-15.sys.kth.se/erikvan/MVK-influencers"
                   rel="noopener noreferrer"
                   target="_blank"
                 >
