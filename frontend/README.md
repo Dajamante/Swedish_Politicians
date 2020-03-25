@@ -1,4 +1,4 @@
-Site can be previewed at... 
+Site can be previewed at http://ec2-3-81-166-212.compute-1.amazonaws.com/ 
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
