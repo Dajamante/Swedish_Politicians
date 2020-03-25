@@ -3,7 +3,7 @@ $bkg-color: #ffffff;
 .container {
   display: grid;
   grid-template-columns: 25% auto 25%;
-  grid-template-rows: 230px auto 10% ;
+  grid-template-rows: 230px auto 10%;
   align-content: space-evenly;
   padding: 0;
   margin: 0;
@@ -48,8 +48,7 @@ body {
   background-color: $bkg-color;
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI",
-    "Open Sans", sans-serif;
+  font-family: "Segoe UI", "Open Sans", sans-serif;
 }
 
 section {
