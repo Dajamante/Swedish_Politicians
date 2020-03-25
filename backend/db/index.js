@@ -43,7 +43,9 @@ function storeDataRiksdagsledamot(data, i) {
       resolve();
     }
   }).catch(function(err) {
+    console.log(err);
     //Maybe we should log errors that occure? Errors will be inserts of duplicates etc
+
   });
 }
 /**
@@ -77,6 +79,7 @@ function storeDataAnforandetext(data, i) {
       resolve();
     }
   }).catch(function(err) {
+      console.log(err);
     //Maybe we should log errors that occure? Errors will be inserts of duplicates etc
   });
 }

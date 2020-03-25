@@ -35,7 +35,7 @@ function createAnforandeURL(date, iid) {
     date +
     "&ts=&parti=&iid=" +
     iid +
-    "&sz=100&utformat=json"
+    "&sz=100000&utformat=json"
   );
 }
 /**
@@ -98,7 +98,7 @@ async function looplinks(links) {
  * @param {array} data - contains all data fetch from getRiksdagsledamot
  */
 async function writeToRiksdagsledamot(data) {
-  db.addDataRiksdagsledamot(data);
+  await db.addDataRiksdagsledamot(data);
 }
 
 /**
@@ -106,7 +106,7 @@ async function writeToRiksdagsledamot(data) {
  * @param {array} data - contains all data from getText
  */
 async function writeToAnforandetext(data) {
-  db.addDataAnforandetext(data);
+  await db.addDataAnforandetext(data);
 }
 
 //Skapa promise för att behandla datan
@@ -127,10 +127,9 @@ function processData() {
 db.connect();
 getRiksdagsledamot(ledamotUrl)
   .then(arr => writeToRiksdagsledamot(arr))
-  .then(getTextLink(createAnforandeURL("2020-03-18", "")))
+  .then(() => getTextLink(createAnforandeURL("2020-03-18", "")))
   .then(arr => looplinks(arr))
   .then(res => writeToAnforandetext(res))
   //.then(() => processData())
   .then(t => console.log(t))
-  .catch(() => console.log("Something went wrong!"));
-
+  .catch((err) => console.log(err));

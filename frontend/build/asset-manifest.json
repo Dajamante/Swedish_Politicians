@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/pages/pontuscm/mvk-react/static/css/main.039d5949.chunk.css",
+    "main.js": "/pages/pontuscm/mvk-react/static/js/main.11cc203c.chunk.js",
+    "main.js.map": "/pages/pontuscm/mvk-react/static/js/main.11cc203c.chunk.js.map",
+    "runtime-main.js": "/pages/pontuscm/mvk-react/static/js/runtime-main.1556a128.js",
+    "runtime-main.js.map": "/pages/pontuscm/mvk-react/static/js/runtime-main.1556a128.js.map",
+    "static/js/2.b6cb953f.chunk.js": "/pages/pontuscm/mvk-react/static/js/2.b6cb953f.chunk.js",
+    "static/js/2.b6cb953f.chunk.js.map": "/pages/pontuscm/mvk-react/static/js/2.b6cb953f.chunk.js.map",
+    "index.html": "/pages/pontuscm/mvk-react/index.html",
+    "precache-manifest.6a4e56a329ddb3a58e0e050d72ec6839.js": "/pages/pontuscm/mvk-react/precache-manifest.6a4e56a329ddb3a58e0e050d72ec6839.js",
+    "service-worker.js": "/pages/pontuscm/mvk-react/service-worker.js",
+    "static/css/main.039d5949.chunk.css.map": "/pages/pontuscm/mvk-react/static/css/main.039d5949.chunk.css.map",
+    "static/js/2.b6cb953f.chunk.js.LICENSE.txt": "/pages/pontuscm/mvk-react/static/js/2.b6cb953f.chunk.js.LICENSE.txt",
+    "static/media/logo270.png": "/pages/pontuscm/mvk-react/static/media/logo270.0d93585d.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1556a128.js",
+    "static/js/2.b6cb953f.chunk.js",
+    "static/css/main.039d5949.chunk.css",
+    "static/js/main.11cc203c.chunk.js"
+  ]
+}
