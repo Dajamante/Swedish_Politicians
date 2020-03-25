@@ -54,7 +54,7 @@ class Menu extends React.Component {
 
           <li className="nav__menu-item">
             <a>
-              <NavLink to="/charts">Charts</NavLink>
+              <NavLink to="/charts">Top List</NavLink>
             </a>
           </li>
 
