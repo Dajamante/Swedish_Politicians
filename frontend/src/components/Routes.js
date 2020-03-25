@@ -10,7 +10,7 @@ import Sample from "../pages/Sample";
 const Routes = () => (
   <Switch>
     <Route path="/home" component={Home} />
-    <Route path="/toplists" component={TopLists} />
+    <Route path="/charts" component={Charts} />
     <Route path="/aboutTeam" component={AboutTeam} />
     <Route path="/aboutProject" component={AboutProject} />
     <Route path="/aboutFindwise" component={AboutFindwise} />

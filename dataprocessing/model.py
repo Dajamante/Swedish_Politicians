@@ -23,7 +23,8 @@ class Model:
     def __init__(self,path_to_traning_file,path_to_testing_file):
         self.traning_file = path_to_traning_file
         self.testing_file = path_to_testing_file
-        self.emotions = ['väldigt positivt','positivt','neutral','negativt','väldigt negativt']
+        #self.emotions = ['väldigt positivt','positivt','neutral','negativt','väldigt negativt']
+        self.emotions = ['1','0','-1'] # 1= positive ; 0 = neutral ; -1 = negative
         self.training = []
         self.train_target = []
         self.testing = []
@@ -38,17 +39,15 @@ class Model:
         with open(path_to_file) as dataBE:
             data = json.load(dataBE)
         return data
-        #print(json.dumps(dataBE, sort_keys = True,indent = 4))
 
-    def building_pipeline(self,classifier):
+    def building_pipeline(self,classifier,test_sentances,test_targets):
         #INPUT: specific classifier in sklearn
         #OUTPUT: feature vector to be used by SVM
 
 
         stop_words_swedish = stopwords.words('swedish')
 
-        self.fetch_train_test_data()
-
+        self.fetch_train_test_data(test_sentances,test_targets)
         text_clf = Pipeline([('vect' ,  feature_extraction.text.CountVectorizer(stop_words = stop_words_swedish)),
                              ('tfidf',  feature_extraction.text.TfidfTransformer()),
                              ('clf'  ,  classifier(loss='hinge', penalty='l2',
@@ -59,7 +58,8 @@ class Model:
         return text_clf
 
     def test_classification(self,predicted):
-        print(predicted,len(predicted))
+        #INPUT: Prediction
+        #OUTPUT: successful classification of test sentances
 
         nr_successful_classification = 0.0
         res_len = len(predicted)
@@ -69,76 +69,28 @@ class Model:
 
 
         prediction_success_ratio = nr_successful_classification/res_len
-        print(prediction_success_ratio)
+        return prediction_success_ratio
 
 
-    def fetch_train_test_data(self):
+    def fetch_train_test_data(self,test_sentances,test_target):
         #INPUT: Nothing
         #OUTPUT: Assign training & testing data / target
         #TODO: read input file for larger sets of training/testing
-        self.training = ['glada tankar ','jag hatar mitt liv','älskar delfiner','jag vet inte längre','sluta vara jobbig idiot']
-        self.train_target = [self.emotions[1],self.emotions[4],self.emotions[0],self.emotions[2],self.emotions[3]]
+        
+        #set testing sentances & corresponding targets
+        self.testing = test_sentances
+        self.test_target = test_target
+        
 
-        self.testing = ['jag är väldigt glad','jag älskar mitt liv','hata allt och alla','längre bort','fan va jobbig han är']
-        self.test_target = [self.emotions[1],self.emotions[0],self.emotions[4],self.emotions[2],self.emotions[3]]
-
-
-
-
-
-
-
-
-
-
-
-        #categories = ['alt.atheism', 'soc.religion.christian', 'comp.graphics', 'sci.med']
-        #twenty_train = fetch_20newsgroups(subset='train',
-        #                                  categories=categories, shuffle=True, random_state=42)
-       #
-        #twenty_test = fetch_20newsgroups(subset='test',
-        #                                  categories=categories, shuffle=True, random_state=42)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        #print(pd.DataFrame(tf_transform.toarray(), columns=sorted(count_vec.vocabulary_.keys())))
-
-        #print(count_vec.vocabulary_.get(u'laers'))
-        #print([w for w in sorted(vec.vocabulary_.keys())])
-        #print(pd.DataFrame(transform.toarray(), columns=sorted(count_vec.vocabulary_.keys())))
-
-
-        #counting occurances
-        #count_vec = feature_extraction.text.CountVectorizer(stop_words = stop_words_swedish,
-        #                                                    analyzer = 'word'
-        #                                                    lowercase = False)
-        #features = count_vec.fit_transform(texts)
-        #features_arr = features.toarray()
-
-        #Term Frequency = 'TF'
-        #tf_transformer = feature_extraction.text.TfidfTransformer(use_idf=False).fit(transform)
-        #use idf
-        #tf_transform = tf_transformer.transform(transform)
-        #tf_transform = feature_extraction.text.TfidfTransformer().fit_transform(features)
+        line_nr = 0
+        with open('sensaldo-base-v02.txt','r',encoding='utf-8') as f:
+            for line in f:
+                if line_nr > 53:
+                    test = line.split("\t")
+                    word = test[0][:-3] 
+                    score = test[1].strip()
+                    if word not in self.training:
+                        self.training.append(word)
+                        self.train_target.append(score)
+                line_nr += 1
+                

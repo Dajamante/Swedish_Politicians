@@ -2,6 +2,9 @@ import React from "react";
 import { NavLink } from "react-router-dom";
 import "../stylesheets/menu.scss";
 
+/**
+ * Submenu component specific for the "About" option in the navigation bar.
+ */
 class Submenu extends React.Component {
   render() {
     return (
@@ -26,6 +29,9 @@ class Submenu extends React.Component {
   }
 }
 
+/**
+ * Menu component for the navigation bar with functionality for mouse-over extending menu options.
+ */
 class Menu extends React.Component {
   constructor(props) {
     super(props);

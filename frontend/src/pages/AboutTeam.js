@@ -1,5 +1,8 @@
 import React, { Component } from "react";
 
+/**
+ * AboutTeam component presenting the people working on the project.
+ */
 class AboutTeam extends Component {
   render() {
     return (
