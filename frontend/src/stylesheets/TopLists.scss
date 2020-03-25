@@ -1,0 +1,11 @@
+.listPost{
+  border: 1px solid black;
+  list-style-type: none;
+}
+
+.topList{
+  display: grid;
+  grid-template: repeat(1, 50px)/repeat(3, 1fr);
+  grid-column-gap: 3px;
+  grid-row-gap: 6px;
+}
