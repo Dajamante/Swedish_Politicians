@@ -7,8 +7,12 @@ class TopPost extends Component {
 
   render() {
     return (
-        <li className="topPost">
-            {this.props.topPost.namn} - {this.props.topPost.parti} - <br/> {this.props.topPost.avg}
+        <li className="listPost">
+            <div className="postGrid">
+              <td>{this.props.topPost.namn}</td>
+              <td>{this.props.topPost.parti}</td>
+              <td>{this.props.topPost.avg}</td>
+            </div>
         </li>
     );
   }

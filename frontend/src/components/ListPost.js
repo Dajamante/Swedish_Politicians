@@ -8,7 +8,13 @@ class ListPost extends Component {
   render() {
     return (
         <li className="listPost">
-            {this.props.listPost.namn} - {this.props.listPost.parti} - <br/> {this.props.listPost.avg}
+            <div className="postGrid">
+              <td style={{fontSize:'38px', fontStyle:'bold'}}>1</td>
+              <td style={{fontSize:'24px', fontStyle:'bold'}}>{this.props.listPost.namn}</td>
+              <td style={{fontSize:'18px', textAlign:'right'}}>{this.props.listPost.avg.toFixed(2)}</td>
+              <td></td>
+              <td style={{fontSize:'12px'}}>{this.props.listPost.parti}</td>
+            </div>
         </li>
     );
   }

@@ -9,7 +9,8 @@ class TopList extends React.Component {
   constructor() {
     super();
     this.state = {
-      search: ""
+      searchName: "",
+      searchParty: ""
     };
   }
 
@@ -17,45 +18,64 @@ class TopList extends React.Component {
    * limiting to 50 characters
    * @param {*} event
    */
-  updateSearch(event){
-    this.setState({search: event.target.value.substring(0,50)})
+  updateSearchName(event) {
+    this.setState({ searchName: event.target.value.substring(0, 50) });
+  }
+
+  updateSearchParty(event) {
+    this.setState({ searchParty: event.target.value.substring(0, 50) });
   }
 
   render() {
-    let filteredPosts = this.props.listPosts.filter(
-      (listPost) => {
-        return listPost.namn.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
-      }
-    );
-    let top3 = [];
+    let filteredPostsByName = this.props.listPosts.filter(listPost => {
+      return (
+        listPost.namn
+          .toLowerCase()
+          .indexOf(this.state.searchName.toLowerCase()) !== -1
+      );
+    });
+    let filteredPostsByParty = filteredPostsByName.filter(listPost => {
+      return (
+        listPost.parti
+          .toLowerCase()
+          .indexOf(this.state.searchParty.toLowerCase()) !== -1
+      );
+    });
+    /*     let top3 = [];
     let i = 0;
     for(i; i < 3; i++){
-      if(filteredPosts[0]){
-        top3[i] = filteredPosts.shift();
+      if(filteredPostsByName[0]){
+        top3[i] = filteredPostsByName.shift();
       }
     }
 
     let top = top3.map(topPost => {
     return <TopPost topPost={topPost} key={topPost.avg} />;
-    });
-    let rest = filteredPosts.map(listPost => {
-    return <ListPost listPost={listPost} key={listPost.avg} />;
+    }); */
+    let rest = filteredPostsByParty.map(listPost => {
+      return <ListPost listPost={listPost} />;
     });
 
     return (
       <div>
-        Filter by name: <input
+        Filter by name:{" "}
+        <input
           type="text"
-          value={this.state.search}
-          onChange={this.updateSearch.bind(this)}
+          value={this.state.searchName}
+          onChange={this.updateSearchName.bind(this)}
         />
-        <ul className="topThree">
+        {" "}Filter by party:{" "}
+        <input
+          type="select"
+          value={this.state.searchParty}
+          onChange={this.updateSearchParty.bind(this)}
+        />
+
+        {/*         <ul className="topList">
           {top}
-        </ul>
-        <ul className="topList">
-          {rest}
-        </ul>
-        </div>
+        </ul> */}
+        <ul className="topList">{rest}</ul>
+      </div>
     );
   }
 }

@@ -2,7 +2,7 @@ $bkg-color: #ffffff;
 
 .container {
   display: grid;
-  grid-template-columns: repeat(12, 1fr);
+  grid-template-columns: 25% 50% 25%;
   grid-template-rows: 50px auto 10%;
   align-content: space-evenly;
   justify-content: center;
@@ -11,8 +11,8 @@ $bkg-color: #ffffff;
 }
 
 .mainItem {
-  grid-column: 2 / 12;
-  grid-row: 2 / -1;
+  grid-column: 2 / 3;
+  grid-row: 2 / 3;
   margin: 0;
 }
 
