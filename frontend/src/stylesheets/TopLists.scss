@@ -2,10 +2,26 @@
   border: 1px solid black;
   list-style-type: none;
 }
+.topPost{
+    list-style-type: none;
+    background-image: linear-gradient(to right, #16EABD, #16CAEA);
+     border-radius:100px;
+
+}
 
 .topList{
   display: grid;
-  grid-template: repeat(1, 50px)/repeat(3, 1fr);
+  grid-template: repeat(1, 50px)/repeat(4, 1fr);
   grid-column-gap: 3px;
   grid-row-gap: 6px;
+  padding: 0;
+}
+
+.topThree{
+  font-size: 20px;
+  display: grid;
+  grid-template: repeat(1, 75px)/repeat(3, 1fr);
+  grid-column-gap: 50px;
+  justify-content: center;
+  padding: 0;
 }

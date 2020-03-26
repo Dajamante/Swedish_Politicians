@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import ListPost from "./ListPost";
+import TopPost from "./TopPost";
 
 /**
  * Top list component.
@@ -26,9 +27,21 @@ class TopList extends React.Component {
         return listPost.namn.toLowerCase().indexOf(this.state.search.toLowerCase()) !== -1;
       }
     );
-    const ff = filteredPosts.map(listPost => {
-      return <ListPost listPost={listPost} key={listPost.avg} />;
+    let top3 = [];
+    let i = 0;
+    for(i; i < 3; i++){
+      if(filteredPosts[0]){
+        top3[i] = filteredPosts.shift();
+      }
+    }
+
+    let top = top3.map(topPost => {
+    return <TopPost topPost={topPost} key={topPost.avg} />;
     });
+    let rest = filteredPosts.map(listPost => {
+    return <ListPost listPost={listPost} key={listPost.avg} />;
+    });
+
     return (
       <div>
         Filter by name: <input
@@ -37,12 +50,10 @@ class TopList extends React.Component {
           onChange={this.updateSearch.bind(this)}
         />
         <ul className="topThree">
-          {ff[0]}
-          {ff[1]}
-          {ff[2]}
+          {top}
         </ul>
         <ul className="topList">
-          {ff}
+          {rest}
         </ul>
         </div>
     );

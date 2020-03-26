@@ -14,7 +14,7 @@ class TopLists extends React.Component {
     return (
       <div className="container">
         <div className="mainItem">
-          <h1>Dummy data top list (Jag vet att de första tre visas två gånger)</h1>
+          <h1>Dummy data top list</h1>
           <TopList listPosts={listPosts}/>
         </div>
       </div>
