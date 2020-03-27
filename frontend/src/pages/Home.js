@@ -9,6 +9,7 @@ class Home extends Component {
     return (
       <div class="container">
         <div class="mainItem">
+          <br></br>
           <div style={{ fontSize: "40px" }}>MVK Influencers project</div>
           <small>In collaboration with</small>
           <br />
