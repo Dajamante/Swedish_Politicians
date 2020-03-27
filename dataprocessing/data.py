@@ -4,7 +4,6 @@ import pandas as pd
 
 
 class Data:
-
     # Constructor
     def __init__(self,
                  user="aissata",
@@ -13,11 +12,11 @@ class Data:
                  database="lms",
                  password=""):
 
-        super().__init__()
-        self.connection, self.cursor = self.database_connection(
-            user, host, port, database, password)
-
+        super().__init__()  # tror ej denna behövs då vi inte har en "superklass"
+        self.connection, self.cursor = self.database_connection(user=user,
+                                                                host=host, port=port, database=database, password=password)
     # Connecting to database
+
     def database_connection(self,
                             user,
                             host,
@@ -63,28 +62,29 @@ class Data:
 
     # Insert data to table in database
 
-    def insert_data_table(self, data_frame_processed, data_frame_target, target_table_name):
+    def insert_data_table(self, data_frame_processed, table_name):
         '''
         ===INSERTION OF DATA INTO A DATABASE TABLE===
         INPUT: pandas data_frame for processed data
         OUTPUT: None (writes to database)
         '''
-        insert_table_query = ' INSERT INTO ' + str(target_table_name) + ' ('
+        insert_table_query = ' INSERT INTO ' + \
+            "\"+" + str(table_name) + "\"" + ' ('
 
         # Concatinate attributes to SQL-Query:
-        # Iterate over all keys from the target table
-        for index, attribute in enumerate(data_frame_target.keys()):
+        # Iteare over all keys
+        for index, attribute in enumerate(data_frame_processed.keys()):
             if index == data_frame_processed.shape[1] - 1:
                 insert_table_query += attribute
             else:
-                insert_table_query += attribute + ' , '
+                insert_table_query += attribute + ', '
 
         insert_table_query += ')' + ' VALUES \n'
 
         # Concatinate values to SQL-Query
         # Iterate over rows in data frame
         for index, row in data_frame_processed.iterrows():
-            insert_table_query += "('"
+            insert_table_query += "("
             # Iterate over keys (columns) in data frame
             for key_index, key in enumerate(data_frame_processed.keys()):
                 # END IF FOR EACH ROW
@@ -92,30 +92,29 @@ class Data:
 
                     # END IF FOR ALL DATA
                     if index == data_frame_processed.shape[0] - 1:
-                        insert_table_query += str(row[key]) + "');"
+                        insert_table_query += str(row[key]) + ");"
                     else:
-                        insert_table_query += str(row[key]) + "') ,\n"
+                        insert_table_query += str(row[key]) + ") ,\n"
                 else:
                     insert_table_query += str(row[key]) + " , "
 
         # UNCOMMENT TO SEE how SQL looks, it's human readable
-        # print(insert_table_query)
+        print(insert_table_query)
 
         # Try to execute insert
-        print(insert_table_query)
         try:
             self.cursor.execute(insert_table_query)
         except Exception as error:
             print("There was an error iserting data to table : ", error)
         # TO ADD: COMMIT CONDITIONS default is to NOT commit
-        if True:
+        if False:
             self.connection.commit()
 
-    def get_data_table(self, target_table_name):
+    def get_data_table(self, table_name):
         '''
         ===FETCHING DATA FROM DATATABLE===
         '''
-        select_table_query = 'SELECT * FROM ' + str(target_table_name) + ';'
+        select_table_query = 'SELECT * FROM ' + str(table_name) + ';'
 
         try:
             self.cursor.execute(select_table_query)
@@ -133,14 +132,13 @@ class Data:
 
     # table creation
 
-    # def database_create_table(self, target_table_name
-    #, nr_of_keys, attributes): # '''
+    # def database_create_table(self, table_name,nr_of_keys,attributes):
+    #    '''
     #    NR_OF_KEYS = NR OF PRIMARY KEY
     #    ATTRIBUTES = [(name,data_type),...]
     #    '''
 
-    #    create_table_query= 'CREATE TABLE ' + str(target_table_name
-    #)
+    #    create_table_query= 'CREATE TABLE ' + str(table_name)
 
     #    '''
     #    (ID INT PRIMARY KEY     NOT NULL,
