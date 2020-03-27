@@ -12,7 +12,7 @@ class Data:
                  database="lms",
                  password=""):
 
-        super().__init__()  # tror ej denna behövs då vi inte har en "superklass"
+        # super().__init__()  # tror ej denna behövs då vi inte har en "superklass"
         self.connection, self.cursor = self.database_connection(user=user,
                                                                 host=host, port=port, database=database, password=password)
     # Connecting to database
@@ -62,52 +62,52 @@ class Data:
 
     # Insert data to table in database
 
-    def insert_data_table(self, data_frame_processed, table_name):
+    def insert_data_table(self, data_frame_processed, data_frame_target, target_table_name):
         '''
         ===INSERTION OF DATA INTO A DATABASE TABLE===
         INPUT: pandas data_frame for processed data
         OUTPUT: None (writes to database)
         '''
-        insert_table_query = ' INSERT INTO ' + \
-            "\"+" + str(table_name) + "\"" + ' ('
+        insert_table_query = ' INSERT INTO ' + str(target_table_name) + ' ('
 
         # Concatinate attributes to SQL-Query:
-        # Iteare over all keys
-        for index, attribute in enumerate(data_frame_processed.keys()):
+        # Iterate over all keys from the target table
+        for index, attribute in enumerate(data_frame_target.keys()):
             if index == data_frame_processed.shape[1] - 1:
                 insert_table_query += attribute
             else:
-                insert_table_query += attribute + ', '
+                insert_table_query += attribute + ' , '
 
         insert_table_query += ')' + ' VALUES \n'
 
         # Concatinate values to SQL-Query
         # Iterate over rows in data frame
         for index, row in data_frame_processed.iterrows():
-            insert_table_query += "("
+            insert_table_query += "('"
             # Iterate over keys (columns) in data frame
             for key_index, key in enumerate(data_frame_processed.keys()):
                 # END IF FOR EACH ROW
+
                 if key_index == data_frame_processed.shape[1] - 1:
 
                     # END IF FOR ALL DATA
                     if index == data_frame_processed.shape[0] - 1:
-                        insert_table_query += str(row[key]) + ");"
+                        insert_table_query += str(row[key]) + "');"
                     else:
-                        insert_table_query += str(row[key]) + ") ,\n"
+                        insert_table_query += str(row[key]) + "') ,\n"
                 else:
-                    insert_table_query += str(row[key]) + " , "
+                    insert_table_query += str(row[key]) + "' , '"
 
         # UNCOMMENT TO SEE how SQL looks, it's human readable
-        print(insert_table_query)
 
         # Try to execute insert
+        # print(insert_table_query)
         try:
             self.cursor.execute(insert_table_query)
         except Exception as error:
             print("There was an error iserting data to table : ", error)
         # TO ADD: COMMIT CONDITIONS default is to NOT commit
-        if False:
+        if True:
             self.connection.commit()
 
     def get_data_table(self, table_name):
