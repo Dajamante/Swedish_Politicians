@@ -52,7 +52,7 @@ class TopList extends React.Component {
     let top = top3.map(topPost => {
     return <TopPost topPost={topPost} key={topPost.avg} />;
     }); */
-    let rest = filteredPostsByParty.map(listPost => {
+    let list = filteredPostsByParty.map(listPost => {
       return <ListPost listPost={listPost} />;
     });
 
@@ -74,7 +74,7 @@ class TopList extends React.Component {
         {/*         <ul className="topList">
           {top}
         </ul> */}
-        <ul className="topList">{rest}</ul>
+        <ul className="topList">{list}</ul>
       </div>
     );
   }
