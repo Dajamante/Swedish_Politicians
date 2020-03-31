@@ -12,7 +12,7 @@ const pool = new Pool({
 /** Produce json file by querying db */
 const getResult = (request, response) => {
   pool.query(
-    "SELECT info.parti, info.namn, AVG(resultat_sentiment.resultat) FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext NATURAL JOIN riksdagsledamot) as info NATURAL JOIN resultat_sentiment WHERE info.datum > current_date - '7 days'::interval GROUP BY info.parti, info.namn ORDER BY info.parti;",
+    "SELECT info.parti, info.namn, AVG(resultat_sentiment.resultat) FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext NATURAL JOIN riksdagsledamot) as info NATURAL JOIN resultat_sentiment WHERE info.datum > current_date - '365 days'::interval GROUP BY info.parti, info.namn ORDER BY info.parti;",
     (error, results) => {
       if (error) {
         throw error;
