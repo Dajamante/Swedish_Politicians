@@ -46,6 +46,19 @@ CREATE TABLE public.resultat_sentiment (
 ALTER TABLE public.resultat_sentiment OWNER TO root;
 
 --
+-- Name: resultat_votering; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.resultat_votering (
+    voterings_id character varying(50) NOT NULL,
+    person_id bigint NOT NULL,
+    vot character varying(50) NOT NULL
+);
+
+
+ALTER TABLE public.resultat_votering OWNER TO root;
+
+--
 -- Name: riksdagsledamot; Type: TABLE; Schema: public; Owner: root
 --
 
@@ -57,6 +70,36 @@ CREATE TABLE public.riksdagsledamot (
 
 
 ALTER TABLE public.riksdagsledamot OWNER TO root;
+
+--
+-- Name: voteringar; Type: TABLE; Schema: public; Owner: root
+--
+
+CREATE TABLE public.voteringar (
+    voterings_id character varying(50) NOT NULL,
+    person_id bigint NOT NULL,
+    vot character varying(50) NOT NULL,
+    vot_datum date NOT NULL
+);
+
+
+ALTER TABLE public.voteringar OWNER TO root;
+
+--
+-- Name: resultat_votering PK_resultat_votering; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.resultat_votering
+    ADD CONSTRAINT "PK_resultat_votering" PRIMARY KEY (voterings_id, person_id);
+
+
+--
+-- Name: voteringar PK_voteringar; Type: CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.voteringar
+    ADD CONSTRAINT "PK_voteringar" PRIMARY KEY (voterings_id, person_id);
+
 
 --
 -- Name: anforandetext pk_anforande; Type: CONSTRAINT; Schema: public; Owner: root
@@ -94,6 +137,22 @@ CREATE INDEX fkidx_20 ON public.anforandetext USING btree (person_id);
 --
 
 CREATE INDEX fkidx_31 ON public.resultat_sentiment USING btree (anforande_id);
+
+
+--
+-- Name: voteringar FK_73; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.voteringar
+    ADD CONSTRAINT "FK_73" FOREIGN KEY (person_id) REFERENCES public.riksdagsledamot(person_id);
+
+
+--
+-- Name: resultat_votering FK_84; Type: FK CONSTRAINT; Schema: public; Owner: root
+--
+
+ALTER TABLE ONLY public.resultat_votering
+    ADD CONSTRAINT "FK_84" FOREIGN KEY (voterings_id, person_id) REFERENCES public.voteringar(voterings_id, person_id);
 
 
 --
