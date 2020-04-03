@@ -24,6 +24,76 @@ function getRiksdagsledamot(url) {
     });
   });
 }
+
+/**
+ * Get number of pages to get results from
+ * @param {string} url - url to riksdagens api 
+ */
+function getNumberOfVoteringPages (url) {
+  return new Promise(function(resolve, reject) {
+    request(url, function(error, response, body) {
+      // in addition to parsing the value, deal with possible errors
+      if (error) return reject(error);
+      try {
+        const data = JSON.parse(body); //can throw an exception if not valid JSON
+        resolve(data.dokumentlista["@sidor"]);
+
+      } catch (e) {
+        reject(e);
+      }
+    });
+  });
+}
+
+/**
+ * Get voteringsID from riksdagens api
+ * @param {string} url - url to riksdagens api 
+ */
+function getVoteringslista(url) {
+  return new Promise(function(resolve, reject) {
+    request(url, function(error, response, body) {
+      let votid = [];
+      // in addition to parsing the value, deal with possible errors
+      if (error) return reject(error);
+      try {
+        const data = JSON.parse(body); //can throw an exception if not valid JSON
+        let hitFrom = parseInt(data.dokumentlista["@traff_fran"], 10);
+        let hitTo = parseInt(data.dokumentlista["@traff_till"], 10);
+        for (let i = 0; i < (hitTo-hitFrom) + 1; i++) {
+          votid.push(data.dokumentlista.dokument[i].kall_id);
+        }
+          resolve(votid);
+      } catch (e) {
+        reject(e);
+      }
+    });
+  });
+}
+/**
+ * Get all voteringsresult from riksdagens api, uses voteringsID from getVoteringslista
+ * @param {string} url - url to riksdagens api 
+ */
+function getVoteringslistaResult(url) {
+  return new Promise(function(resolve, reject) {
+    request(url, function(error, response, body) {
+      // in addition to parsing the value, deal with possible errors
+      if (error) return reject(error);
+      try {
+        const data = JSON.parse(body); //can throw an exception if not valid JSON
+        if(data.votering.dokvotering === undefined) {
+          resolve();
+        }
+        else {
+          resolve(data.votering.dokvotering.votering);
+
+        }
+      } catch (e) {
+        reject(e);
+      }
+    });
+  });
+}
+
 /**
  * Function to compose URL for Anforanden.
  * @param {string} date - on form 2020-03-23, fetch all anforanden from this date up until todays date
@@ -37,6 +107,35 @@ function createAnforandeURL(date, iid) {
     iid +
     "&sz=100000&utformat=json"
   );
+}
+/**
+ * Function to compose URL for fetching links to vaddDataVoteringoteringar. datefrom, dateto and iid are all optional choices.
+ * If left empty all voteringar that are possible to fetch will be fetched. 
+ * 
+ * @param {*} datefrom the date you want to start collecting voteringar from
+ * @param {*} dateto the date you want to end collecting voteringar from
+ * @param {*} iid if you want to collect voteringar from a specific person
+ */
+function createVoteringURL(datefrom, dateto, iid, page) {
+  return (
+      "http://data.riksdagen.se/dokumentlista/?sok=&doktyp=votering&rm=&from=" +
+      datefrom +
+      "&tom=" +
+      dateto +
+      "&ts=&bet=&tempbet=&nr=&org=&iid=" +
+      iid +
+      "&webbtv=&talare=&exakt=&planering=&sort=rel&sortorder=desc&rapport=&utformat=json&p=" +
+      page);
+}
+
+/**
+ * Construct URL to riksdagens api where votid is voteringsID collected from getVoteringslista.
+ * @param {string} votid - voteringsID 
+ */
+function createVoteringResultURL(votid) {
+  return ("http://data.riksdagen.se/votering/" + 
+  votid +
+  "/json");
 }
 /**
  * Fetch all links to anforandetexter
@@ -80,14 +179,42 @@ function getText(url) {
     });
   });
 }
+
+
+
 /**
  * Fetch all anforandetexter
  * @param {array} links - contains all links to anforanden
  */
-async function looplinks(links) {
+async function loopLinks(links) {
   let proms = [];
   for (let i = 0; i < links.length; i++) {
     proms.push(getText(links[i]));
+  }
+  const res = await Promise.all(proms);
+  return res;
+}
+async function loopPages(datefrom, dateto, iid, pages) {
+  let proms = [];
+  for (let i = 1; i <= pages; i++) {
+    proms.push(getVoteringslista(createVoteringURL(datefrom, dateto, iid, i))); 
+  }
+  const res = await Promise.all(proms)
+  return res;
+
+}
+
+/**
+ * loop through arr to create a call to riksdagens api and collect voteringsresults.
+ * @param {jsonarray} arr - contains all voteringsid 
+ */
+async function loopVotering(arr) {
+  let proms = [];
+  for (let i = 0; i < arr.length; i++) {
+    temp = arr[i];
+    let j = 0;
+    for(j = 0; j < arr[i].length; j++)
+      proms.push(getVoteringslistaResult(createVoteringResultURL(temp[j])));
   }
   const res = await Promise.all(proms);
   return res;
@@ -109,6 +236,16 @@ async function writeToAnforandetext(data) {
   await db.addDataAnforandetext(data);
 }
 
+/**
+ * Store data in table voteringar
+ * @param {array} data 
+ */
+async function writeToVotering(data) {
+  console.log("here are we now");
+  await db.addDataVotering(data);
+  console.log("returned from addDataVotering");
+}
+
 //Skapa promise för att behandla datan
 function processData() {
   return new Promise(function(resolve, reject) {
@@ -124,12 +261,18 @@ function processData() {
     });
   });
 }
+var votDateStart = "2020-01-01";
+var votDateEnd = "2020-04-01";
 db.connect();
 getRiksdagsledamot(ledamotUrl)
   .then(arr => writeToRiksdagsledamot(arr))
   .then(() => getTextLink(createAnforandeURL("2020-03-18", "")))
-  .then(arr => looplinks(arr))
+  .then(arr => loopLinks(arr))
   .then(res => writeToAnforandetext(res))
+  .then(() => getNumberOfVoteringPages(createVoteringURL(votDateStart, votDateEnd, "", 1)))
+  .then(res => loopPages(votDateStart, votDateEnd, "", res))
+  .then(arr => loopVotering(arr))
+  .then(res => writeToVotering(res))
   //.then(() => processData())
   .then(t => console.log(t))
   .catch((err) => console.log(err));

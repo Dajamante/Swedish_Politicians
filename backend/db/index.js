@@ -58,20 +58,51 @@ function storeDataAnforandetext(data, i) {
     if (
       data[i].intressent_id != null &&
       data[i].anforande_id != null &&
-      data[i].dok_id != null &&
       data[i].dok_datum != null &&
       data[i].anforandetext != null
     ) {
       let date = data[i].dok_datum;
       resolve(
         client.query(
-          "INSERT INTO anforandetext(anforande_id,text,dokument_id,datum,person_id) VALUES($1,$2,$3,$4,$5)",
+          "INSERT INTO anforandetext(anforande_id,text,datum,person_id) VALUES($1,$2,$3,$4)",
           [
             data[i].anforande_id,
             data[i].anforandetext,
-            data[i].dok_id,
             date.substring(0, date.length - 8),
             data[i].intressent_id
+          ]
+        )
+      );
+    } else {
+      resolve();
+    }
+  }).catch(function(err) {
+      console.log(err);
+    //Maybe we should log errors that occure? Errors will be inserts of duplicates etc
+  });
+}
+/**
+ * data sent from addDataVotering is stored in database
+ * @param {jsonarray} data - data to be stored in db 
+ */
+function storeDataVotering(data) {
+  return new Promise(function(resolve, reject) {
+    //console.log(data[i].votering_id);
+    if (
+      data.votering_id != null &&
+      data.intressent_id != null &&
+      data.rost != null &&
+      data.datum != null
+    ) {
+      let date = data.datum;
+      resolve(
+        client.query(
+          "INSERT INTO voteringar(voterings_id,person_id,vot,vot_datum) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING",
+          [
+            data.votering_id,
+            data.intressent_id,
+            data.rost,
+            date.substring(0, date.length - 8),
           ]
         )
       );
@@ -104,6 +135,21 @@ async function addDataAnforandetext(data) {
     await storeDataAnforandetext(data, i);
   }
 }
+/**
+ * add votering and other information regarding voteringar to database
+ * @param {jsonarray} data data to be stored
+ */
+async function addDataVotering(data) {
+  var i;
+  for(i = 0; i < data.length; i++) {
+    if(data[i] !== undefined) {
+      var data2 = data[i];
+      for(let j = 0; j < data2.length; j++) {
+        await storeDataVotering(data2[j]);
+      }
+    }
+  }
+}
 
 /**
  * Disconnect the client from the database
@@ -120,3 +166,4 @@ exports.connect = connect;
 exports.disconnect = disconnect;
 exports.addDataRiksdagsledamot = addDataRiksdagsledamot;
 exports.addDataAnforandetext = addDataAnforandetext;
+exports.addDataVotering = addDataVotering;
