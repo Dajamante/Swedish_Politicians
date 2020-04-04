@@ -17,7 +17,7 @@ const getSAResultMostNegative = (req, res) => {
   // console.log(startdate);
   // console.log(enddate);
   pool.query(
-    `SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) DESC) AS rank, info.parti, info.namn, AVG(resultat_sentiment.resultat) as resultat 
+    `SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) ASC) AS rank, info.parti, info.namn, AVG(resultat_sentiment.resultat) as resultat 
       FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext 
       NATURAL JOIN riksdagsledamot) as info 
       NATURAL JOIN resultat_sentiment WHERE info.datum > '${startdate}'
@@ -40,7 +40,7 @@ const getSAResultMostPositive = (req, res) => {
   let startdate = req.query.startdate;
   let enddate = req.query.enddate;
   pool.query(
-    `SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) ASC) AS rank, info.parti, info.namn, AVG(resultat_sentiment.resultat) as resultat 
+    `SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) DESC) AS rank, info.parti, info.namn, AVG(resultat_sentiment.resultat) as resultat 
       FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext 
       NATURAL JOIN riksdagsledamot) as info 
       NATURAL JOIN resultat_sentiment WHERE info.datum > '${startdate}'
