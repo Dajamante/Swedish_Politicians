@@ -1,15 +1,17 @@
 import React, { Component } from "react";
 import axios from "axios";
+import TopList from "./TopList";
 
-const API = "http://ec2-3-81-166-212.compute-1.amazonaws.com/api/v1/result";
-const DEFAULT_QUERY = "";
+const API = "http://localhost:3000/getMostAbsent?startdate=2019-01-01&enddate=2020-03-20";
+const DEFAULT_QUERY_START = "2019-01-01";
+const DEFAULT_QUERY_STOP = "2020-03-20";
 
 class Fetcher extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      hits: [],
+      list: [],
       isLoading: false,
       error: null
     };
@@ -19,10 +21,10 @@ class Fetcher extends Component {
     this.setState({ isLoading: true });
 
     axios
-      .get(API + DEFAULT_QUERY)
+      .get(API)
       .then(result =>
         this.setState({
-          hits: result.data.hits,
+          list: result.data,
           isLoading: false
         })
       )
@@ -35,15 +37,8 @@ class Fetcher extends Component {
   }
 
   render() {
-    const { hits } = this.state;
     return (
-      <ul>
-        {hits.map(hit =>
-          <li key={hit.namn}>
-            <br>{hit.namn} - {hit.avg}</br>
-          </li>
-        )}
-      </ul>
+      <TopList listPosts={this.state.list}/>
     );
   }
 }
