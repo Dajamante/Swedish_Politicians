@@ -55,6 +55,53 @@ const getSAResultMostPositive = (req, res) => {
   );
 };
 
+const getMostAbsent = (req, res) => {
+  let startdate = req.query.startdate;
+  let enddate = req.query.enddate;
+  pool.query(
+    `SELECT DENSE_RANK () OVER (ORDER BY COUNT(vot) DESC) AS rank, P.parti, P.namn, COUNT(vot) 
+      FROM voteringar as V
+      NATURAL JOIN riksdagsledamot as P
+      WHERE vot = 'Frånvarande' AND vot_datum > '${startdate}'
+      AND vot_datum < '${enddate}'
+      GROUP BY P.namn, P.parti
+      ORDER BY rank;`,
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+};
+
+const getVotedAgainstPartiMode = (req, res) => {
+  let startdate = req.query.startdate;
+  let enddate = req.query.enddate;
+  pool.query(
+    `SELECT DENSE_RANK () OVER (ORDER BY CountPVAPartiMode.CountVA DESC) as rank, CountPVAPartiMode.namn, CountPVAPartiMode.countVA
+    FROM (SELECT PVAPartiMode.parti AS parti, PVAPartiMode.namn AS namn, count(namn) as CountVA
+    FROM (SELECT P1.parti AS parti, P1.namn AS namn, vot, modal_value, V1.vot_datum AS vot_datum
+    FROM voteringar V1
+    NATURAL JOIN riksdagsledamot P1
+    NATURAL JOIN (SELECT mode() WITHIN GROUP (ORDER BY vot) AS modal_value, P.Parti, voterings_id
+    FROM (SELECT voterings_id, person_id, vot FROM voteringar as V WHERE NOT V.vot = 'Frånvarande') as V
+    NATURAL JOIN riksdagsledamot as P
+    WHERE NOT P.parti = '-'
+    GROUP BY voterings_id, P.Parti) PartiMode
+    WHERE NOT vot = 'Frånvarande' AND NOT vot = modal_value AND V1.vot_datum > '${startdate}' AND V1.vot_datum< '${enddate}'
+    ORDER BY P1.namn) AS PVAPartiMode
+    GROUP BY PVAPartiMode.parti, PVAPartiMode.namn) AS CountPVAPartiMode
+    GROUP BY CountPVAPartiMode.namn, CountPVAPartiMode.CountVA;`,
+    (error, results) => {
+      if (error) {
+        throw error;
+      }
+      res.status(200).json(results.rows);
+    }
+  );
+};
+
 /**
  * Export all neccessary modules
  */
@@ -62,4 +109,6 @@ const getSAResultMostPositive = (req, res) => {
 module.exports = {
   getSAResultMostNegative,
   getSAResultMostPositive,
+  getMostAbsent,
+  getVotedAgainstPartiMode,
 };
