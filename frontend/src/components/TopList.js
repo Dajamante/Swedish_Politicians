@@ -1,11 +1,11 @@
 import React, { Component } from "react";
 import ListPost from "./ListPost";
-import TopPost from "./TopPost";
+//import TopPost from "./TopPost";
 
 /**
  * Top list component.
  */
-class TopList extends React.Component {
+class TopList extends Component {
   constructor() {
     super();
     this.state = {

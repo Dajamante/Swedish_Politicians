@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { ResponsiveLine } from '@nivo/line';
 
 class Graph extends Component{
-  constructor() {
+/*   constructor() {
       super();
-  }
+  } */
   render(){
     return(
       <ResponsiveLine

@@ -15,7 +15,7 @@ class SampleGraph extends Component {
     }
 
     handleClick() {
-      if(this.state.graphType == 0){
+      if(this.state.graphType === 0){
         this.setState({ graphType: 1 })
       } else {
         this.setState({ graphType: 0 })
@@ -47,7 +47,7 @@ class SampleGraph extends Component {
             );
         });
 
-        if (filteredDataByName.length == 0) {
+        if (filteredDataByName.length === 0) {
             return (
                 <div style={{ height: '500px', width: '1000px' }}>
                 Filter by name of country:{" "}
@@ -60,7 +60,7 @@ class SampleGraph extends Component {
                 </div>
             )
         }
-        else if(this.state.graphType == 0){
+        else if(this.state.graphType === 0){
             return (
                 <div style={{ height: '500px', width: '1000px' }}>
                     Filter by name of country:{" "}
