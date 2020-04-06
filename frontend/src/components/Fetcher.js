@@ -1,24 +1,24 @@
-import React, { Component } from "react";
+import React, { Component, Fragment } from "react";
 import axios from "axios";
 import TopList from "./TopList";
-import Dropdown from 'react-dropdown';
-import 'react-dropdown/style.css';
-import Select from 'react-select'
+import Dropdown from "react-dropdown";
+import "react-dropdown/style.css";
+import Select from "react-select";
 
 //const API = "http://localhost:3000/resultSAMostPos?startdate=";
 //const DEFAULT_QUERY_START = "2019-01-01";
 //const DEFAULT_QUERY_STOP = "2020-03-20";
 
-const options = [
-  { value: 'resultSAMostPos', label: 'Positive' },
-  { value: 'resultSAMostNeg', label: 'Negative' }
+const APIoptions = [
+  { value: "resultSAMostPos", label: "Positive" },
+  { value: "resultSAMostNeg", label: "Negative" },
 ];
 
-const APIoptions = [
+/* const APIoptions = [
   'resultSAMostPos',
   'resultSAMostNeg',
 ];
-const defaultOption = APIoptions[0];
+const defaultOption = APIoptions[0]; */
 
 class Fetcher extends Component {
   constructor(props) {
@@ -28,43 +28,76 @@ class Fetcher extends Component {
       list: [],
       isLoading: false,
       error: null,
-      chosenAPI: 0,
       QUERY_START: "2019-01-01",
       QUERY_STOP: "2020-03-20",
+      isClearable: true,
+      isDisabled: false,
+      isLoading: false,
+      isRtl: false,
+      isSearchable: true,
+      selectedOption: APIoptions[1],
     };
 
-    this._onSelect = {
-      
-    }
+    this.handleChange = (selectedOption) => {
+      this.setState({ selectedOption });
+      console.log(`Option selected:`, selectedOption);
+    };
   }
 
   componentDidMount() {
     this.setState({ isLoading: true });
 
     axios
-      .get("http://localhost:3000/" + APIoptions[this.chosenAPI] + "?startdate=" + this.QUERY_START + "&enddate=" + this.QUERY_STOP)
-      .then(result =>
+      .get("http://localhost:3000/" + this.state.selectedOption.value + "?startdate=" + this.state.QUERY_START + "&enddate=" + this.state.QUERY_STOP)
+      .then((result) =>
         this.setState({
           list: result.data,
-          isLoading: false
+          isLoading: false,
         })
       )
-      .catch(error =>
+      .catch((error) =>
         this.setState({
           error,
-          isLoading: false
+          isLoading: false,
         })
       );
   }
 
   render() {
+    const {
+      isClearable,
+      isSearchable,
+      isDisabled,
+      isLoading,
+      isRtl,
+    } = this.state;
+    const { selectedOption } = this.state;
+
     return (
       <div>
-        <Dropdown className="dropDown" options={APIoptions} onChange={this._onSelect} value={defaultOption} placeholder="Select an option" />
+        {"http://localhost:3000/" + this.state.selectedOption.value + "?startdate=" + this.state.QUERY_START + "&enddate=" + this.state.QUERY_STOP}
+        <br></br>
+        {this.state.selectedOption.value}
+        <Fragment>
+          <Select
+            className="dropDown"
+            classNamePrefix="select"
+            defaultValue={APIoptions[1]}
+            isDisabled={isDisabled}
+            isLoading={isLoading}
+            isClearable={isClearable}
+            isRtl={isRtl}
+            isSearchable={isSearchable}
+            name="color"
+            options={APIoptions}
+            value={selectedOption}
+            onChange={this.handleChange}
+          />
+        </Fragment>
         <br></br>
         <TopList listPosts={this.state.list} />
       </div>
-    )
+    );
   }
 }
 export default Fetcher;
