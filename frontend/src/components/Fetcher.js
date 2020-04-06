@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from "react";
 import axios from "axios";
 import TopList from "./TopList";
-import Dropdown from "react-dropdown";
 import "react-dropdown/style.css";
 import Select from "react-select";
+import PickDateStart from "./PickDateStart.js";
+import PickDateStop from "./PickDateStart.js";
+
 
 //const API = "http://localhost:3000/resultSAMostPos?startdate=";
 //const DEFAULT_QUERY_START = "2019-01-01";
@@ -13,15 +15,11 @@ const APIoptions = [
   { value: "resultSAMostPos", label: "Mest positiv" },
   { value: "resultSAMostNeg", label: "Mest negativ" },
   { value: "getMostAbsent", label: "Mest frånvaro vid votering" },
-  { value: "getVotedAgainstPartiMode", label: "Flest röster mot snitt av det egna partiet" },
-  
+  {
+    value: "getVotedAgainstPartiMode",
+    label: "Flest röster mot snitt av det egna partiet",
+  },
 ];
-
-/* const APIoptions = [
-  'resultSAMostPos',
-  'resultSAMostNeg',
-];
-const defaultOption = APIoptions[0]; */
 
 class Fetcher extends Component {
   constructor(props) {
@@ -44,13 +42,50 @@ class Fetcher extends Component {
     this.handleChange = (selectedOption) => {
       this.setState({ selectedOption });
       this.setState({ isLoading: true });
+
+      axios
+        .get(
+          "http://localhost:3000/" +
+            this.state.selectedOption.value +
+            "?startdate=" +
+            this.state.QUERY_START +
+            "&enddate=" +
+            this.state.QUERY_STOP
+        )
+        .then((result) =>
+          this.setState({
+            list: result.data,
+            isLoading: false,
+          })
+        )
+        .catch((error) =>
+          this.setState({
+            error,
+            isLoading: false,
+          })
+        );
     };
   }
-  
-  componentDidMount() {
 
+  parentFunctionStart = (start_date) => {
+    console.log(start_date);
+    this.state.QUERY_START = start_date;
+  };
+  parentFunctionStop = (stop_date) => {
+    console.log(stop_date);
+    this.state.QUERY_STOP = stop_date;
+  };
+
+  componentDidMount() {
     axios
-      .get("http://localhost:3000/" + this.state.selectedOption.value + "?startdate=" + this.state.QUERY_START + "&enddate=" + this.state.QUERY_STOP)
+      .get(
+        "http://localhost:3000/" +
+          this.state.selectedOption.value +
+          "?startdate=" +
+          this.state.QUERY_START +
+          "&enddate=" +
+          this.state.QUERY_STOP
+      )
       .then((result) =>
         this.setState({
           list: result.data,
@@ -75,12 +110,19 @@ class Fetcher extends Component {
     } = this.state;
     const { selectedOption } = this.state;
 
-    this.componentDidMount()
-
     return (
       <div>
-        {"http://localhost:3000/" + this.state.selectedOption.value + "?startdate=" + this.state.QUERY_START + "&enddate=" + this.state.QUERY_STOP}
+        {"http://localhost:3000/" +
+          this.state.selectedOption.value +
+          "?startdate=" +
+          this.state.QUERY_START +
+          "&enddate=" +
+          this.state.QUERY_STOP}
+
+        <PickDateStart parentFunctionStart={this.parentFunctionStart.bind(this)} />
         <br></br>
+{/*         <PickDateStop parentFunctionStop={this.parentFunctionStop.bind(this)} />
+        <br></br> */}
         <Fragment>
           <Select
             className="dropDown"
