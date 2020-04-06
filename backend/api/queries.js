@@ -86,7 +86,7 @@ const getMostAbsent = (req, res) => {
     let startdate = req.query.startdate;
     let enddate = req.query.enddate;
     pool.query(
-      `SELECT DENSE_RANK () OVER (ORDER BY COUNT(vot) DESC) AS rank, P.parti, P.namn, COUNT(vot) 
+      `SELECT DENSE_RANK () OVER (ORDER BY COUNT(vot) DESC) AS rank, P.parti, P.namn, COUNT(vot) AS resultat 
         FROM voteringar as V
         NATURAL JOIN riksdagsledamot as P
         WHERE vot = 'Frånvarande' AND vot_datum > '${startdate}'
@@ -117,7 +117,7 @@ const getVotedAgainstPartiMode = (req, res) => {
     let startdate = req.query.startdate;
     let enddate = req.query.enddate;
     pool.query(
-      `SELECT DENSE_RANK () OVER (ORDER BY CountPVAPartiMode.CountVA DESC) as rank, CountPVAPartiMode.namn, CountPVAPartiMode.countVA
+      `SELECT DENSE_RANK () OVER (ORDER BY CountPVAPartiMode.CountVA DESC) as rank, CountPVAPartiMode.parti AS parti, CountPVAPartiMode.namn AS namn, CountPVAPartiMode.countVA AS resultat
       FROM (SELECT PVAPartiMode.parti AS parti, PVAPartiMode.namn AS namn, count(namn) as CountVA
       FROM (SELECT P1.parti AS parti, P1.namn AS namn, vot, modal_value, V1.vot_datum AS vot_datum
       FROM voteringar V1
