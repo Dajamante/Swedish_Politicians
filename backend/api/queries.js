@@ -130,7 +130,7 @@ const getVotedAgainstPartiMode = (req, res) => {
       WHERE NOT vot = 'Frånvarande' AND NOT vot = modal_value AND V1.vot_datum > '${startdate}' AND V1.vot_datum< '${enddate}'
       ORDER BY P1.namn) AS PVAPartiMode
       GROUP BY PVAPartiMode.parti, PVAPartiMode.namn) AS CountPVAPartiMode
-      GROUP BY CountPVAPartiMode.namn, CountPVAPartiMode.CountVA;`,
+      GROUP BY CountPVAPartiMode.namn, CountPVAPartiMode.CountVA, countpvapartimode.parti;`,
       (error, results) => {
         if (error) {
           throw error;
