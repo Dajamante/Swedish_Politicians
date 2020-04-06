@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import test_data from "../data/test_data";
 import SampleGraph from "../components/SampleGraph";
-import Fetcher from "../components/Fetcher";
 
 /**
  * Sample component printing out info as an example from the test_data.json file.
@@ -24,7 +23,6 @@ class Sample extends Component {
                 __html: test_data.anforande.anforandetext
               }}
             ></div>
-            <Fetcher />
           </div>
       </div>
     );

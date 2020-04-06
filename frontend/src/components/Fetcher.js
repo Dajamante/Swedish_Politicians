@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import axios from "axios";
 import TopList from "./TopList";
 
-const API = "http://localhost:3000/getMostAbsent?startdate=2019-01-01&enddate=2020-03-20";
+const API = "http://localhost:3000/getMostAbsent?startdate=";
 const DEFAULT_QUERY_START = "2019-01-01";
 const DEFAULT_QUERY_STOP = "2020-03-20";
 
@@ -21,7 +21,7 @@ class Fetcher extends Component {
     this.setState({ isLoading: true });
 
     axios
-      .get(API)
+      .get(API + DEFAULT_QUERY_START + "&enddate=" + DEFAULT_QUERY_STOP)
       .then(result =>
         this.setState({
           list: result.data,
