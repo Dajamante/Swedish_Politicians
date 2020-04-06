@@ -7,23 +7,19 @@ import SampleGraph from "../components/SampleGraph";
  */
 class Sample extends Component {
   render() {
-/*     function getJson(string) {
-      return fetch(string).then(response => response.json());
-    } */
-
     return (
       <div class="container">
-          <div class="mainItem">
-            <h1>Sample graph from local dummy_graph_data.json</h1>
-            <SampleGraph />
-            <br></br>
-            <h1>Sample text from local test_data.json</h1>
-            <div
-              dangerouslySetInnerHTML={{
-                __html: test_data.anforande.anforandetext
-              }}
-            ></div>
-          </div>
+        <div class="mainItem">
+          <h1>Sample graph from local dummy_graph_data.json</h1>
+          <SampleGraph />
+          <br></br>
+          <h1>Sample text from local test_data.json</h1>
+          <div
+            dangerouslySetInnerHTML={{
+              __html: test_data.anforande.anforandetext
+            }}
+          ></div>
+        </div>
       </div>
     );
   }

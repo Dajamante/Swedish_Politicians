@@ -19,7 +19,10 @@ class Home extends Component {
             rel="noopener noreferrer"
             target="_blank"
           >
-            <img src={require("./logo270.png")} alt="Findwise logo"></img>
+            <img
+              src={require("../resources/logo270.png")}
+              alt="Findwise logo"
+            ></img>
           </a>
           <br />
           <br />

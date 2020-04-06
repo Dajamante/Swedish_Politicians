@@ -8,8 +8,7 @@ class SampleGraph extends Component {
         super();
         this.state = {
           graphType: 0,
-          filterName: "",
-          filterVehicle: ""
+          filterName: ""
         };
       this.handleClick = this.handleClick.bind(this)
     }
@@ -24,11 +23,6 @@ class SampleGraph extends Component {
 
     updateFilterName(event) {
         this.setState({ filterName: event.target.value.substring(0, 50) });
-    }
-
-    //not used yet
-    updateFilterVehicle(event) {
-        this.setState({ filterVehicle: event.target.value.substring(0, 50) });
     }
 
     render(){
@@ -69,12 +63,6 @@ class SampleGraph extends Component {
                         value={this.state.filterName}
                         onChange={this.updateFilterName.bind(this)}
                     />
-    {/*                 Filter by vehicle:{" "}
-                    <input
-                        type="text"
-                        value={this.state.filterVehicle}
-                        onChange={this.updateFilterVehicle.bind(this)}
-                    /> */}
                     <button onClick={this.handleClick}>Toggle Dataset</button>
                     <Graph  data = {filteredDataByName}/>
                 </div>

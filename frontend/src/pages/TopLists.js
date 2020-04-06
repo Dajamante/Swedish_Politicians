@@ -9,7 +9,7 @@ class TopLists extends Component {
     return (
       <div className="container">
         <div className="mainItem">
-          <h1>Most absent top list fetched with API</h1>
+          <h1>Most pos/neg top list fetched with API</h1>
           <Fetcher />
         </div>
       </div>
