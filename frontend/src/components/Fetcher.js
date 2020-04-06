@@ -10,8 +10,11 @@ import Select from "react-select";
 //const DEFAULT_QUERY_STOP = "2020-03-20";
 
 const APIoptions = [
-  { value: "resultSAMostPos", label: "Positive" },
-  { value: "resultSAMostNeg", label: "Negative" },
+  { value: "resultSAMostPos", label: "Mest positiv" },
+  { value: "resultSAMostNeg", label: "Mest negativ" },
+  { value: "getMostAbsent", label: "Mest frånvaro vid votering" },
+  { value: "getVotedAgainstPartiMode", label: "Flest röster mot snitt av det egna partiet" },
+  
 ];
 
 /* const APIoptions = [
@@ -30,22 +33,21 @@ class Fetcher extends Component {
       error: null,
       QUERY_START: "2019-01-01",
       QUERY_STOP: "2020-03-20",
-      isClearable: true,
+      isClearable: false,
       isDisabled: false,
       isLoading: false,
       isRtl: false,
       isSearchable: true,
-      selectedOption: APIoptions[1],
+      selectedOption: APIoptions[2],
     };
 
     this.handleChange = (selectedOption) => {
       this.setState({ selectedOption });
-      console.log(`Option selected:`, selectedOption);
+      this.setState({ isLoading: true });
     };
   }
-
+  
   componentDidMount() {
-    this.setState({ isLoading: true });
 
     axios
       .get("http://localhost:3000/" + this.state.selectedOption.value + "?startdate=" + this.state.QUERY_START + "&enddate=" + this.state.QUERY_STOP)
@@ -73,11 +75,12 @@ class Fetcher extends Component {
     } = this.state;
     const { selectedOption } = this.state;
 
+    this.componentDidMount()
+
     return (
       <div>
         {"http://localhost:3000/" + this.state.selectedOption.value + "?startdate=" + this.state.QUERY_START + "&enddate=" + this.state.QUERY_STOP}
         <br></br>
-        {this.state.selectedOption.value}
         <Fragment>
           <Select
             className="dropDown"

@@ -16,7 +16,7 @@ class ListPost extends Component {
             {this.props.listPost.namn}
           </td>
           <td style={{ fontSize: "18px", textAlign: "right" }}>
-            {this.props.listPost.resultat.toFixed(2)}
+            {this.props.listPost.resultat}
           </td>
           <td></td>
           <td style={{ fontSize: "12px" }}>{this.props.listPost.parti}</td>
