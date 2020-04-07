@@ -9,7 +9,7 @@ class TopList extends Component {
     super();
     this.state = {
       searchName: "",
-      searchParty: ""
+      searchParty: "",
     };
   }
 
@@ -26,14 +26,14 @@ class TopList extends Component {
   }
 
   render() {
-    let filteredPostsByName = this.props.listPosts.filter(listPost => {
+    let filteredPostsByName = this.props.listPosts.filter((listPost) => {
       return (
         listPost.namn
           .toLowerCase()
           .indexOf(this.state.searchName.toLowerCase()) !== -1
       );
     });
-    let filteredPostsByParty = filteredPostsByName.filter(listPost => {
+    let filteredPostsByParty = filteredPostsByName.filter((listPost) => {
       return (
         listPost.parti
           .toLowerCase()
@@ -41,7 +41,7 @@ class TopList extends Component {
       );
     });
 
-    let list = filteredPostsByParty.map(listPost => {
+    let list = filteredPostsByParty.map((listPost) => {
       return <ListPost listPost={listPost} />;
     });
 

@@ -9,7 +9,10 @@ class TopLists extends Component {
     return (
       <div className="container">
         <div className="mainItem">
-          <h1>Rubrik för topplistor, som väljs via dropdown nedtill. Men rubriken kommer inte ändras för det... ;)</h1>
+          <h1>
+            Rubrik för topplistor, som väljs via dropdown nedtill. Men rubriken
+            kommer inte ändras för det... ;)
+          </h1>
           <Fetcher />
         </div>
       </div>

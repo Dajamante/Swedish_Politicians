@@ -3,9 +3,9 @@ import axios from "axios";
 import TopList from "./TopList";
 import "react-dropdown/style.css";
 import Select from "react-select";
-import DatePicker from 'react-datepicker';
+import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import moment from 'moment'
+import moment from "moment";
 
 const APIoptions = [
   { value: "resultSAMostPos", label: "Mest positiv" },
@@ -33,27 +33,30 @@ class Fetcher extends Component {
       isSearchable: true,
       selectedOption: APIoptions[2],
       startDate: new Date(),
-      stopDate: new Date()
+      stopDate: new Date(),
     };
 
     this.handleChange = (selectedOption) => {
       this.setState({ selectedOption });
       this.setState({ isLoading: true }, () => this.componentDidMount());
-      
     };
   }
 
-  handleStartDateChange = startDate => {
+  handleStartDateChange = (startDate) => {
     const { selectedOption } = this.state;
-    this.setState({ startDate })
-    this.setState({ QUERY_START: moment(startDate).format('YYYY-MM-DD') }, () => this.handleChange(selectedOption));
-  }
+    this.setState({ startDate });
+    this.setState({ QUERY_START: moment(startDate).format("YYYY-MM-DD") }, () =>
+      this.handleChange(selectedOption)
+    );
+  };
 
-  handleStopDateChange = stopDate => {
+  handleStopDateChange = (stopDate) => {
     const { selectedOption } = this.state;
-    this.setState({ stopDate })
-    this.setState({ QUERY_STOP: moment(stopDate).format('YYYY-MM-DD') }, () => this.handleChange(selectedOption));
-  }
+    this.setState({ stopDate });
+    this.setState({ QUERY_STOP: moment(stopDate).format("YYYY-MM-DD") }, () =>
+      this.handleChange(selectedOption)
+    );
+  };
 
   componentDidMount() {
     axios
@@ -91,25 +94,24 @@ class Fetcher extends Component {
 
     return (
       <div className="listPost">
-        <td>Startdatum:{" "}
-        <DatePicker
-          selected={ this.state.startDate }
-          onChange={ this.handleStartDateChange }
-          name="startDate"
-          dateFormat="yyyy-MM-dd"
-          
-        />
-        </td>
-        <td>{" "}</td>
         <td>
-        Stoppdatum:{" "}
-        <DatePicker
-          selected={ this.state.stopDate }
-          onChange={ this.handleStopDateChange }
-          name="stopDate"
-          dateFormat="yyyy-MM-dd"
-          
-        />
+          Startdatum:{" "}
+          <DatePicker
+            selected={this.state.startDate}
+            onChange={this.handleStartDateChange}
+            name="startDate"
+            dateFormat="yyyy-MM-dd"
+          />
+        </td>
+        <td> </td>
+        <td>
+          Stoppdatum:{" "}
+          <DatePicker
+            selected={this.state.stopDate}
+            onChange={this.handleStopDateChange}
+            name="stopDate"
+            dateFormat="yyyy-MM-dd"
+          />
         </td>
 
         <br></br>

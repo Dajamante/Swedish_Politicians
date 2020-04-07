@@ -10,13 +10,13 @@ class Submenu extends React.Component {
     return (
       <ul className="nav__submenu">
         <li className="nav__submenu-item ">
-            <NavLink to="/aboutTeam">Team</NavLink>
+          <NavLink to="/aboutTeam">Team</NavLink>
         </li>
         <li className="nav__submenu-item ">
-            <NavLink to="/aboutFindwise">Findwise</NavLink>
+          <NavLink to="/aboutFindwise">Findwise</NavLink>
         </li>
         <li className="nav__submenu-item ">
-            <NavLink to="/aboutProject">Project</NavLink>
+          <NavLink to="/aboutProject">Project</NavLink>
         </li>
       </ul>
     );
@@ -30,7 +30,7 @@ class Menu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAboutMenu: false
+      showAboutMenu: false,
     };
   }
 
@@ -47,19 +47,21 @@ class Menu extends React.Component {
       <nav className="nav">
         <ul className="nav__menu">
           <li className="nav__menu-item">
-              <NavLink to="/home">Home</NavLink>
+            <NavLink to="/home">Home</NavLink>
           </li>
 
           <li className="nav__menu-item">
-              <NavLink to="/toplists">Top List</NavLink>
+            <NavLink to="/toplists">Top List</NavLink>
           </li>
 
           <li className="nav__menu-item">
-              <NavLink to="/sample">Sample</NavLink>
+            <NavLink to="/sample">Sample</NavLink>
           </li>
 
           <li className="nav__menu-item" onMouseLeave={this.handleLeave}>
-            <a href="/home" role="button" onMouseEnter={this.handleHover}>About</a>
+            <a href="/home" role="button" onMouseEnter={this.handleHover}>
+              About
+            </a>
             {this.state.showAboutMenu && <Submenu />}
           </li>
         </ul>

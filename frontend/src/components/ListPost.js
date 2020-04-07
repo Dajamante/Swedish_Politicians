@@ -9,14 +9,10 @@ class ListPost extends Component {
     return (
       <li className="listPost">
         <div className="postGrid">
-          <div className="rankCSS">
-            {this.props.listPost.rank}
-          </div>
-          <div className="namnCSS">
-            {this.props.listPost.namn}
-          </div>
+          <div className="rankCSS">{this.props.listPost.rank}</div>
+          <div className="namnCSS">{this.props.listPost.namn}</div>
           <div className="resultatCSS">
-            {Math.round((this.props.listPost.resultat) * 100) / 100}
+            {Math.round(this.props.listPost.resultat * 100) / 100}
             {/* {Number.parseFloat(this.props.listPost.resultat).toFixed(2)} */}
           </div>
           <div></div>
