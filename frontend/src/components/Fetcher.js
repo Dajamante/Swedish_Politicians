@@ -33,14 +33,12 @@ class Fetcher extends Component {
       isSearchable: true,
       selectedOption: APIoptions[2],
       startDate: new Date(),
-      endDate: new Date()
+      stopDate: new Date()
     };
 
-    this.handleChange = (selectedOption, startDate, endDate) => {
+    this.handleChange = (selectedOption, startDate, stopDate) => {
       this.setState({ selectedOption });
       this.setState({ isLoading: true });
-      this.setState({ startDate: moment(startDate).format('YYYY-MM-DD') });
-      this.setState({ stopDate: moment(endDate).format('YYYY-MM-DD')  });
 
       axios
         .get(
@@ -49,7 +47,7 @@ class Fetcher extends Component {
             "?startdate=" +
             this.state.startDate +
             "&enddate=" +
-            this.state.endDate
+            this.state.stopDate
         )
         .then((result) =>
           this.setState({
@@ -66,15 +64,25 @@ class Fetcher extends Component {
     };
   }
 
+  handleStartDateChange = startDate => {
+    this.setState({ startDate })
+    this.setState({ QUERY_START: moment(startDate).format('YYYY-MM-DD') });
+  }
+
+  handleStopDateChange = stopDate => {
+    this.setState({ stopDate })
+    this.setState({ QUERY_STOP: moment(stopDate).format('YYYY-MM-DD')  });
+  }
+
   componentDidMount() {
     axios
       .get(
         "http://localhost:3000/" +
           this.state.selectedOption.value +
           "?startdate=" +
-          this.state.startDate +
+          this.state.QUERY_START +
           "&enddate=" +
-          this.state.endDate
+          this.state.QUERY_STOP
       )
       .then((result) =>
         this.setState({
@@ -105,7 +113,7 @@ class Fetcher extends Component {
         <td>Startdatum:{" "}
         <DatePicker
           selected={ this.state.startDate }
-          onChange={ this.handleChange }
+          onChange={ this.handleStartDateChange }
           name="startDate"
           dateFormat="yyyy-MM-dd"
           inline
@@ -114,13 +122,14 @@ class Fetcher extends Component {
         <td>
         Stoppdatum:{" "}
         <DatePicker
-          selected={ this.state.endDate }
-          onChange={ this.handleChange }
-          name="endDate"
+          selected={ this.state.stopDate }
+          onChange={ this.handleStopDateChange }
+          name="stopDate"
           dateFormat="yyyy-MM-dd"
           inline
         />
         </td>
+
         <br></br>
         {"http://localhost:3000/" +
           this.state.selectedOption.value +
