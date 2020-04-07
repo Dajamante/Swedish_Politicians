@@ -102,20 +102,22 @@ class Fetcher extends Component {
 
     return (
       <div>
+        Startdatum:{" "}
         <DatePicker
           selected={ this.state.startDate }
           onChange={ this.handleChange }
           name="startDate"
           dateFormat="yyyy-MM-dd"
-          inline
+          
         />
-        {" "}
+        <br></br>
+        Stoppdatum:{" "}
         <DatePicker
           selected={ this.state.endDate }
           onChange={ this.handleChange }
           name="endDate"
           dateFormat="yyyy-MM-dd"
-          inline
+          
         />
         <br></br>
         {"http://localhost:3000/" +
