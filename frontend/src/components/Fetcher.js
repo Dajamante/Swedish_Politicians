@@ -39,8 +39,8 @@ class Fetcher extends Component {
     this.handleChange = (selectedOption, startDate, endDate) => {
       this.setState({ selectedOption });
       this.setState({ isLoading: true });
-      this.setState({ QUERY_START: moment(startDate).format('YYYY-MM-DD') });
-      this.setState({ QUERY_STOP: moment(endDate).format('YYYY-MM-DD')  });
+      //this.setState({ QUERY_START: moment(startDate).format('YYYY-MM-DD') });
+      //this.setState({ QUERY_STOP: moment(endDate).format('YYYY-MM-DD')  });
 
       axios
         .get(
