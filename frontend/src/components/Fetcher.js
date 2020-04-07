@@ -61,7 +61,7 @@ class Fetcher extends Component {
   componentDidMount() {
     axios
       .get(
-        "http://localhost:3000/" +
+        "http://ec2-3-81-166-212.compute-1.amazonaws.com/api/v1/" +
           this.state.selectedOption.value +
           "?startdate=" +
           this.state.QUERY_START +
