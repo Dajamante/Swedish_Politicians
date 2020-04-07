@@ -3,13 +3,9 @@ import axios from "axios";
 import TopList from "./TopList";
 import "react-dropdown/style.css";
 import Select from "react-select";
-import PickDateStart from "./PickDateStart.js";
-import PickDateStop from "./PickDateStart.js";
-
-
-//const API = "http://localhost:3000/resultSAMostPos?startdate=";
-//const DEFAULT_QUERY_START = "2019-01-01";
-//const DEFAULT_QUERY_STOP = "2020-03-20";
+import DatePicker from 'react-datepicker';
+import "react-datepicker/dist/react-datepicker.css";
+import moment from 'moment'
 
 const APIoptions = [
   { value: "resultSAMostPos", label: "Mest positiv" },
@@ -27,7 +23,6 @@ class Fetcher extends Component {
 
     this.state = {
       list: [],
-      isLoading: false,
       error: null,
       QUERY_START: "2019-01-01",
       QUERY_STOP: "2020-03-20",
@@ -37,11 +32,15 @@ class Fetcher extends Component {
       isRtl: false,
       isSearchable: true,
       selectedOption: APIoptions[2],
+      startDate: new Date(),
+      endDate: new Date()
     };
 
-    this.handleChange = (selectedOption) => {
+    this.handleChange = (selectedOption, startDate, endDate) => {
       this.setState({ selectedOption });
       this.setState({ isLoading: true });
+      this.setState({ QUERY_START: moment(startDate).format('YYYY-MM-DD') });
+      this.setState({ QUERY_STOP: moment(endDate).format('YYYY-MM-DD')  });
 
       axios
         .get(
@@ -66,15 +65,6 @@ class Fetcher extends Component {
         );
     };
   }
-
-  parentFunctionStart = (start_date) => {
-    console.log(start_date);
-    this.state.QUERY_START = start_date;
-  };
-  parentFunctionStop = (stop_date) => {
-    console.log(stop_date);
-    this.state.QUERY_STOP = stop_date;
-  };
 
   componentDidMount() {
     axios
@@ -112,17 +102,28 @@ class Fetcher extends Component {
 
     return (
       <div>
+        <DatePicker
+          selected={ this.state.startDate }
+          onChange={ this.handleChange }
+          name="startDate"
+          dateFormat="yyyy-MM-dd"
+          inline
+        />
+        {" "}
+        <DatePicker
+          selected={ this.state.endDate }
+          onChange={ this.handleChange }
+          name="endDate"
+          dateFormat="yyyy-MM-dd"
+          inline
+        />
+        <br></br>
         {"http://localhost:3000/" +
           this.state.selectedOption.value +
           "?startdate=" +
           this.state.QUERY_START +
           "&enddate=" +
           this.state.QUERY_STOP}
-
-        <PickDateStart parentFunctionStart={this.parentFunctionStart.bind(this)} />
-        <br></br>
-{/*         <PickDateStop parentFunctionStop={this.parentFunctionStop.bind(this)} />
-        <br></br> */}
         <Fragment>
           <Select
             className="dropDown"

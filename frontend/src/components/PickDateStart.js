@@ -28,8 +28,7 @@ class PickDateStart extends Component {
               selected={ this.state.returnStartDate }
               onChange={ this.handleChange }
               name="returnStartDate"
-              dateFormat="YYYY-MM-DD"
-              inline
+              dateFormat="yyyy-MM-dd"
           />
       </div>
     );
