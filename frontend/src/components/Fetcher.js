@@ -5,7 +5,7 @@ import "react-dropdown/style.css";
 import Select from "react-select";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-//import moment from 'moment'
+import moment from 'moment'
 
 const APIoptions = [
   { value: "resultSAMostPos", label: "Mest positiv" },
@@ -39,17 +39,17 @@ class Fetcher extends Component {
     this.handleChange = (selectedOption, startDate, endDate) => {
       this.setState({ selectedOption });
       this.setState({ isLoading: true });
-      //this.setState({ QUERY_START: moment(startDate).format('YYYY-MM-DD') });
-      //this.setState({ QUERY_STOP: moment(endDate).format('YYYY-MM-DD')  });
+      this.setState({ startDate: moment(startDate).format('YYYY-MM-DD') });
+      this.setState({ stopDate: moment(endDate).format('YYYY-MM-DD')  });
 
       axios
         .get(
           "http://localhost:3000/" +
             this.state.selectedOption.value +
             "?startdate=" +
-            this.state.QUERY_START +
+            this.state.startDate +
             "&enddate=" +
-            this.state.QUERY_STOP
+            this.state.endDate
         )
         .then((result) =>
           this.setState({
@@ -72,9 +72,9 @@ class Fetcher extends Component {
         "http://localhost:3000/" +
           this.state.selectedOption.value +
           "?startdate=" +
-          this.state.QUERY_START +
+          this.state.startDate +
           "&enddate=" +
-          this.state.QUERY_STOP
+          this.state.endDate
       )
       .then((result) =>
         this.setState({
@@ -101,24 +101,26 @@ class Fetcher extends Component {
     const { selectedOption } = this.state;
 
     return (
-      <div>
-        Startdatum:{" "}
+      <div className="listPost">
+        <td>Startdatum:{" "}
         <DatePicker
           selected={ this.state.startDate }
           onChange={ this.handleChange }
           name="startDate"
           dateFormat="yyyy-MM-dd"
-          
+          inline
         />
-        <br></br>
+        </td>
+        <td>
         Stoppdatum:{" "}
         <DatePicker
           selected={ this.state.endDate }
           onChange={ this.handleChange }
           name="endDate"
           dateFormat="yyyy-MM-dd"
-          
+          inline
         />
+        </td>
         <br></br>
         {"http://localhost:3000/" +
           this.state.selectedOption.value +
