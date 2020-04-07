@@ -9,17 +9,17 @@ class ListPost extends Component {
     return (
       <li className="listPost">
         <div className="postGrid">
-          <td style={{ fontSize: "36px", fontStyle: "bold" }}>
+          <div className="rankCSS">
             {this.props.listPost.rank}
-          </td>
-          <td style={{ fontSize: "24px", fontStyle: "bold" }}>
+          </div>
+          <div className="namnCSS">
             {this.props.listPost.namn}
-          </td>
-          <td style={{ fontSize: "18px", textAlign: "right" }}>
+          </div>
+          <div className="resultatCSS">
             {this.props.listPost.resultat}
-          </td>
-          <td></td>
-          <td style={{ fontSize: "12px" }}>{this.props.listPost.parti}</td>
+          </div>
+          <div></div>
+          <div className="partiCSS">{this.props.listPost.parti}</div>
         </div>
       </li>
     );

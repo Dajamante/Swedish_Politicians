@@ -5,7 +5,7 @@ import "react-dropdown/style.css";
 import Select from "react-select";
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
-import moment from 'moment'
+//import moment from 'moment'
 
 const APIoptions = [
   { value: "resultSAMostPos", label: "Mest positiv" },
