@@ -16,7 +16,8 @@ class ListPost extends Component {
             {this.props.listPost.namn}
           </div>
           <div className="resultatCSS">
-            {this.props.listPost.resultat}
+            {Math.round((this.props.listPost.resultat) * 100) / 100}
+            {/* {Number.parseFloat(this.props.listPost.resultat).toFixed(2)} */}
           </div>
           <div></div>
           <div className="partiCSS">{this.props.listPost.parti}</div>

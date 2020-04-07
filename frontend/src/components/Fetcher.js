@@ -38,40 +38,21 @@ class Fetcher extends Component {
 
     this.handleChange = (selectedOption) => {
       this.setState({ selectedOption });
-      this.setState({ isLoading: true });
-
-      axios
-        .get(
-          "http://localhost:3000/" +
-            this.state.selectedOption.value +
-            "?startdate=" +
-            this.state.QUERY_START +
-            "&enddate=" +
-            this.state.QUERY_STOP
-        )
-        .then((result) =>
-          this.setState({
-            list: result.data,
-            isLoading: false,
-          })
-        )
-        .catch((error) =>
-          this.setState({
-            error,
-            isLoading: false,
-          })
-        );
+      this.setState({ isLoading: true }, () => this.componentDidMount());
+      
     };
   }
 
   handleStartDateChange = startDate => {
+    const { selectedOption } = this.state;
     this.setState({ startDate })
-    this.setState({ QUERY_START: moment(startDate).format('YYYY-MM-DD') });
+    this.setState({ QUERY_START: moment(startDate).format('YYYY-MM-DD') }, () => this.handleChange(selectedOption));
   }
 
   handleStopDateChange = stopDate => {
+    const { selectedOption } = this.state;
     this.setState({ stopDate })
-    this.setState({ QUERY_STOP: moment(stopDate).format('YYYY-MM-DD')  });
+    this.setState({ QUERY_STOP: moment(stopDate).format('YYYY-MM-DD') }, () => this.handleChange(selectedOption));
   }
 
   componentDidMount() {
@@ -116,9 +97,10 @@ class Fetcher extends Component {
           onChange={ this.handleStartDateChange }
           name="startDate"
           dateFormat="yyyy-MM-dd"
-          inline
+          
         />
         </td>
+        <td>{" "}</td>
         <td>
         Stoppdatum:{" "}
         <DatePicker
@@ -126,17 +108,11 @@ class Fetcher extends Component {
           onChange={ this.handleStopDateChange }
           name="stopDate"
           dateFormat="yyyy-MM-dd"
-          inline
+          
         />
         </td>
 
         <br></br>
-        {"http://localhost:3000/" +
-          this.state.selectedOption.value +
-          "?startdate=" +
-          this.state.QUERY_START +
-          "&enddate=" +
-          this.state.QUERY_STOP}
         <Fragment>
           <Select
             className="dropDown"
