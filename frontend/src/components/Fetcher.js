@@ -36,7 +36,7 @@ class Fetcher extends Component {
       stopDate: new Date()
     };
 
-    this.handleChange = (selectedOption, startDate, stopDate) => {
+    this.handleChange = (selectedOption) => {
       this.setState({ selectedOption });
       this.setState({ isLoading: true });
 
@@ -45,9 +45,9 @@ class Fetcher extends Component {
           "http://localhost:3000/" +
             this.state.selectedOption.value +
             "?startdate=" +
-            this.state.startDate +
+            this.state.QUERY_START +
             "&enddate=" +
-            this.state.stopDate
+            this.state.QUERY_STOP
         )
         .then((result) =>
           this.setState({
