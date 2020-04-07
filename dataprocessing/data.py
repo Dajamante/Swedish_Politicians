@@ -4,7 +4,6 @@ import pandas as pd
 
 
 class Data:
-
     # Constructor
     def __init__(self,
                  user="aissata",
@@ -13,11 +12,11 @@ class Data:
                  database="lms",
                  password=""):
 
-        super().__init__()
-        self.connection, self.cursor = self.database_connection(
-            user, host, port, database, password)
-
+        # super().__init__()  # tror ej denna behövs då vi inte har en "superklass"
+        self.connection, self.cursor = self.database_connection(user=user,
+                                                                host=host, port=port, database=database, password=password)
     # Connecting to database
+
     def database_connection(self,
                             user,
                             host,
@@ -88,6 +87,7 @@ class Data:
             # Iterate over keys (columns) in data frame
             for key_index, key in enumerate(data_frame_processed.keys()):
                 # END IF FOR EACH ROW
+
                 if key_index == data_frame_processed.shape[1] - 1:
 
                     # END IF FOR ALL DATA
@@ -96,13 +96,12 @@ class Data:
                     else:
                         insert_table_query += str(row[key]) + "') ,\n"
                 else:
-                    insert_table_query += str(row[key]) + " , "
+                    insert_table_query += str(row[key]) + "' , '"
 
         # UNCOMMENT TO SEE how SQL looks, it's human readable
-        # print(insert_table_query)
 
         # Try to execute insert
-        print(insert_table_query)
+        # print(insert_table_query)
         try:
             self.cursor.execute(insert_table_query)
         except Exception as error:
@@ -111,11 +110,11 @@ class Data:
         if True:
             self.connection.commit()
 
-    def get_data_table(self, target_table_name):
+    def get_data_table(self, table_name):
         '''
         ===FETCHING DATA FROM DATATABLE===
         '''
-        select_table_query = 'SELECT * FROM ' + str(target_table_name) + ';'
+        select_table_query = 'SELECT * FROM ' + str(table_name) + ';'
 
         try:
             self.cursor.execute(select_table_query)
@@ -133,14 +132,13 @@ class Data:
 
     # table creation
 
-    # def database_create_table(self, target_table_name
-    #, nr_of_keys, attributes): # '''
+    # def database_create_table(self, table_name,nr_of_keys,attributes):
+    #    '''
     #    NR_OF_KEYS = NR OF PRIMARY KEY
     #    ATTRIBUTES = [(name,data_type),...]
     #    '''
 
-    #    create_table_query= 'CREATE TABLE ' + str(target_table_name
-    #)
+    #    create_table_query= 'CREATE TABLE ' + str(table_name)
 
     #    '''
     #    (ID INT PRIMARY KEY     NOT NULL,
