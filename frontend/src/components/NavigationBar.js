@@ -1,6 +1,6 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
-import "./menu.scss";
+import "../stylesheets/menu.scss";
 
 /**
  * Submenu component specific for the "About" option in the navigation bar.
@@ -10,19 +10,13 @@ class Submenu extends React.Component {
     return (
       <ul className="nav__submenu">
         <li className="nav__submenu-item ">
-          <a>
-            <NavLink to="/aboutTeam">Team</NavLink>
-          </a>
+          <NavLink to="/aboutTeam">Team</NavLink>
         </li>
         <li className="nav__submenu-item ">
-          <a>
-            <NavLink to="/aboutFindwise">Findwise</NavLink>
-          </a>
+          <NavLink to="/aboutFindwise">Findwise</NavLink>
         </li>
         <li className="nav__submenu-item ">
-          <a>
-            <NavLink to="/aboutProject">Project</NavLink>
-          </a>
+          <NavLink to="/aboutProject">Project</NavLink>
         </li>
       </ul>
     );
@@ -36,7 +30,7 @@ class Menu extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      showAboutMenu: false
+      showAboutMenu: false,
     };
   }
 
@@ -53,25 +47,21 @@ class Menu extends React.Component {
       <nav className="nav">
         <ul className="nav__menu">
           <li className="nav__menu-item">
-            <a>
-              <NavLink to="/home">Home</NavLink>
-            </a>
+            <NavLink to="/home">Home</NavLink>
           </li>
 
           <li className="nav__menu-item">
-            <a>
-              <NavLink to="/charts">Charts</NavLink>
-            </a>
+            <NavLink to="/toplists">Top List</NavLink>
           </li>
 
           <li className="nav__menu-item">
-            <a>
-              <NavLink to="/sample">Sample</NavLink>
-            </a>
+            <NavLink to="/sample">Sample</NavLink>
           </li>
 
           <li className="nav__menu-item" onMouseLeave={this.handleLeave}>
-            <a onMouseEnter={this.handleHover}>About</a>
+            <a href="/home" role="button" onMouseEnter={this.handleHover}>
+              About
+            </a>
             {this.state.showAboutMenu && <Submenu />}
           </li>
         </ul>
