@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "./App.css";
+import "../stylesheets/App.scss";
 import NavigationBar from "./NavigationBar";
 import Routes from "./Routes";
 

@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import "../components/stylesheet.scss";
+import "../stylesheets/stylesheet.scss";
 
 /**
  * Home component containing the first page of the site with logos and link to GitHub.
@@ -7,8 +7,9 @@ import "../components/stylesheet.scss";
 class Home extends Component {
   render() {
     return (
-      <div class="container">
-        <div class="mainItem">
+      <div className="container">
+        <div className="mainItem">
+          <br></br>
           <div style={{ fontSize: "40px" }}>MVK Influencers project</div>
           <small>In collaboration with</small>
           <br />
@@ -18,26 +19,25 @@ class Home extends Component {
             rel="noopener noreferrer"
             target="_blank"
           >
-            <img src={require("./logo270.png")} alt="Findwise logo"></img>
+            <img
+              src={require("../resources/logo270.png")}
+              alt="Findwise logo"
+            ></img>
           </a>
           <br />
           <br />
           <small>
             <p>
-              <center>
-                View the project on GitHub:{" "}
-                <a
-                  href="https://gits-15.sys.kth.se/pontuscm/mvk-react"
-                  rel="noopener noreferrer"
-                  target="_blank"
-                >
-                  gits-15.sys.kth.se/pages/pontuscm/mvk-react
-                </a>
-              </center>
+              View the project on GitHub:{" "}
+              <a
+                href="https://gits-15.sys.kth.se/erikvan/MVK-influencers"
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                gits-15.sys.kth.se/pages/pontuscm/mvk-react
+              </a>
             </p>
-            <p>
-              <center>Hosted on GitHub Pages</center>
-            </p>
+            <p>Hosted on GitHub Pages</p>
           </small>
         </div>
         <footer></footer>

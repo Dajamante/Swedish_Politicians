@@ -1,0 +1,57 @@
+.postGrid {
+  display: grid;
+  grid-template-columns: 13% 63% 24%;
+  grid-template-rows: 30px 15px;
+  font-family: Segoe UI, Open Sans, sans-serif;
+  font-size: 16px;
+  border-radius: 0px;
+  padding-top: 4px;
+  padding-left: 0px;
+  padding-right: 7px;
+  padding-bottom: 8px;
+  border: 1px solid rgba(0, 0, 0, 0.187);
+}
+
+.rankCSS {
+  font-size: 37px;
+  width: 100%;
+  text-align: center;
+}
+
+.namnCSS {
+  font-size: 24px;
+  width:100%;
+  text-align: left;
+}
+
+.resultatCSS {
+  font-size: 18px;
+  width: 100%;
+  text-align: right;
+}
+
+.partiCSS {
+  font-size: 12px;
+  width: 100%;
+  text-align: left;
+}
+
+.listPost {
+  height: 60px;
+  width: 521px;
+  list-style-type: none;
+  border-radius: 0px;
+}
+
+.topList {
+  display: grid;
+  grid-column-gap: 0px;
+  grid-row-gap: 3px;
+  padding: 0px;
+  justify-content: center;
+}
+
+.dropDown {
+  width: 300px;
+  text-align: left;
+}
