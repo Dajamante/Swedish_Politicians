@@ -59,7 +59,7 @@ class Menu extends React.Component {
           </li>
 
           <li className="nav__menu-item" onMouseLeave={this.handleLeave}>
-            <a href="/home" role="button" onMouseEnter={this.handleHover}>
+            <a role="button" onMouseEnter={this.handleHover}>
               About
             </a>
             {this.state.showAboutMenu && <Submenu />}
