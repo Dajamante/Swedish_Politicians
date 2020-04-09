@@ -160,7 +160,7 @@ const getLedamot = (req, res) => {
     let type = req.query.type;
     // console.log(startdate);
     // console.log(enddate);
-    console.log(type);
+    // console.log(type);
     if (type == "posneg") {
         pool.query(
             `select person_id, namn, parti
