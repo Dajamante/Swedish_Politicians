@@ -141,6 +141,46 @@ const getVotedAgainstPartiMode = (req, res) => {
   }
 };
 
+
+const getResultOverTime = (req, res) => {
+  if (!req.query.type || !req.query.personid) {
+    res.json({
+      info:
+        "Please enter dates type of result and person_id",
+    });
+  } else {
+    let type = req.query.type;
+    let personid = req.query.personid;
+    if (type == "posneg") {
+        pool.query(
+            `select datum, resultat from
+                (select date_trunc('day', datum)::date as datum,
+                avg(resultat) as resultat, count(1) from
+                (select datum, resultat from resultat_sentiment natural join anforandetext natural join riksdagsledamot where person_id = '${personid}') as bar group by 1 order by datum) as foo;`,
+          (error, results) => {
+            if (error) {
+              throw error;
+            }
+            res.status(200).json(results.rows);
+          }
+        );
+    } else if (type == "absent") {
+        pool.query(
+            `select date_trunc('day', vot_datum)::date as datum,
+    count(vot) as resultat from
+        (select vot_datum, vot from voteringar where person_id = '${personid}' and vot = 'Frånvarande') as foo group by vot_datum order by vot_datum asc;`,
+          (error, results) => {
+            if (error) {
+              throw error;
+            }
+            res.status(200).json(results.rows);
+          }
+        );
+    }
+  }
+};
+
+
 /**
  * Export all neccessary modules
  */
@@ -150,4 +190,5 @@ module.exports = {
   getSAResultMostPositive,
   getMostAbsent,
   getVotedAgainstPartiMode,
+  getResultOverTime
 };
