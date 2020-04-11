@@ -153,7 +153,7 @@ const getResultOverTime = (req, res) => {
     let personid = req.query.personid;
     if (type == "posneg") {
         pool.query(
-            `select to_char(datum, 'YYYY-MM-DD'), resultat from
+            `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
                 (select date_trunc('day', datum)::date as datum,
                 avg(resultat) as resultat, count(1) from
                 (select datum, resultat from resultat_sentiment 
@@ -171,7 +171,7 @@ const getResultOverTime = (req, res) => {
         );
     } else if (type == "absent") {
         pool.query(
-            `select to_char(datum, 'YYYY-MM-DD'), resultat from
+            `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
                 (select date_trunc('day', vot_datum)::date as datum,
                 count(vot) as resultat from
                 (select vot_datum, vot from voteringar 
@@ -186,7 +186,39 @@ const getResultOverTime = (req, res) => {
             res.status(200).json(results.rows);
           }
         );
-    }
+    } else if (type == "votedagainst") {
+        pool.query(
+            `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
+                (select date_trunc('day', vot_datum)::date as datum, count(*) as resultat from
+                    (select * from
+                        (select voterings_id, vot_datum, parti_vot, vot as personal_vot, parti from voteringar natural join
+                            (select voterings_id, vot_datum, vot as parti_vot, parti from
+                                (select distinct on (voterings_id) voterings_id, vot_datum, max(count), vot, parti from
+                                    (select voterings_id, vot_datum, vot, count(vot), parti from
+                                        (select * from voteringar
+                                        natural join riksdagsledamot
+                                        where parti =
+                                            (select parti from riksdagsledamot
+                                            where person_id = '${personid}')) as foo
+                                        group by voterings_id, vot_datum, vot, parti) as bar
+                                    group by voterings_id, vot, vot_datum, parti
+                                    order by voterings_id, max desc) as boo
+                                order by vot_datum asc) as far
+                            where person_id = '${personid}'
+                            order by vot_datum asc) as doo
+                        where not personal_vot = parti_vot
+                        and not personal_vot = 'Frånvarande'
+                        and not parti_vot = 'Frånvarande'
+                        and not parti = '-') as dar
+                    group by vot_datum order by vot_datum asc) as final;`,
+          (error, results) => {
+            if (error) {
+              throw error;
+            }
+            res.status(200).json(results.rows);
+          }
+        );
+     }
   }
 };
 
