@@ -153,10 +153,15 @@ const getResultOverTime = (req, res) => {
     let personid = req.query.personid;
     if (type == "posneg") {
         pool.query(
-            `select datum, resultat from
+            `select to_char(datum, 'YYYY-MM-DD'), resultat from
                 (select date_trunc('day', datum)::date as datum,
                 avg(resultat) as resultat, count(1) from
-                (select datum, resultat from resultat_sentiment natural join anforandetext natural join riksdagsledamot where person_id = '${personid}') as bar group by 1 order by datum) as foo;`,
+                (select datum, resultat from resultat_sentiment 
+                    natural join anforandetext 
+                    natural join riksdagsledamot 
+                    where person_id = '${personid}') as bar 
+                    group by 1 
+                    order by datum) as foo;`,
           (error, results) => {
             if (error) {
               throw error;
@@ -166,9 +171,14 @@ const getResultOverTime = (req, res) => {
         );
     } else if (type == "absent") {
         pool.query(
-            `select date_trunc('day', vot_datum)::date as datum,
-    count(vot) as resultat from
-        (select vot_datum, vot from voteringar where person_id = '${personid}' and vot = 'Frånvarande') as foo group by vot_datum order by vot_datum asc;`,
+            `select to_char(datum, 'YYYY-MM-DD'), resultat from
+                (select date_trunc('day', vot_datum)::date as datum,
+                count(vot) as resultat from
+                (select vot_datum, vot from voteringar 
+                    where person_id = '${personid}' 
+                    and vot = 'Frånvarande') as foo 
+                    group by vot_datum 
+                    order by vot_datum asc) as bar;`,
           (error, results) => {
             if (error) {
               throw error;
