@@ -1,6 +1,4 @@
 import React, { Component } from "react";
-import dummy_graph_data from "../data/dummy_graph_data";
-import dummy_graph_data2 from "../data/dummy_graph_data2";
 import Graph from "./Graph"
 
 class SampleGraph extends Component {
@@ -26,14 +24,14 @@ class SampleGraph extends Component {
     }
 
     render(){
-        let filteredDataByName = dummy_graph_data.filter(listPost => {
+        let filteredDataByName = this.props.data.filter(listPost => {
             return (
               listPost.id
                 .toLowerCase()
                 .indexOf(this.state.filterName.toLowerCase()) !== -1
             );
         });
-        let filteredDataByName2 = dummy_graph_data2.filter(listPost => {
+        let filteredDataByName2 = this.props.data2.filter(listPost => {
             return (
               listPost.id
                 .toLowerCase()
