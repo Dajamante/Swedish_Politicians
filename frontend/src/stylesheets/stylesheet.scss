@@ -3,7 +3,7 @@ $bkg-color: #ffffff;
 .container {
   display: grid;
   grid-template-columns: 25% 50% 25%;
-  grid-template-rows: 30px auto 10%;
+  grid-template-rows: 10% 80% 10%;
   align-content: space-evenly;
   justify-content: center;
   padding: 0;
@@ -14,6 +14,11 @@ $bkg-color: #ffffff;
   grid-column: 2 / 3;
   grid-row: 2 / 3;
   margin: 0;
+}
+
+.sampleGraph {
+  height: 75%;
+  width: 100%
 }
 
 body {
@@ -41,5 +46,5 @@ a.link:visited {
   text-decoration: none;
 }
 script {
-  width: 600px;
+  width: 60%;
 }

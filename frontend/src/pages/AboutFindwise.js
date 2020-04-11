@@ -8,6 +8,7 @@ class AboutFindwise extends Component {
     return (
       <div className="container">
         <div className="mainItem">
+          <br></br>
           <a
             href="https://findwise.com/en"
             rel="noopener noreferrer"

@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import {HashRouter, withRouter} from 'react-router-dom'
 import "../stylesheets/App.scss";
 import NavigationBar from "./NavigationBar";
 import Routes from "./Routes";
@@ -8,10 +9,13 @@ import Routes from "./Routes";
  */
 class App extends Component {
   render() {
+    var RoutesSync = withRouter(Routes)
     return (
       <div className="App">
-        <NavigationBar />
-        <Routes />
+        <HashRouter>
+          <NavigationBar />
+          <RoutesSync />
+        </HashRouter>
       </div>
     );
   }
