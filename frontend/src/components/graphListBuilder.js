@@ -21,7 +21,7 @@ export function createList(type, start, end){
   let list = []
   let i = 0
   for(const person of res){
-    list[i] = {value:res.person_id, label:res.person.name} //Måste uppdateras för att matcha API.
+    list[i] = {value:person.person_id, label:person.person.name} //Måste uppdateras för att matcha API.
     i++
   }
   return list

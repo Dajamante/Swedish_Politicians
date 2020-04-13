@@ -1,8 +1,5 @@
 import React, { Component } from "react";
-import test_data from "../data/test_data";
 import SampleGraph from "../components/SampleGraph";
-import dummy_graph_data from "../data/dummy_graph_data";
-import dummy_graph_data2 from "../data/dummy_graph_data2";
 import GraphFetcher from "../components/GraphFetcher"
 
 /**
@@ -14,11 +11,11 @@ class Sample extends Component {
     return (
       <div className="container">
         <div className="mainItem">
-          <h1>Sample graph from local dummy_graph_data.json</h1>
+          <h1>Graph displaying how stuff changes over time</h1>
 
           <GraphFetcher/>
           <br></br>
-        
+
         </div>
       </div>
     );

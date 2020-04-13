@@ -31,13 +31,6 @@ class SampleGraph extends Component {
                 .indexOf(this.state.filterName.toLowerCase()) !== -1
             );
         });
-        let filteredDataByName2 = this.props.data2.filter(listPost => {
-            return (
-              listPost.id
-                .toLowerCase()
-                .indexOf(this.state.filterName.toLowerCase()) !== -1
-            );
-        });
 
         if (filteredDataByName.length === 0) {
             return (
@@ -48,21 +41,6 @@ class SampleGraph extends Component {
                     value={this.state.filterName}
                     onChange={this.updateFilterName.bind(this)}
                 />
-                <button onClick={this.handleClick}>Toggle Dataset</button>
-                </div>
-            )
-        }
-        else if(this.state.graphType === 0){
-            return (
-                <div style={{ height: '500px', width: '1000px' }}>
-                    Filter by name of country:{" "}
-                    <input
-                        type="text"
-                        value={this.state.filterName}
-                        onChange={this.updateFilterName.bind(this)}
-                    />
-                    <button onClick={this.handleClick}>Toggle Dataset</button>
-                    <Graph  data = {filteredDataByName}/>
                 </div>
             )
         } else {
@@ -74,8 +52,7 @@ class SampleGraph extends Component {
                     value={this.state.filterName}
                     onChange={this.updateFilterName.bind(this)}
                 />
-                <button onClick={this.handleClick}>Toggle Dataset</button>
-                <Graph  data = {filteredDataByName2}/>
+                <Graph  data = {filteredDataByName}/>
             </div>
           )
         }

@@ -6,11 +6,14 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 import {createList} from './graphListBuilder.js'
-import dummy_graph_data from "../data/dummy_graph_data";
-import dummy_graph_data2 from "../data/dummy_graph_data2";
 import SampleGraph from "./SampleGraph";
 
-let APIoptions = [{value:123, label:"hello"}, {value:122, label:"tst"}] //createList("2019-01-01", "2020-03-20", "absent");
+const ledamotOptions = [{value:123, label:"hello"}, {value:122, label:"tst"}] //createList("2019-01-01", "2020-03-20", "absent");
+const statOptions = [
+  {value:"posneg", label:"Positivitet över tid"},
+  {value:"absent", label:"Frånvaro över tid"},
+  {value:"votedagainst", label:"Partiloyalitet över tid"}
+]
 
 function convertIntoGraphData(list, startDate, endDate){
   let res = []
@@ -24,7 +27,7 @@ function convertIntoGraphData(list, startDate, endDate){
       if(person[j] == null){
         data[i] = {x:date.getDate().toString(), y:null}
       }
-      else if(new Date(person[j].datum).getTime() == date.getTime()){
+      else if(new Date(person[j].datum).getTime() === date.getTime()){
         data[i] = {x:new Date(person[j].datum).getDate(), y:person[j].resultat}
         j++
       } else {
@@ -44,6 +47,7 @@ class GraphFetcher extends Component {
 
     this.state = {
       list: [],
+
       error: null,
       QUERY_START: "2020-01-01",
       QUERY_STOP: "2020-03-20",
@@ -53,32 +57,37 @@ class GraphFetcher extends Component {
       isLoading: false,
       isRtl: false,
       isSearchable: true,
-      selectedOption:  APIoptions[0],
+      selectedPolitician:  ledamotOptions[0],
+      selectedStat: statOptions[0],
       startDate: new Date(),
       stopDate: new Date(),
     };
-    this.handleChange = (selectedOption) => {
-      this.setState({ selectedOption });
+    this.handlechange1 = (selectedPolitician) => {
+      this.setState({ selectedPolitician });
+      this.setState({ isLoading: true }, () => this.componentDidMount());
+    };
+    this.handlechange2 = (selectedStat) => {
+      this.setState({ selectedStat });
       this.setState({ isLoading: true }, () => this.componentDidMount());
     };
   }
 
   handleStartDateChange = (startDate) => {
-    const { selectedOption } = this.state;
+    const { selectedPolitician } = this.state;
     this.setState({ startDate });
     this.setState({ QUERY_START: moment(startDate).format("YYYY-MM-DD") }, () =>
-      this.handleChange(selectedOption)
+      this.handlechange1(selectedPolitician)
     );
-    //APIoptions = createList(this.state.QUERY_START, this.state.QUERY_STOP, this.state.QUERY_TYPE);
+    //ledamotOptions = createList(this.state.QUERY_START, this.state.QUERY_STOP, this.state.QUERY_TYPE);
   };
 
   handleStopDateChange = (stopDate) => {
-    const { selectedOption } = this.state;
+    const { selectedPolitician } = this.state;
     this.setState({ stopDate });
     this.setState({ QUERY_STOP: moment(stopDate).format("YYYY-MM-DD") }, () =>
-      this.handleChange(selectedOption)
+      this.handlechange1(selectedPolitician)
     );
-    //APIoptions = createList(this.state.QUERY_START, this.state.QUERY_STOP, this.state.QUERY_TYPE);
+    //ledamotOptions = createList(this.state.QUERY_START, this.state.QUERY_STOP, this.state.QUERY_TYPE);
   };
 
 
@@ -91,9 +100,9 @@ class GraphFetcher extends Component {
     //    "http://ec2-3-81-166-212.compute-1.amazonaws.com/api/v1/" +
     //      "getResultOverTime" +
   //        "?type=" +
-  //        "posnegt" +
+  //        this.state.selectedStat +
   //        "&personid=" +
-  //        this.state.selectedOption.value
+  //        this.state.selectedPolitician.value
   //    )
   //    .then((result) =>
   //      this.setState({
@@ -117,7 +126,8 @@ class GraphFetcher extends Component {
       isLoading,
       isRtl,
     } = this.state;
-    const { selectedOption } = this.state;
+    const { selectedPolitician } = this.state;
+    const { selectedStat } = this.state;
 
     return (
       <div className="listPost">
@@ -146,7 +156,23 @@ class GraphFetcher extends Component {
           <Select
             className="dropDown"
             classNamePrefix="select"
-            defaultValue={APIoptions[1]}
+            defaultValue={statOptions[0]}
+            isDisabled={isDisabled}
+            isLoading={isLoading}
+            isClearable={isClearable}
+            isRtl={isRtl}
+            isSearchable={false}
+            name="color"
+            options={statOptions}
+            value={selectedStat}
+            onChange={this.handlechange2}
+          />
+        </Fragment>
+        <Fragment>
+          <Select
+            className="dropDown"
+            classNamePrefix="select"
+            defaultValue={ledamotOptions[1]}
             isDisabled={isDisabled}
             isMulti
             isLoading={isLoading}
@@ -154,13 +180,13 @@ class GraphFetcher extends Component {
             isRtl={isRtl}
             isSearchable={isSearchable}
             name="color"
-            options={APIoptions}
-            value={selectedOption}
-            onChange={this.handleChange}
+            options={ledamotOptions}
+            value={selectedPolitician}
+            onChange={this.handlechange1}
           />
         </Fragment>
         <br></br>
-         <SampleGraph data={convertIntoGraphData(this.state.list, this.state.QUERY_START, this.state.QUERY_STOP)} data2={dummy_graph_data2}/>
+         <SampleGraph data={convertIntoGraphData(this.state.list, this.state.QUERY_START, this.state.QUERY_STOP)}/>
       </div>
     );
   }
