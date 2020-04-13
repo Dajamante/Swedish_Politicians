@@ -144,7 +144,7 @@ const getVotedAgainstPartiMode = (req, res) => {
 
 /** Get daily results for a ledamot
 * Example: 
-* http://localhost:3000/getResultOverTime?type=posnegt&personid=309480686522
+* http://localhost:3000/getResultOverTime?type=posneg&personid=309480686522
 * http://localhost:3000/getResultOverTime?type=absent&personid=309480686522
 * http://localhost:3000/getResultOverTime?type=votedagainst&personid=309480686522 **/
 
