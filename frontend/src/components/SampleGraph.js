@@ -56,7 +56,7 @@ class SampleGraph extends Component {
         }
         else if(this.state.graphType === 0){
             return (
-                <div style={{ height: '500px', width: '1000px' }}>
+                <div className="sampleGraph">
                     Filter by name of country:{" "}
                     <input
                         type="text"
@@ -69,7 +69,7 @@ class SampleGraph extends Component {
             )
         } else {
           return (
-            <div style={{ height: '500px', width: '1000px' }}>
+            <div className="sampleGraph">
                 Filter by name of country:{" "}
                 <input
                     type="text"

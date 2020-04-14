@@ -21,6 +21,9 @@ app.get("/resultSAMostNeg", db.getSAResultMostNegative);
 app.get("/resultSAMostPos", db.getSAResultMostPositive);
 app.get("/getMostAbsent", db.getMostAbsent);
 app.get("/getVotedAgainstPartiMode", db.getVotedAgainstPartiMode);
+app.get("/getLedamot", db.getLedamot);
+app.get("/getResultOverTime", db.getResultOverTime);
+app.get("/getResultOverTimeParty", db.getResultOverTimeParty);
 
 /** Start server an listen to port 3000 */
 app.listen(3000, () => console.log("Webhook server is listening, port 3000"));

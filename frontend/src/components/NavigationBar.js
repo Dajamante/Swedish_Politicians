@@ -10,13 +10,22 @@ class Submenu extends React.Component {
     return (
       <ul className="nav__submenu">
         <li className="nav__submenu-item ">
-          <NavLink to="/aboutTeam">Team</NavLink>
+          <NavLink to="/aboutTeam"   isActive={(match, location) => {
+    if (!match) {
+      return false;
+    }}}>Team</NavLink>
         </li>
         <li className="nav__submenu-item ">
-          <NavLink to="/aboutFindwise">Findwise</NavLink>
+          <NavLink to="/aboutFindwise"   isActive={(match, location) => {
+    if (!match) {
+      return false;
+    }}}>Findwise</NavLink>
         </li>
         <li className="nav__submenu-item ">
-          <NavLink to="/aboutProject">Project</NavLink>
+          <NavLink to="/aboutProject"   isActive={(match, location) => {
+    if (!match) {
+      return false;
+    }}}>Project</NavLink>
         </li>
       </ul>
     );
@@ -47,21 +56,30 @@ class Menu extends React.Component {
       <nav className="nav">
         <ul className="nav__menu">
           <li className="nav__menu-item">
-            <NavLink to="/home">Home</NavLink>
+            <NavLink to="/home"   isActive={(match, location) => {
+              if (!match) {
+                return false;
+              }}}>Home</NavLink>
           </li>
 
           <li className="nav__menu-item">
-            <NavLink to="/toplists">Top List</NavLink>
+            <NavLink to="/toplists"   isActive={(match, location) => {
+              if (!match) {
+                return false;
+              }}}>Top List</NavLink>
           </li>
 
           <li className="nav__menu-item">
-            <NavLink to="/sample">Sample</NavLink>
+            <NavLink to="/sample"   isActive={(match, location) => {
+              if (!match) {
+                return false;
+              }}}>Sample</NavLink>
           </li>
 
           <li className="nav__menu-item" onMouseLeave={this.handleLeave}>
-            <a href="/home" role="button" onMouseEnter={this.handleHover}>
+            <span role="button" onMouseEnter={this.handleHover}>
               About
-            </a>
+            </span>
             {this.state.showAboutMenu && <Submenu />}
           </li>
         </ul>

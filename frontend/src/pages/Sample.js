@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import test_data from "../data/test_data";
+//import test_data from "../data/test_data";
 import SampleGraph from "../components/SampleGraph";
 
 /**
@@ -14,11 +14,11 @@ class Sample extends Component {
           <SampleGraph />
           <br></br>
           <h1>Sample text from local test_data.json</h1>
-          <div
+{/*           <div
             dangerouslySetInnerHTML={{
               __html: test_data.anforande.anforandetext
             }}
-          ></div>
+          ></div> */}
         </div>
       </div>
     );
