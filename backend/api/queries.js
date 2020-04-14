@@ -141,6 +141,91 @@ const getVotedAgainstPartiMode = (req, res) => {
   }
 };
 
+
+/** Get all ledamoter that has results within a time interval **/
+/**
+http://localhost:3000/getLedamot?startdate=2019-01-01&enddate=2020-04-09&type=posneg
+http://localhost:3000/getLedamot?startdate=2019-01-01&enddate=2020-04-09&type=absent
+http://localhost:3000/getLedamot?startdate=2019-01-01&enddate=2020-04-09&type=votedagainst 
+**/
+const getLedamot = (req, res) => {
+  if (!req.query.startdate ||!req.query.enddate || !req.query.type) {
+    res.json({
+      info:
+        "Please enter dates (startdate and enddate) for which you would like to get data between and what type of results you want to see",
+    });
+  } else {
+    let startdate = req.query.startdate;
+    let enddate = req.query.enddate;
+    let type = req.query.type;
+    // console.log(startdate);
+    // console.log(enddate);
+    // console.log(type);
+    if (type == "posneg") {
+        pool.query(
+            `select person_id, namn, parti
+            from riksdagsledamot r
+            where exists
+                (select 1 from anforandetext a
+                where r.person_id = a.person_id
+                and a.datum < '${enddate}' and a.datum > '${startdate}');`,
+        (error, results) => {
+            if (error) {
+              throw error;
+            }
+            res.status(200).json(results.rows);
+        }
+        );
+    } else if (type == "absent") {
+        pool.query(
+            `select person_id, namn, parti
+            from riksdagsledamot r
+            where exists
+                (select 1 from voteringar v
+                where v.vot = 'Frånvarande' AND v.vot_datum > '${startdate}'
+                AND v.vot_datum < '${enddate}'
+                and r.person_id = v.person_id
+                order by namn);`,
+        (error, results) => {
+            if (error) {
+              throw error;
+            }
+            res.status(200).json(results.rows);
+        }
+        );
+    } else if (type == "votedagainst") {
+        pool.query(
+            `select person_id, namn, parti
+            from riksdagsledamot r
+            natural join
+                (SELECT DENSE_RANK () OVER (ORDER BY CountPVAPartiMode.CountVA DESC) as rank, CountPVAPartiMode.parti AS parti, CountPVAPartiMode.namn AS namn, CountPVAPartiMode.countVA AS resultat
+                  FROM (SELECT PVAPartiMode.parti AS parti, PVAPartiMode.namn AS namn, count(namn) as CountVA
+                  FROM (SELECT P1.parti AS parti, P1.namn AS namn, vot, modal_value, V1.vot_datum AS vot_datum
+                  FROM voteringar V1
+                  NATURAL JOIN riksdagsledamot P1
+                  NATURAL JOIN (SELECT mode() WITHIN GROUP (ORDER BY vot) AS modal_value, P.Parti, voterings_id
+                  FROM (SELECT voterings_id, person_id, vot FROM voteringar as V WHERE NOT V.vot = 'Frånvarande') as V
+                  NATURAL JOIN riksdagsledamot as P
+                  WHERE NOT P.parti = '-'
+                  GROUP BY voterings_id, P.Parti) PartiMode
+                  WHERE NOT vot = 'Frånvarande' AND NOT vot = modal_value AND V1.vot_datum < '${enddate}' AND V1.vot_datum > '${startdate}'
+                  ORDER BY P1.namn) AS PVAPartiMode
+                  GROUP BY PVAPartiMode.parti, PVAPartiMode.namn) AS CountPVAPartiMode
+                  GROUP BY CountPVAPartiMode.namn, CountPVAPartiMode.CountVA, countpvapartimode.parti) as bar;`,
+        (error, results) => {
+            if (error) {
+              throw error;
+            }
+            res.status(200).json(results.rows);
+        }
+        );
+
+      }
+    }
+};
+
+
+
 /**
  * Export all neccessary modules
  */
@@ -150,4 +235,5 @@ module.exports = {
   getSAResultMostPositive,
   getMostAbsent,
   getVotedAgainstPartiMode,
+  getLedamot,
 };
