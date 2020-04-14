@@ -1,28 +1,42 @@
 import axios from "axios";
 
+export function toDateString(date) {
+    let day = date.getDate();
+    let month = date.getMonth() + 1;
+    const year = date.getFullYear();
+    if (day.toString().length === 1) {
+        day = "0" + day;
+    }
+    if (month.toString().length === 1) {
+        month = "0" + month;
+    }
+    return year + "-" + month + "-" + day;
+}
 
-export function createList(type, start, end){
-  let res = [];
-  axios
-        .get(
-          "http://ec2-3-81-166-212.compute-1.amazonaws.com/api/v1/" +
-            "getLedamot"  +
+export async function createList(type, start, end) {
+    console.log(start.getYear());
+    console.log(end);
+    let res = await axios.get(
+        "http://ec2-3-81-166-212.compute-1.amazonaws.com/api/v1/" +
+            "getLedamot" +
             "?startdate=" +
-            start +
+            toDateString(start) +
             "&enddate=" +
-            end +
+            toDateString(end) +
             "&type=" +
             type
-        )
-        .then((result) =>
-            res = result.data.values,
-        );
+    );
 
-  let list = []
-  let i = 0
-  for(const person of res){
-    list[i] = {value:person.person_id, label:person.person.name} //Måste uppdateras för att matcha API.
-    i++
-  }
-  return list
+    console.log(res.data);
+    let list = [];
+    let i = 0;
+    for (const person of res.data) {
+        list[i] = {
+            value: person.person_id,
+            label: person.namn,
+            party: person.parti,
+        };
+        i++;
+    }
+    return list;
 }

@@ -1,194 +1,201 @@
-import React, { Component, Fragment } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import axios from "axios";
 import "react-dropdown/style.css";
 import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import moment from "moment";
-import {createList} from './graphListBuilder.js'
+import { createList, toDateString } from "./graphListBuilder.js";
 import SampleGraph from "./SampleGraph";
 
-const ledamotOptions = [{value:123, label:"hello"}, {value:122, label:"tst"}] //createList("2019-01-01", "2020-03-20", "absent");
-const statOptions = [
-  {value:"posneg", label:"Positivitet över tid"},
-  {value:"absent", label:"Frånvaro över tid"},
-  {value:"votedagainst", label:"Partiloyalitet över tid"}
-]
+function convertIntoGraphData(ledamoter, startDate, endDate) {
+    let res = [];
+    let dateString = toDateString(startDate);
+    let date = new Date(dateString);
+    for (const ledamot of ledamoter) {
+        let data = [];
+        let i = 0;
+        let j = 0;
+        for (; date <= endDate; date.setDate(date.getDate() + 1)) {
+            if (ledamot.data[j] == null) {
+                data[i] = { x: date.getDate().toString(), y: null };
+            } else if (
+                new Date(ledamot.data[j].datum).getTime() === date.getTime()
+            ) {
+                data[i] = {
+                    x: new Date(ledamot.data[j].datum).getDate(),
+                    y: ledamot.data[j].resultat,
+                };
+                j++;
+            } else {
+                data[i] = { x: date.getDate().toString(), y: null };
+            }
+            i++;
+        }
+        date = new Date(dateString);
 
-function convertIntoGraphData(list, startDate, endDate){
-  let res = []
-  let id = 0
-  for(const person of list){
-    let data = []
-    let date = new Date(startDate)
-    let i = 0
-    let j = 0
-    for(;date <= new Date(endDate); date.setDate(date.getDate() + 1)){
-      if(person[j] == null){
-        data[i] = {x:date.getDate().toString(), y:null}
-      }
-      else if(new Date(person[j].datum).getTime() === date.getTime()){
-        data[i] = {x:new Date(person[j].datum).getDate(), y:person[j].resultat}
-        j++
-      } else {
-        data[i] = {x:date.getDate().toString(), y:null}
-      }
-      i++
+        res.push({
+            id: ledamot.label,
+            color: "hsl(230, 70%, 50%)",
+            data: data,
+        }); //färg  måste implementeras
     }
-    res.push({id:"" +id, color:"hsl(230, 70%, 50%)", data:data}) //färg och id (namn) måste implementeras
-    id++
-  }
-  return res
+
+    return res;
 }
 
-class GraphFetcher extends Component {
-  constructor(props) {
-    super(props);
+const GraphFetcher = () => {
+    const statOptions = [
+        { value: "posneg", label: "Positivitet över tid" },
+        { value: "absent", label: "Frånvaro över tid" },
+        { value: "votedagainst", label: "Partiloyalitet över tid" },
+    ];
 
-    this.state = {
-      list: [],
+    const [selectedLedamoter, setSelectedLedamoter] = useState([]);
+    const [selectedStat, setSelectedStat] = useState(statOptions[0]);
+    const [ledamoter, setLedamoter] = useState([]);
+    const [date, setdate] = useState({
+        startDate: new Date("2020-01-01"),
+        endDate: new Date("2020-03-20"),
+    });
+    const [graphData, setGraphData] = useState({
+        data: [],
+        startDate: date.startDate,
+        endDate: date.endDate,
+    });
 
-      error: null,
-      QUERY_START: "2020-01-01",
-      QUERY_STOP: "2020-03-20",
-      QUERY_TYPE: "absent",
-      isClearable: false,
-      isDisabled: false,
-      isLoading: false,
-      isRtl: false,
-      isSearchable: true,
-      selectedPolitician:  ledamotOptions[0],
-      selectedStat: statOptions[0],
-      startDate: new Date(),
-      stopDate: new Date(),
-    };
-    this.handlechange1 = (selectedPolitician) => {
-      this.setState({ selectedPolitician });
-      this.setState({ isLoading: true }, () => this.componentDidMount());
-    };
-    this.handlechange2 = (selectedStat) => {
-      this.setState({ selectedStat });
-      this.setState({ isLoading: true }, () => this.componentDidMount());
-    };
-  }
+    const isDisabled = false;
+    const isLoading = false;
+    const isClearable = true;
+    const isRtl = false;
+    const isSearchable = true;
 
-  handleStartDateChange = (startDate) => {
-    const { selectedPolitician } = this.state;
-    this.setState({ startDate });
-    this.setState({ QUERY_START: moment(startDate).format("YYYY-MM-DD") }, () =>
-      this.handlechange1(selectedPolitician)
-    );
-    //ledamotOptions = createList(this.state.QUERY_START, this.state.QUERY_STOP, this.state.QUERY_TYPE);
-  };
+    useEffect(() => {
+        let promises = [];
+        let newLedamot = [];
+        for (let ledamot of selectedLedamoter) {
+            promises.push(
+                axios.get(
+                    "http://ec2-3-81-166-212.compute-1.amazonaws.com/api/v1/" +
+                        "getResultOverTime" +
+                        "?type=" +
+                        selectedStat.value +
+                        "&personid=" +
+                        ledamot.value
+                )
+            );
+        }
+        Promise.all(promises)
+            .then((res) => {
+                console.log(res);
+                for (let i = 0; i < res.length; i++) {
+                    newLedamot.push({
+                        ...selectedLedamoter[i],
+                        data: res[i].data,
+                    });
+                }
 
-  handleStopDateChange = (stopDate) => {
-    const { selectedPolitician } = this.state;
-    this.setState({ stopDate });
-    this.setState({ QUERY_STOP: moment(stopDate).format("YYYY-MM-DD") }, () =>
-      this.handlechange1(selectedPolitician)
-    );
-    //ledamotOptions = createList(this.state.QUERY_START, this.state.QUERY_STOP, this.state.QUERY_TYPE);
-  };
+                setGraphData({
+                    data: newLedamot,
+                    startDate: date.startDate,
+                    endDate: date.endDate,
+                });
+            })
+            .catch((err) => console.log(err));
+    }, [selectedLedamoter]);
 
+    useEffect(() => {
+        createList(selectedStat.value, date.startDate, date.endDate)
+            .then((res) => {
+                setLedamoter(res);
+            })
+            .then()
+            .catch((err) => console.log(err));
+    }, [selectedStat, date]);
 
-  // Måste ändras sen för att matcha hur apin kommer att se ut.
-  componentDidMount() {
-    this.setState({list: [[{datum:'2020-03-01', resultat:'4'},{datum:'2020-03-02', resultat:'15'}, {datum:'2020-03-03', resultat:'13'},{datum:'2020-03-04', resultat:'14'}],
-                         [{datum:'2020-03-01', resultat:'5'},{datum:'2020-03-02', resultat:'1'}, {datum:'2020-03-03', resultat:'3'}]]})
-    //axios
-  //    .get(
-    //    "http://ec2-3-81-166-212.compute-1.amazonaws.com/api/v1/" +
-    //      "getResultOverTime" +
-  //        "?type=" +
-  //        this.state.selectedStat +
-  //        "&personid=" +
-  //        this.state.selectedPolitician.value
-  //    )
-  //    .then((result) =>
-  //      this.setState({
-  //        list: result.data,
-  //        isLoading: false,
-//        })
-  //    )
-  //    .catch((error) =>
-  //      this.setState({
-//          error,
-  //        isLoading: false,
-  //      })
-  //    );
-  }
-
-  render() {
-    const {
-      isClearable,
-      isSearchable,
-      isDisabled,
-      isLoading,
-      isRtl,
-    } = this.state;
-    const { selectedPolitician } = this.state;
-    const { selectedStat } = this.state;
+    useEffect(() => {
+        setGraphData((prev) => ({
+            ...prev,
+            startDate: date.startDate,
+            endDate: date.endDate,
+        }));
+    }, [date]);
 
     return (
-      <div className="listPost">
-        <div>
-          Startdatum:{" "}
-          <DatePicker
-            selected={this.state.startDate}
-            onChange={this.handleStartDateChange}
-            name="startDate"
-            dateFormat="yyyy-MM-dd"
-          />
-        </div>
-        <p> </p>
-        <div>
-          Stoppdatum:{" "}
-          <DatePicker
-            selected={this.state.stopDate}
-            onChange={this.handleStopDateChange}
-            name="stopDate"
-            dateFormat="yyyy-MM-dd"
-          />
-        </div>
+        <div className="listPost">
+            <div>
+                Startdatum:{" "}
+                <DatePicker
+                    selected={date.startDate}
+                    onChange={(startDate) =>
+                        setdate((prevState) => ({ ...prevState, startDate }))
+                    }
+                    name="startDate"
+                    dateFormat="yyyy-MM-dd"
+                />
+            </div>
+            <p> </p>
+            <div>
+                Stoppdatum:{" "}
+                <DatePicker
+                    selected={date.endDate}
+                    onChange={(endDate) =>
+                        setdate((prevState) => ({ ...prevState, endDate }))
+                    }
+                    name="endDate"
+                    dateFormat="yyyy-MM-dd"
+                />
+            </div>
 
-        <br></br>
-        <Fragment>
-          <Select
-            className="dropDown"
-            classNamePrefix="select"
-            defaultValue={statOptions[0]}
-            isDisabled={isDisabled}
-            isLoading={isLoading}
-            isClearable={isClearable}
-            isRtl={isRtl}
-            isSearchable={false}
-            name="color"
-            options={statOptions}
-            value={selectedStat}
-            onChange={this.handlechange2}
-          />
-        </Fragment>
-        <Fragment>
-          <Select
-            className="dropDown"
-            classNamePrefix="select"
-            defaultValue={ledamotOptions[1]}
-            isDisabled={isDisabled}
-            isMulti
-            isLoading={isLoading}
-            isClearable={isClearable}
-            isRtl={isRtl}
-            isSearchable={isSearchable}
-            name="color"
-            options={ledamotOptions}
-            value={selectedPolitician}
-            onChange={this.handlechange1}
-          />
-        </Fragment>
-        <br></br>
-         <SampleGraph data={convertIntoGraphData(this.state.list, this.state.QUERY_START, this.state.QUERY_STOP)}/>
-      </div>
+            <br></br>
+            <Fragment>
+                <Select
+                    className="dropDown"
+                    classNamePrefix="select"
+                    defaultValue={statOptions[0]}
+                    isDisabled={isDisabled}
+                    isLoading={isLoading}
+                    isClearable={false}
+                    isRtl={isRtl}
+                    isSearchable={false}
+                    name="color"
+                    options={statOptions}
+                    value={selectedStat}
+                    onChange={(selectedStat) => setSelectedStat(selectedStat)}
+                />
+            </Fragment>
+            <Fragment>
+                <Select
+                    className="dropDown"
+                    classNamePrefix="select"
+                    defaultValue={{ value: "Michael", label: "Michael" }}
+                    isDisabled={isDisabled}
+                    isMulti
+                    isLoading={isLoading}
+                    isClearable={isClearable}
+                    isRtl={isRtl}
+                    isSearchable={isSearchable}
+                    name="color"
+                    options={ledamoter}
+                    value={selectedLedamoter}
+                    onChange={(ledamoter) =>
+                        ledamoter === null
+                            ? setSelectedLedamoter([])
+                            : setSelectedLedamoter(ledamoter)
+                    }
+                />
+            </Fragment>
+            <br></br>
+            {
+                <SampleGraph
+                    data={convertIntoGraphData(
+                        graphData.data,
+                        graphData.startDate,
+                        graphData.endDate
+                    )}
+                />
+            }
+        </div>
     );
-  }
-}
+};
+
 export default GraphFetcher;
