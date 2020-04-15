@@ -1,18 +1,25 @@
 import psycopg2
 from psycopg2 import Error
 import pandas as pd
+import os
 
+# =====Environmental variables=====
+host = os.environ['DBHOST']
+port = '5432'
+database = os.environ['DBDB']
+user = os.environ['DBUSER']
+password = os.environ['DBPASS']
+# ================================
 
 class Data:
     # Constructor
     def __init__(self,
-                 user="aissata",
-                 host="127.0.0.1",
-                 port="5432",
-                 database="lms",
-                 password=""):
+                 user=user,
+                 host=host,
+                 port=port,
+                 database=database,
+                 password=password):
 
-        # super().__init__()  # tror ej denna behövs då vi inte har en "superklass"
         self.connection, self.cursor = self.database_connection(user=user,
                                                                 host=host, port=port, database=database, password=password)
     # Connecting to database
