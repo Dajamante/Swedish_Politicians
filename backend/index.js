@@ -79,6 +79,10 @@ function getVoteringslistaResult(url) {
       // in addition to parsing the value, deal with possible errors
       if (error) return reject(error);
       try {
+        if(body == "") {
+          console.log("Tom sträng");
+          resolve ();
+        }
         const data = JSON.parse(body); //can throw an exception if not valid JSON
         if(data.votering.dokvotering === undefined) {
           resolve();
@@ -171,6 +175,9 @@ function getText(url) {
       // in addition to parsing the value, deal with possible errors
       if (error) return reject(error);
       try {
+        if(body == "") {
+          resolve();
+        }
         const data = JSON.parse(body); // can throw an exception if not valid JSON
         resolve(data.anforande);
       } catch (e) {
@@ -197,9 +204,11 @@ async function loopLinks(links) {
 async function loopPages(datefrom, dateto, iid, pages) {
   let proms = [];
   for (let i = 1; i <= pages; i++) {
+    await new Promise(resolve => setTimeout(resolve, 1000));
     proms.push(getVoteringslista(createVoteringURL(datefrom, dateto, iid, i))); 
   }
   const res = await Promise.all(proms)
+  console.log(res);
   return res;
 
 }
@@ -211,14 +220,14 @@ async function loopPages(datefrom, dateto, iid, pages) {
 async function loopVotering(arr) {
   let proms = [];
   for (let i = 0; i < arr.length; i++) {
-    temp = arr[i];
-    let j = 0;
-    for(j = 0; j < arr[i].length; j++)
-      proms.push(getVoteringslistaResult(createVoteringResultURL(temp[j])));
+    for(let j = 0; j < arr[i].length; j++)
+      proms.push(getVoteringslistaResult(createVoteringResultURL(arr[i][j])));
   }
   const res = await Promise.all(proms);
   return res;
 }
+
+
 
 /**
  * Store data in table riksdagsledamöter
@@ -261,8 +270,8 @@ function processData() {
     });
   });
 }
-var votDateStart = "2020-01-01";
-var votDateEnd = "2020-04-01";
+var votDateStart = "2020-04-01";
+var votDateEnd = "2020-04-14";
 db.connect();
 getRiksdagsledamot(ledamotUrl)
   .then(arr => writeToRiksdagsledamot(arr))
@@ -274,5 +283,6 @@ getRiksdagsledamot(ledamotUrl)
   .then(arr => loopVotering(arr))
   .then(res => writeToVotering(res))
   //.then(() => processData())
-  .then(t => console.log(t))
+  //.then(t => console.log(t))
+  .then(() => db.disconnect())
   .catch((err) => console.log(err));

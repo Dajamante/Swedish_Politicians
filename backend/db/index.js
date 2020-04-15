@@ -6,7 +6,7 @@ const client = new Client({
   port: 5432,
   database: process.env.DBDB || "MVK",
   user: process.env.DBUSER || "postgres",
-  password: process.env.DBPASS || ""
+  password: process.env.DBPASS || "123"
 });
 /**
  * Connect client to database
@@ -35,7 +35,7 @@ function storeDataRiksdagsledamot(data, i) {
     ) {
       resolve(
         client.query(
-          "INSERT INTO riksdagsledamot(person_id,namn,parti) VALUES($1,$2,$3)",
+          "INSERT INTO riksdagsledamot(person_id,namn,parti) VALUES($1,$2,$3) ON CONFLICT DO NOTHING",
           [data[i].intressent_id, data[i].sorteringsnamn, data[i].parti]
         )
       );
@@ -64,7 +64,7 @@ function storeDataAnforandetext(data, i) {
       let date = data[i].dok_datum;
       resolve(
         client.query(
-          "INSERT INTO anforandetext(anforande_id,text,datum,person_id) VALUES($1,$2,$3,$4)",
+          "INSERT INTO anforandetext(anforande_id,text,datum,person_id) VALUES($1,$2,$3,$4) ON CONFLICT DO NOTHING",
           [
             data[i].anforande_id,
             data[i].anforandetext,
@@ -107,7 +107,7 @@ function storeDataVotering(data) {
         )
       );
     } else {
-      resolve();
+      reject(data);
     }
   }).catch(function(err) {
       console.log(err);
@@ -122,7 +122,9 @@ function storeDataVotering(data) {
 async function addDataRiksdagsledamot(data) {
   var i;
   for (i = 0; i < data.length; i++) {
-    await storeDataRiksdagsledamot(data, i);
+    if(data[i] !== undefined) {
+      await storeDataRiksdagsledamot(data, i);
+    }
   }
 }
 /**
@@ -132,7 +134,9 @@ async function addDataRiksdagsledamot(data) {
 async function addDataAnforandetext(data) {
   var i;
   for (i = 0; i < data.length; i++) {
-    await storeDataAnforandetext(data, i);
+    if(data[i] !== undefined) {
+      await storeDataAnforandetext(data, i);
+    }
   }
 }
 /**
@@ -143,9 +147,8 @@ async function addDataVotering(data) {
   var i;
   for(i = 0; i < data.length; i++) {
     if(data[i] !== undefined) {
-      var data2 = data[i];
-      for(let j = 0; j < data2.length; j++) {
-        await storeDataVotering(data2[j]);
+      for(let j = 0; j < data[i].length; j++) {
+        await storeDataVotering(data[i][j]);
       }
     }
   }
