@@ -107,7 +107,7 @@ class Data:
                     insert_table_query += str(row[key]) + "' , '"
 
         # UNCOMMENT TO SEE how SQL looks, it's human readable
-        insert_table_query += "ON CONFLICT ON (resultat) DO UPDATE SET resultat = EXCLUDED.resultat;"
+        insert_table_query += "ON CONFLICT ON CONSTRAINT pk_resultat DO UPDATE SET pk_resultat = EXCLUDED.pk_resultat;"
         # Try to execute insert
         # print(insert_table_query)
 
