@@ -11,6 +11,7 @@ user = os.environ['DBUSER']
 password = os.environ['DBPASS']
 # ================================
 
+
 class Data:
     # Constructor
     def __init__(self,
@@ -99,20 +100,17 @@ class Data:
 
                     # END IF FOR ALL DATA
                     if index == data_frame_processed.shape[0] - 1:
-                        insert_table_query += str(row[key]) + "');"
+                        insert_table_query += str(row[key]) + "')"
                     else:
                         insert_table_query += str(row[key]) + "') ,\n"
                 else:
                     insert_table_query += str(row[key]) + "' , '"
 
         # UNCOMMENT TO SEE how SQL looks, it's human readable
-
+        insert_table_query += "ON CONFLICT ON (resultat) DO UPDATE SET resultat = EXCLUDED.resultat;"
         # Try to execute insert
         # print(insert_table_query)
-        try:
-            self.cursor.execute(insert_table_query)
-        except Exception as error:
-            print("There was an error iserting data to table : ", error)
+
         # TO ADD: COMMIT CONDITIONS default is to NOT commit
         if True:
             self.connection.commit()
