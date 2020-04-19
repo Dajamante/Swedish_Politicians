@@ -76,7 +76,8 @@ class Data:
         INPUT: pandas data_frame for processed data
         OUTPUT: None (writes to database)
         '''
-        insert_table_query = ' INSERT INTO ' + str(target_table_name) + ' ('
+        insert_table_query = ' INSERT INTO ' + \
+            str(target_table_name) + ' AS table_name ('
 
         # Concatinate attributes to SQL-Query:
         # Iterate over all keys from the target table
@@ -107,7 +108,8 @@ class Data:
                     insert_table_query += str(row[key]) + "' , '"
 
         # UNCOMMENT TO SEE how SQL looks, it's human readable
-        insert_table_query += " ON CONFLICT (anforande_id) DO UPDATE SET resultat = EXCLUDED.resultat;"
+
+        insert_table_query += "ON CONFLICT (anforande_id) DO UPDATE SET resultat = EXCLUDED.resultat WHERE table_name.resultat != EXCLUDED.resultat;"
 
         # Try to execute insert
         # print(insert_table_query)
