@@ -107,10 +107,16 @@ class Data:
                     insert_table_query += str(row[key]) + "' , '"
 
         # UNCOMMENT TO SEE how SQL looks, it's human readable
-        insert_table_query += "ON CONFLICT ON CONSTRAINT pk_resultat DO UPDATE SET pk_resultat = EXCLUDED.pk_resultat;"
+        insert_table_query += " ON CONFLICT (anforande_id) DO UPDATE SET resultat = EXCLUDED.resultat;"
+
         # Try to execute insert
         # print(insert_table_query)
 
+        # TO ADD: COMMIT CONDITIONS default is to NOT commit
+        try:
+            self.cursor.execute(insert_table_query)
+        except Exception as error:
+            print("There was an error iserting data to table : ", error)
         # TO ADD: COMMIT CONDITIONS default is to NOT commit
         if True:
             self.connection.commit()
