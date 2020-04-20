@@ -1,18 +1,26 @@
 import psycopg2
 from psycopg2 import Error
 import pandas as pd
+import os
+
+# =====Environmental variables=====
+host = os.environ['DBHOST']
+port = '5432'
+database = os.environ['DBDB']
+user = os.environ['DBUSER']
+password = os.environ['DBPASS']
+# ================================
 
 
 class Data:
     # Constructor
     def __init__(self,
-                 user="aissata",
-                 host="127.0.0.1",
-                 port="5432",
-                 database="lms",
-                 password=""):
+                 user=user,
+                 host=host,
+                 port=port,
+                 database=database,
+                 password=password):
 
-        # super().__init__()  # tror ej denna behövs då vi inte har en "superklass"
         self.connection, self.cursor = self.database_connection(user=user,
                                                                 host=host, port=port, database=database, password=password)
     # Connecting to database
@@ -68,7 +76,8 @@ class Data:
         INPUT: pandas data_frame for processed data
         OUTPUT: None (writes to database)
         '''
-        insert_table_query = ' INSERT INTO ' + str(target_table_name) + ' ('
+        insert_table_query = ' INSERT INTO ' + \
+            str(target_table_name) + ' AS table_name ('
 
         # Concatinate attributes to SQL-Query:
         # Iterate over all keys from the target table
@@ -92,7 +101,7 @@ class Data:
 
                     # END IF FOR ALL DATA
                     if index == data_frame_processed.shape[0] - 1:
-                        insert_table_query += str(row[key]) + "');"
+                        insert_table_query += str(row[key]) + "')"
                     else:
                         insert_table_query += str(row[key]) + "') ,\n"
                 else:
@@ -100,8 +109,12 @@ class Data:
 
         # UNCOMMENT TO SEE how SQL looks, it's human readable
 
+        insert_table_query += "ON CONFLICT (anforande_id) DO UPDATE SET resultat = EXCLUDED.resultat WHERE table_name.resultat != EXCLUDED.resultat;"
+
         # Try to execute insert
         # print(insert_table_query)
+
+        # TO ADD: COMMIT CONDITIONS default is to NOT commit
         try:
             self.cursor.execute(insert_table_query)
         except Exception as error:
