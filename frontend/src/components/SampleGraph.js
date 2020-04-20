@@ -19,6 +19,5 @@ class SampleGraph extends Component {
 			return <div />;
 		}
 	}
-}
-
+} 
 export default SampleGraph;

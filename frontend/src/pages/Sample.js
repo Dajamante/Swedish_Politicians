@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import GraphFetcher from "../components/GraphFetcher";
 
+
 /**
  * Sample component printing out info as an example from the test_data.json file.
  * <SampleGraph data={dummy_graph_data} data2={dummy_graph_data2}/>
@@ -19,5 +20,4 @@ class Sample extends Component {
         );
     }
 }
-
 export default Sample;

@@ -15,6 +15,7 @@ const Routes = () => (
     <Route path="/aboutProject" component={AboutProject} />
     <Route path="/aboutFindwise" component={AboutFindwise} />
     <Route path="/sample" component={Sample} />
+    <Route component={Home} />
     <Redirect to="/home" />
   </Switch>
 );
