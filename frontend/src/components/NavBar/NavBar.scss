@@ -1,4 +1,4 @@
-$color-blue: #4E7D98;
+$color-blue: #4e7d98;
 $color-blue-dark: #285f7f;
 $submenu-width: 150px;
 $menu-width: 150px;
@@ -47,8 +47,12 @@ nav {
   display: inherit;
   margin: 0rem auto 0;
   background: none;
-  //color: $color-blue;  
+  //color: $color-blue;
   text-align: left;
+  position: sticky;
+  top: 0;
+  font-family: "Lato", sans-serif;
+  box-shadow: 0px 3px 5px 0px #aaaaaa;
 
   a {
     display: block;
@@ -67,9 +71,9 @@ nav {
   right: 0%;
   top: 0%;
   bottom: 0%;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  
+
   font-family: "Helvetica neue";
   font-style: normal;
   font-weight: normal;
@@ -110,10 +114,13 @@ nav {
 
   &:hover {
     //background-color: #ebebeb80;
-    
+
     .nav__submenu {
       display: block;
     }
+  }
+  a {
+    padding: 0px;
   }
 }
 
@@ -126,7 +133,6 @@ nav {
   text-align: center;
   background-color: rgba(255, 255, 255, 0.652);
   &:hover {
-
   }
 }
 
