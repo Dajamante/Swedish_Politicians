@@ -1,50 +1,104 @@
 $bkg-color: #ffffff;
+$color-blue: #4E7D98;
+$color-blue-dark: #285f7f;
+$mainWindowTopPlacement: 20%;
 
+
+.App {
+  background-color: FFFFFF;
+}
 .container {
   display: grid;
-  grid-template-columns: 25% 50% 25%;
-  grid-template-rows: 10% 80% 10%;
+  height: 1951px;
+  width: 1440px;
+  grid-template-columns: 13% 74% 13%;
+  grid-template-rows: $mainWindowTopPlacement 1% 70% 10%;
   align-content: space-evenly;
   justify-content: center;
   padding: 0;
   margin: 0;
+  background-image: url("../resources/bkg_pic_1.png");
 }
 
 .mainItem {
   grid-column: 2 / 3;
-  grid-row: 2 / 3;
+  grid-column-start: 2;
+  grid-column-end: 3;
+  //grid-row: 2 / 4;
+  grid-row-start: 2;
+  grid-row-end: 3;
   margin: 0;
 }
 
-.sampleGraph {
-  height: 75%;
-  width: 100%
+.homeMainWindowTopLine {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 2;
+  grid-row-end: 3;
+  margin: 0;
+  position: absolute;
+  left: 13%;
+  right: 13%;
+  top: $mainWindowTopPlacement;
+  bottom: 100 - $mainWindowTopPlacement - 2;
+
+  background: $color-blue;
+  border-radius: 6px 6px 0px 0px;
+}
+.homeMainWindow {
+  grid-column-start: 2;
+  grid-column-end: 3;
+  grid-row-start: 3;
+  grid-row-end: 4;
+  margin: 0;
+  position: absolute;
+  left: 13%;
+  right: 13%;
+  top: $mainWindowTopPlacement+2;
+  bottom: 15%;
+  background: linear-gradient(0deg, rgba(250, 250, 250, 0.6), rgba(250, 250, 250, 0.6));
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.25);
 }
 
 body {
   background-color: $bkg-color;
   margin: 0;
   padding: 0;
-  font-family: "Segoe UI", "Open Sans", sans-serif;
+  font-family: "Helvetica neue";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+code {
+  font-family: "Helvetica neue";
+}
+
 
 section {
   width: 80%;
   margin: 1em auto;
   padding: 0em;
 }
+
 div {
-  margin: 0em auto;
-  padding: 0em;
-  background-color: $bkg-color;
-  border-radius: 0.5em;
+  // margin: 0em auto;
+  // padding: 0em;
+  // background-color: $bkg-color;
+  // border-radius: 0.5em;
   /* box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02); */
 }
+
 a.link:link,
 a.link:visited {
   color: #38488f;
   text-decoration: none;
 }
+
 script {
   width: 60%;
+}
+
+.sampleGraph {
+  height: 75%;
+  width: 100%
 }

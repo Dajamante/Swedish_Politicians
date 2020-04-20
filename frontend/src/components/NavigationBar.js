@@ -59,26 +59,26 @@ class Menu extends React.Component {
             <NavLink to="/home"   isActive={(match, location) => {
               if (!match) {
                 return false;
-              }}}>Home</NavLink>
+              }}}>Hem</NavLink>
           </li>
 
           <li className="nav__menu-item">
             <NavLink to="/toplists"   isActive={(match, location) => {
               if (!match) {
                 return false;
-              }}}>Top List</NavLink>
+              }}}>Topplistor</NavLink>
           </li>
 
           <li className="nav__menu-item">
             <NavLink to="/sample"   isActive={(match, location) => {
               if (!match) {
                 return false;
-              }}}>Sample</NavLink>
+              }}}>Grafer</NavLink>
           </li>
 
           <li className="nav__menu-item" onMouseLeave={this.handleLeave}>
             <span role="button" onMouseEnter={this.handleHover}>
-              About
+              Kontakt
             </span>
             {this.state.showAboutMenu && <Submenu />}
           </li>

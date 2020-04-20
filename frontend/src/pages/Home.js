@@ -8,39 +8,10 @@ class Home extends Component {
   render() {
     return (
       <div className="container">
-        <div className="mainItem">
-          <br></br>
-          <div style={{ fontSize: "40px" }}>MVK Influencers project</div>
-          <small>In collaboration with</small>
-          <br />
-          <br />
-          <a
-            href="https://findwise.com/en"
-            rel="noopener noreferrer"
-            target="_blank"
-          >
-            <img
-              src={require("../resources/logo270.png")}
-              alt="Findwise logo"
-            ></img>
-          </a>
-          <br />
-          <br />
-          <small>
-            <p>
-              View the project on GitHub:{" "}
-              <a
-                href="https://gits-15.sys.kth.se/erikvan/MVK-influencers"
-                rel="noopener noreferrer"
-                target="_blank"
-              >
-                gits-15.sys.kth.se/pages/pontuscm/mvk-react
-              </a>
-            </p>
-            <p>Hosted on GitHub Pages</p>
-          </small>
+        <div className="homeMainWindowTopLine"></div>
+        <div className="homeMainWindow">
+          
         </div>
-        <footer></footer>
       </div>
     );
   }
