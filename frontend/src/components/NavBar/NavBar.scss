@@ -1,10 +1,10 @@
-$color-blue: #00aeef;
-$color-blue-dark: #0d2035;
+$color-blue: #4e7d98;
+$color-blue-dark: #285f7f;
 $submenu-width: 150px;
 $menu-width: 150px;
 
 .submenu-container {
-  height: 200px;
+  height: 300px;
   min-width: $submenu-width;
   position: absolute;
   overflow: hidden;
@@ -23,8 +23,7 @@ html {
 
 body {
   margin: 0;
-  //font-family: "Segoe UI", "Open Sans", sans-serif;
-  font-family: "Lato", sans-serif;
+  font-family: "Helvetica neue";
   font-size: 14px;
   line-height: 1.5;
   text-align: center;
@@ -48,7 +47,7 @@ nav {
   display: inherit;
   margin: 0rem auto 0;
   background: none;
-  color: black;
+  //color: $color-blue;
   text-align: left;
   position: sticky;
   top: 0;
@@ -61,37 +60,60 @@ nav {
     line-height: inherit;
     cursor: pointer;
     text-decoration: none !important;
-    color: #00aeef;
+    color: $color-blue;
   }
 }
 
 .nav__menu {
-  line-height: 60px;
-  font-weight: 700;
-  text-transform: uppercase;
-  font-size: 18px;
+  position: relative;
+  height: 80px;
+  left: 0%;
+  right: 0%;
+  top: 0%;
+  bottom: 0%;
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
+  font-family: "Helvetica neue";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+  color: $color-blue;
+
+  // following is old stuff
+  //line-height: 50px;
+  //font-weight: 700;
+  //text-transform: uppercase;
+  //font-size: 18px;
   display: flex;
   justify-content: right;
-  align-items: center;
+  align-items: right;
+  //right: 40%;
   //background-image: linear-gradient(to right, #ff884aff, #ff5073ff);
-  background-color: #fff;
-  background-size: cover;
-  //position: sticky;
-  //border-bottom: 5px solid black;
+  //background-size: cover;
+  position: sticky;
   //top: 0px;
-  padding: 0px 30px;
-  margin: 0;
+  //padding: 0;
+  //margin: 0;
 }
 
 .nav__menu-item {
   display: inline-block;
   position: relative;
+  top: 32.5%;
+  bottom: 33.41%;
+  font-family: "Helvetica neue";
+  font-style: normal;
+  font-weight: normal;
+  font-size: 18px;
+  line-height: 21px;
+
   text-align: center;
   min-width: $menu-width;
 
   &:hover {
-    background-color: #ebebeb80;
+    //background-color: #ebebeb80;
 
     .nav__submenu {
       display: block;
@@ -109,11 +131,12 @@ nav {
   position: absolute;
   width: $submenu-width;
   text-align: center;
-  background-color: #ebebeb;
+  background-color: rgba(255, 255, 255, 0.652);
+  &:hover {
+  }
 }
 
 .nav__submenu-item {
   &:hover {
-    background: rgba(#000, 0.1);
   }
 }

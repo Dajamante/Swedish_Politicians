@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { HashRouter, withRouter } from "react-router-dom";
-import "../stylesheets/App.scss";
+import "../stylesheets/stylesheet.scss";
 import NavBar from "./NavBar/NavBar";
 import Routes from "./Routes";
 
