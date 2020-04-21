@@ -15,7 +15,7 @@ class Graph extends Component {
           type: "linear",
           min: "auto",
           max: "auto",
-          stacked: true,
+          stacked: false,
           reverse: false,
         }}
         axisTop={null}
@@ -25,7 +25,7 @@ class Graph extends Component {
           tickSize: 5,
           tickPadding: 15,
           tickRotation: 0,
-          legend: "transportation",
+          legend: "datum",
           legendOffset: 36,
           legendPosition: "center",
         }}
@@ -34,11 +34,11 @@ class Graph extends Component {
           tickSize: 5,
           tickPadding: 5,
           tickRotation: 0,
-          legend: "count",
+          legend: "",
           legendOffset: -40,
           legendPosition: "center",
         }}
-        //colors={{ scheme: 'nivo' }} // this doesn't seem to work
+        //colors={{ scheme: 'nivo' }} this doesn't seem to work
         lineWidth={3}
         pointSize={10}
         pointColor={{ theme: "background" }}
