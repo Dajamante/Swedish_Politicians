@@ -397,6 +397,60 @@ const getResultOverTimeParty = (req, res) => {
 };
 
 
+/** Rank the politicians who are most absent combined with sentiement
+ * example http://localhost:3000/getInfluence?startdate=2019-01-01&enddate=2020-04-09 **/
+const getInfluence = (req, res) => {
+  if (!req.query.startdate || !req.query.enddate) {
+    res.json({
+      info:
+        "Please enter dates (startdate and enddate) for which you would like to get data between",
+    });
+  } else {
+    let startdate = req.query.startdate;
+    let enddate = req.query.enddate;
+    pool.query(
+      `select dense_rank () over (order by absrank ASC) as rank, person_id, parti, namn from
+        (select (rank1 + rank2) as absrank, person_id, parti, namn from
+            (select dense_rank () over (order by r DESC) as rank1, person_id, parti, namn from
+                (select abs(rank1 - rank2) as r, person_id, parti, namn from
+                    (SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) ASC) AS rank1, info.parti, info.namn, person_id, AVG(resultat_sentiment.resultat) as resultat
+                        FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext
+                        NATURAL JOIN riksdagsledamot) as info
+                        NATURAL JOIN resultat_sentiment WHERE info.datum > '${startdate}'
+                        AND info.datum < '${enddate}'
+                        GROUP BY info.parti, info.namn, info.person_id) as neg
+
+                    natural join
+
+                    (SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) DESC) AS rank2, info.parti, info.namn, person_id, AVG(resultat_sentiment.resultat) as resultat
+                        FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext
+                        NATURAL JOIN riksdagsledamot) as info
+                        NATURAL JOIN resultat_sentiment WHERE info.datum > '${startdate}'
+                        AND info.datum < '${enddate}'
+                        GROUP BY info.parti, info.namn, info.person_id) as pos
+                    where neg.person_id = pos.person_id)
+                as posneg)
+            as sentiment
+
+            natural join
+
+            (SELECT DENSE_RANK () OVER (ORDER BY COUNT(vot) ASC) AS rank2, P.person_id,  P.parti, P.namn, COUNT(vot) AS resultat
+                FROM voteringar as V
+                NATURAL JOIN riksdagsledamot as P
+                WHERE vot = 'Frånvarande' AND vot_datum > '${startdate}'
+                AND vot_datum < '${enddate}'
+                GROUP BY P.person_id, P.namn, P.parti
+                ORDER BY rank2) as absent
+            where sentiment.person_id = absent.person_id) as final;`,
+      (error, results) => {
+        if (error) {
+          throw error;
+        }
+        res.status(200).json(results.rows);
+      }
+    );
+  }
+};
 
 /**
  * Export all neccessary modules
@@ -409,4 +463,5 @@ module.exports = {
   getLedamot,
   getResultOverTime,
   getResultOverTimeParty,
+  getInfluence,
 };
