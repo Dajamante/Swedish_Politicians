@@ -6,7 +6,7 @@ const client = new Client({
     port: 5432,
     database: process.env.DBDB || "MVK",
     user: process.env.DBUSER || "postgres",
-    password: process.env.DBPASS || ""
+    password: process.env.DBPASS || "123"
 });
 /**
  * Connect client to database

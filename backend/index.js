@@ -11,6 +11,7 @@ var pyShell = require("python-shell");
  * @param {string} url - riksdagens api
  */
 function getRiksdagsledamot(url) {
+    console.log("Starting fetch of riksdagsledamöter.")
     return new Promise(function(resolve, reject) {
         request(url, function(error, response, body) {
             // in addition to parsing the value, deal with possible errors
@@ -108,7 +109,7 @@ function createAnforandeURL(date, iid) {
         date +
         "&ts=&parti=&iid=" +
         iid +
-        "&sz=100000&utformat=json"
+        "&sz=10000&utformat=json"
     );
 }
 /**
@@ -156,7 +157,9 @@ function getTextLink(url) {
                 for (var i = 0; i < data.anforandelista.anforande.length; i++) {
                     const url = data.anforandelista.anforande[i].anforande_url_html;
                     links.push(url.substring(0, url.length - 4) + "json");
+                    console.log(i);
                 }
+                console.log("Done getTextLink");
                 resolve(links);
             } catch (e) {
                 reject(e);
@@ -193,13 +196,16 @@ function getText(url) {
  * @param {array} links - contains all links to anforanden
  */
 async function loopLinks(links) {
+    console.log("Starting fetch of anföranden");
     let proms = [];
     for (let i = 0; i < links.length; i++) {
         proms.push(getText(links[i]));
     }
     const res = await Promise.all(proms);
+    console.log("Done");
     return res;
 }
+
 async function loopPages(datefrom, dateto, iid, pages) {
     let proms = [];
     for (let i = 1; i <= pages; i++) {
@@ -215,6 +221,7 @@ async function loopPages(datefrom, dateto, iid, pages) {
  * @param {jsonarray} arr - contains all voteringsid 
  */
 async function loopVotering(arr) {
+    console.log("Starting fetch of voteringar")
     let proms = [];
     for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr[i].length; j++)
@@ -232,6 +239,7 @@ async function loopVotering(arr) {
  */
 async function writeToRiksdagsledamot(data) {
     await db.addDataRiksdagsledamot(data);
+    console.log("Fetch and store riksdagsledamöter done.")
 }
 
 /**
@@ -240,6 +248,7 @@ async function writeToRiksdagsledamot(data) {
  */
 async function writeToAnforandetext(data) {
     await db.addDataAnforandetext(data);
+    console.log("Fetch and store anförandetexter done.")
 }
 
 /**
@@ -248,6 +257,7 @@ async function writeToAnforandetext(data) {
  */
 async function writeToVotering(data) {
     await db.addDataVotering(data);
+    console.log("Fetch and store voteringar done.")
 }
 
 //Skapa promise för att behandla datan
@@ -265,19 +275,19 @@ function processData() {
         });
     });
 }
-var dateStart = "2020-03-01";
+var dateStart = "2019-08-01";
 var dateEnd = "2020-04-19";
 db.connect();
 getRiksdagsledamot(ledamotUrl)
     .then(arr => writeToRiksdagsledamot(arr))
-    .then(() => getTextLink(createAnforandeURL("2020-04-01", "")))
+    .then(() => getTextLink(createAnforandeURL(dateStart, "")))
     .then(arr => loopLinks(arr))
     .then(res => writeToAnforandetext(res))
     .then(() => getNumberOfVoteringPages(createVoteringURL(dateStart, dateEnd, "", 1)))
     .then(res => loopPages(dateStart, dateEnd, "", res))
     .then(arr => loopVotering(arr))
     .then(res => writeToVotering(res))
-    .then(() => processData())
-    .then(t => console.log(t))
+    //.then(() => processData())
+    //.then(t => console.log(t))
     .then(() => db.disconnect())
     .catch((err) => console.log(err));
