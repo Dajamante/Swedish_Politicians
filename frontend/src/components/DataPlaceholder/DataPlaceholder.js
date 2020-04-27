@@ -1,11 +1,11 @@
 import React from "react";
 import "./DataPlaceholder.scss";
 
-const DataPlaceholder = () => {
+const DataPlaceholder = ({ children }) => {
   return (
     <>
       <div className="homeMainWindowTopLine"></div>
-      <div className="homeMainWindow"></div>
+      <div className="homeMainWindow">{children}</div>
     </>
   );
 };
