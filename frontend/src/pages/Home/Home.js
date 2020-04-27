@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import "../stylesheets/stylesheet.scss";
+import DataPlaceholder from "../../components/DataPlaceholder/DataPlaceholder";
+import "./Home.scss";
 
 /**
  * Home component containing the first page of the site with logos and link to GitHub.
@@ -8,10 +9,7 @@ class Home extends Component {
   render() {
     return (
       <div className="container">
-        <div className="homeMainWindowTopLine"></div>
-        <div className="homeMainWindow">
-          
-        </div>
+        <DataPlaceholder />
       </div>
     );
   }
