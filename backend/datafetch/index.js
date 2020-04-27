@@ -157,7 +157,6 @@ function getTextLink(url) {
                 for (var i = 0; i < data.anforandelista.anforande.length; i++) {
                     const url = data.anforandelista.anforande[i].anforande_url_html;
                     links.push(url.substring(0, url.length - 4) + "json");
-                    console.log(i);
                 }
                 console.log("Done getTextLink");
                 resolve(links);
