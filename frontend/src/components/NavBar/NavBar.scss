@@ -50,7 +50,7 @@ nav {
   //color: $color-blue;
   //width: 100vw;
   text-align: left;
-  position: fixed;
+  position: absolute;
   top: 0;
   font-family: "Lato", sans-serif;
   box-shadow: 0px 3px 5px 0px #aaaaaa;
@@ -117,9 +117,10 @@ nav {
 
   text-align: center;
   min-width: $menu-width;
+  position: relative;
 
   &:hover {
-    background-color: #ebebeb80;
+    //background-color: #ebebeb80;
 
     .nav__submenu {
       display: block;
@@ -128,6 +129,25 @@ nav {
   a {
     padding: 0px;
     line-height: 70px;
+  }
+
+  &::after {
+    position: absolute;
+    bottom: 0px;
+    left: 0;
+
+    height: 4px;
+    width: 0;
+    transform: scaleX(1);
+
+    opacity: 1;
+    background: $color-blue;
+
+    content: " ";
+    //transition: width 0.15s;
+  }
+  &:hover::after {
+    width: 100%;
   }
 }
 
