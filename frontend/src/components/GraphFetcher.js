@@ -91,7 +91,7 @@ const GraphFetcher = () => {
 						data: res[i].data,
 					});
 				}
-				console.log(newLedamot);
+				console.log(date.startDate);
 				setGraphData({
 					data: newLedamot,
 					startDate: date.startDate,
