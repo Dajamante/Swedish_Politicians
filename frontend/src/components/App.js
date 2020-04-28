@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { HashRouter, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
 import "../stylesheets/stylesheet.scss";
 import NavBar from "./NavBar/NavBar";
 import Routes from "./Routes";
@@ -12,10 +12,8 @@ class App extends Component {
     var RoutesSync = withRouter(Routes);
     return (
       <div className="App">
-        <HashRouter>
-          <NavBar />
-          <RoutesSync />
-        </HashRouter>
+        <NavBar />
+        <RoutesSync />
       </div>
     );
   }
