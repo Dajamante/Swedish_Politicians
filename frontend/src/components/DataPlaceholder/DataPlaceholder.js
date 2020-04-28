@@ -1,0 +1,13 @@
+import React from "react";
+import "./DataPlaceholder.scss";
+
+const DataPlaceholder = ({ children }) => {
+  return (
+    <>
+      <div className="homeMainWindowTopLine"></div>
+      <div className="homeMainWindow">{children}</div>
+    </>
+  );
+};
+
+export default DataPlaceholder;

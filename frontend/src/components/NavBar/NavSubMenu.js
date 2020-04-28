@@ -1,5 +1,4 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
 import NavButton from "./NavButton";
 
 /**
@@ -9,9 +8,11 @@ const NavSubMenu = ({ values }) => {
   return (
     <ul className="nav__submenu">
       {values.map((el) => (
-        <NavButton path={el.path} className="nav__submenu-item">
-          {el.title}
-        </NavButton>
+        <NavButton
+          path={el.path}
+          className="nav__submenu-item"
+          value={el.title}
+        />
       ))}
     </ul>
   );

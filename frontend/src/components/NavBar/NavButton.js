@@ -1,7 +1,7 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 
-const NavButton = ({ path, children, className }) => {
+const NavButton = ({ path, children, className, value }) => {
   return (
     <li className={className ? className : "nav__menu-item"}>
       <NavLink
@@ -12,8 +12,9 @@ const NavButton = ({ path, children, className }) => {
           }
         }}
       >
-        {children ? children : ""}
+        {value}
       </NavLink>
+      {children ? children : null}
     </li>
   );
 };
