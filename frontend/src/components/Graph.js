@@ -55,8 +55,8 @@ class Graph extends Component {
         pointColor={{ theme: "background" }}
         pointBorderWidth={3}
         pointBorderColor={{ from: "serieColor", modifiers: [] }}
-        //enablePointLabel={true}
-        tooltip={() => null}
+        enablePointLabel={true}
+        tooltip={() => null} //disabled tooltip as react cannot render it properly right now
         pointLabel="y"
         pointLabelYOffset={-12}
         useMesh={true}
