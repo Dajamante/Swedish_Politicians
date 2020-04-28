@@ -31,6 +31,7 @@ function getRiksdagsledamot(url) {
  * @param {string} url - url to riksdagens api 
  */
 function getNumberOfVoteringPages(url) {
+    console.log("Starting fetch of voteringar")
     return new Promise(function(resolve, reject) {
         request(url, function(error, response, body) {
             // in addition to parsing the value, deal with possible errors
@@ -81,7 +82,7 @@ function getVoteringslistaResult(url) {
             if (error) return reject(error);
             try {
                 if (body == "") {
-                    console.log("Tom sträng");
+                    console.log("Empty string");
                     resolve();
                 }
                 const data = JSON.parse(body); //can throw an exception if not valid JSON
@@ -195,14 +196,31 @@ function getText(url) {
  * @param {array} links - contains all links to anforanden
  */
 async function loopLinks(links) {
-    console.log("Starting fetch of anföranden");
     let proms = [];
     for (let i = 0; i < links.length; i++) {
         proms.push(getText(links[i]));
     }
     const res = await Promise.all(proms);
-    console.log("Done");
     return res;
+}
+
+async function sliceArrayAnforande(links) {
+    console.log("Starting fetch of anförandetexter")
+    let temp = [];
+    for (let i = 0; i < links.length; i = i + 300) {
+        try {
+            if ((i + 300) < links.length) {
+                temp = await loopLinks(links.slice(i, (i + 300)));
+                await writeToAnforandetext(temp);
+            } else {
+                temp = await loopLinks(links.slice(i, links.length));
+                await writeToAnforandetext(temp);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+    console.log("Fetch and store anförandetexter done.")
 }
 
 async function loopPages(datefrom, dateto, iid, pages) {
@@ -220,7 +238,6 @@ async function loopPages(datefrom, dateto, iid, pages) {
  * @param {jsonarray} arr - contains all voteringsid 
  */
 async function loopVotering(arr) {
-    console.log("Starting fetch of voteringar")
     let proms = [];
     for (let i = 0; i < arr.length; i++) {
         for (let j = 0; j < arr[i].length; j++)
@@ -230,6 +247,23 @@ async function loopVotering(arr) {
     return res;
 }
 
+async function sliceArrayVoteringar(arr) {
+    let temp = [];
+    for (let i = 0; i < arr.length; i = i + 349) {
+        try {
+            if ((i + 349) < arr.length) {
+                temp = await loopVotering(arr.slice(i, (i + 300)));
+                await writeToVotering(temp);
+            } else {
+                temp = await loopVotering(arr.slice(i, arr.length));
+                await writeToVotering(temp);
+            }
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
+}
 
 
 /**
@@ -238,7 +272,6 @@ async function loopVotering(arr) {
  */
 async function writeToRiksdagsledamot(data) {
     await db.addDataRiksdagsledamot(data);
-    console.log("Fetch and store riksdagsledamöter done.")
 }
 
 /**
@@ -247,7 +280,6 @@ async function writeToRiksdagsledamot(data) {
  */
 async function writeToAnforandetext(data) {
     await db.addDataAnforandetext(data);
-    console.log("Fetch and store anförandetexter done.")
 }
 
 /**
@@ -274,18 +306,17 @@ function processData() {
         });
     });
 }
-var dateStart = "2019-08-01";
+var dateStart = "2019-02-01";
 var dateEnd = "2020-04-19";
 db.connect();
 getRiksdagsledamot(ledamotUrl)
     .then(arr => writeToRiksdagsledamot(arr))
     .then(() => getTextLink(createAnforandeURL(dateStart, "")))
-    .then(arr => loopLinks(arr))
-    .then(res => writeToAnforandetext(res))
+    .then(arr => sliceArrayAnforande(arr))
+    //.then(res => writeToAnforandetext(res))
     .then(() => getNumberOfVoteringPages(createVoteringURL(dateStart, dateEnd, "", 1)))
     .then(res => loopPages(dateStart, dateEnd, "", res))
-    .then(arr => loopVotering(arr))
-    .then(res => writeToVotering(res))
+    .then(arr => sliceArrayVoteringar(arr))
     //.then(() => processData())
     //.then(t => console.log(t))
     .then(() => db.disconnect())
