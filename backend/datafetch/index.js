@@ -203,7 +203,10 @@ async function loopLinks(links) {
     const res = await Promise.all(proms);
     return res;
 }
-
+/**
+ * Function that takes an large array with anforandetexter and split it into smaller arrays to prevent ETIMEDOUTerror
+ * @param {array} links contains links to all anforandetexter
+ */
 async function sliceArrayAnforande(links) {
     console.log("Starting fetch of anförandetexter")
     let temp = [];
@@ -222,7 +225,13 @@ async function sliceArrayAnforande(links) {
     }
     console.log("Fetch and store anförandetexter done.")
 }
-
+/**
+ * Loop through different pages that contains up to 20 voteringsid and fetch them.
+ * @param {*} datefrom Startdate
+ * @param {*} dateto Enddate
+ * @param {*} iid Person id
+ * @param {*} pages keep track on how many pages to loop through
+ */
 async function loopPages(datefrom, dateto, iid, pages) {
     let proms = [];
     for (let i = 1; i <= pages; i++) {
@@ -246,7 +255,10 @@ async function loopVotering(arr) {
     const res = await Promise.all(proms);
     return res;
 }
-
+/**
+ * Function to slice a large array of voteringar to smaller arrays to prevent ETIMEDOUT error.
+ * @param {*} arr This array contains all information about voteringar that we want to store. 
+ */
 async function sliceArrayVoteringar(arr) {
     let temp = [];
     for (let i = 0; i < arr.length; i = i + 349) {
@@ -313,7 +325,6 @@ getRiksdagsledamot(ledamotUrl)
     .then(arr => writeToRiksdagsledamot(arr))
     .then(() => getTextLink(createAnforandeURL(dateStart, "")))
     .then(arr => sliceArrayAnforande(arr))
-    //.then(res => writeToAnforandetext(res))
     .then(() => getNumberOfVoteringPages(createVoteringURL(dateStart, dateEnd, "", 1)))
     .then(res => loopPages(dateStart, dateEnd, "", res))
     .then(arr => sliceArrayVoteringar(arr))
