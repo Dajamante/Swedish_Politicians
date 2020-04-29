@@ -17,6 +17,10 @@ function getRiksdagsledamot(url) {
             // in addition to parsing the value, deal with possible errors
             if (error) return reject(error);
             try {
+                if (body == "") {
+                    console.log("Empty string");
+                    resolve();
+                }
                 const data = JSON.parse(body); // can throw an exception if not valid JSON
                 resolve(data.personlista.person);
             } catch (e) {
@@ -37,6 +41,10 @@ function getNumberOfVoteringPages(url) {
             // in addition to parsing the value, deal with possible errors
             if (error) return reject(error);
             try {
+                if (body == "") {
+                    console.log("Empty string");
+                    resolve();
+                }
                 const data = JSON.parse(body); //can throw an exception if not valid JSON
                 resolve(data.dokumentlista["@sidor"]);
 
@@ -58,6 +66,10 @@ function getVoteringslista(url) {
             // in addition to parsing the value, deal with possible errors
             if (error) return reject(error);
             try {
+                if (body == "") {
+                    console.log("Empty string");
+                    resolve();
+                }
                 const data = JSON.parse(body); //can throw an exception if not valid JSON
                 let hitFrom = parseInt(data.dokumentlista["@traff_fran"], 10);
                 let hitTo = parseInt(data.dokumentlista["@traff_till"], 10);
@@ -153,6 +165,10 @@ function getTextLink(url) {
             let links = [];
             if (error) return reject(error);
             try {
+                if (body == "") {
+                    console.log("Empty string");
+                    resolve();
+                }
                 // JSON.parse() can throw an exception if not valid JSON
                 const data = JSON.parse(body);
                 for (var i = 0; i < data.anforandelista.anforande.length; i++) {
@@ -178,6 +194,7 @@ function getText(url) {
             if (error) return reject(error);
             try {
                 if (body == "") {
+                    console.log("Empty string");
                     resolve();
                 }
                 const data = JSON.parse(body); // can throw an exception if not valid JSON
@@ -255,16 +272,16 @@ async function loopVotering(arr) {
     const res = await Promise.all(proms);
     return res;
 }
-/**
+/* *
  * Function to slice a large array of voteringar to smaller arrays to prevent ETIMEDOUT error.
  * @param {*} arr This array contains all information about voteringar that we want to store. 
  */
 async function sliceArrayVoteringar(arr) {
     let temp = [];
-    for (let i = 0; i < arr.length; i = i + 349) {
+    for (let i = 0; i < arr.length; i = i + 20) {
         try {
-            if ((i + 349) < arr.length) {
-                temp = await loopVotering(arr.slice(i, (i + 300)));
+            if ((i + 20) < arr.length) {
+                temp = await loopVotering(arr.slice(i, (i + 20)));
                 await writeToVotering(temp);
             } else {
                 temp = await loopVotering(arr.slice(i, arr.length));
@@ -327,6 +344,8 @@ getRiksdagsledamot(ledamotUrl)
     .then(arr => sliceArrayAnforande(arr))
     .then(() => getNumberOfVoteringPages(createVoteringURL(dateStart, dateEnd, "", 1)))
     .then(res => loopPages(dateStart, dateEnd, "", res))
+    //.then(arr => loopVotering(arr))
+    //.then(res => writeToVotering(res))
     .then(arr => sliceArrayVoteringar(arr))
     //.then(() => processData())
     //.then(t => console.log(t))
