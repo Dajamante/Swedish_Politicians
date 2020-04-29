@@ -190,6 +190,7 @@ const GraphFetcher = () => {
 						graphData.startDate,
 						graphData.endDate
 					)}
+					stat={selectedStat.value}
 				/>
 			}
 		</div>
