@@ -25,12 +25,12 @@ const getSAResultMostNegative = (req, res) => {
     // console.log(startdate);
     // console.log(enddate);
     pool.query(
-      `SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) ASC) AS rank, info.parti, info.namn, AVG(resultat_sentiment.resultat) as resultat
+      `SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) ASC) AS rank, info.person_id, info.parti, info.namn, AVG(resultat_sentiment.resultat) as resultat
         FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext
         NATURAL JOIN riksdagsledamot) as info
         NATURAL JOIN resultat_sentiment WHERE info.datum > '${startdate}'
         AND info.datum < '${enddate}'
-        GROUP BY info.parti, info.namn;`,
+        GROUP BY info.person_id, info.parti, info.namn;`,
       (error, results) => {
         if (error) {
           throw error;
@@ -57,12 +57,12 @@ const getSAResultMostPositive = (req, res) => {
     let startdate = req.query.startdate;
     let enddate = req.query.enddate;
     pool.query(
-      `SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) DESC) AS rank, info.parti, info.namn, AVG(resultat_sentiment.resultat) as resultat
+      `SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) DESC) AS rank, info.person_id, info.parti, info.namn, AVG(resultat_sentiment.resultat) as resultat
         FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext
         NATURAL JOIN riksdagsledamot) as info
         NATURAL JOIN resultat_sentiment WHERE info.datum > '${startdate}'
         AND info.datum < '${enddate}'
-        GROUP BY info.parti, info.namn;`,
+        GROUP BY info.person_id, info.parti, info.namn;`,
       (error, results) => {
         if (error) {
           throw error;
@@ -86,12 +86,12 @@ const getMostAbsent = (req, res) => {
     let startdate = req.query.startdate;
     let enddate = req.query.enddate;
     pool.query(
-      `SELECT DENSE_RANK () OVER (ORDER BY COUNT(vot) DESC) AS rank, P.parti, P.namn, COUNT(vot) AS resultat
+      `SELECT DENSE_RANK () OVER (ORDER BY COUNT(vot) DESC) AS rank, P.person_id, P.parti, P.namn, COUNT(vot) AS resultat
         FROM voteringar as V
         NATURAL JOIN riksdagsledamot as P
         WHERE vot = 'Frånvarande' AND vot_datum > '${startdate}'
         AND vot_datum < '${enddate}'
-        GROUP BY P.namn, P.parti
+        GROUP BY P.person_id, P.namn, P.parti
         ORDER BY rank;`,
       (error, results) => {
         if (error) {
@@ -117,7 +117,8 @@ const getVotedAgainstPartiMode = (req, res) => {
     let startdate = req.query.startdate;
     let enddate = req.query.enddate;
     pool.query(
-      `SELECT DENSE_RANK () OVER (ORDER BY CountPVAPartiMode.CountVA DESC) as rank, CountPVAPartiMode.parti AS parti, CountPVAPartiMode.namn AS namn, CountPVAPartiMode.countVA AS resultat
+      `select rank, person_id, parti, namn, resultat from 
+      (SELECT DENSE_RANK () OVER (ORDER BY CountPVAPartiMode.CountVA DESC) as rank, CountPVAPartiMode.parti AS parti, CountPVAPartiMode.namn AS namn, CountPVAPartiMode.countVA AS resultat
       FROM (SELECT PVAPartiMode.parti AS parti, PVAPartiMode.namn AS namn, count(namn) as CountVA
       FROM (SELECT P1.parti AS parti, P1.namn AS namn, vot, modal_value, V1.vot_datum AS vot_datum
       FROM voteringar V1
@@ -130,7 +131,8 @@ const getVotedAgainstPartiMode = (req, res) => {
       WHERE NOT vot = 'Frånvarande' AND NOT vot = modal_value AND V1.vot_datum > '${startdate}' AND V1.vot_datum< '${enddate}'
       ORDER BY P1.namn) AS PVAPartiMode
       GROUP BY PVAPartiMode.parti, PVAPartiMode.namn) AS CountPVAPartiMode
-      GROUP BY CountPVAPartiMode.namn, CountPVAPartiMode.CountVA, countpvapartimode.parti;`,
+      GROUP BY CountPVAPartiMode.namn, CountPVAPartiMode.CountVA, countpvapartimode.parti) as nopersonid
+      natural join riksdagsledamot;`,
       (error, results) => {
         if (error) {
           throw error;
