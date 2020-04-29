@@ -2,6 +2,7 @@ $color-blue: #4e7d98;
 $color-blue-dark: #285f7f;
 $submenu-width: 150px;
 $menu-width: 150px;
+$navbar-height: 7vh;
 
 .submenu-container {
   height: 300px;
@@ -10,16 +11,6 @@ $menu-width: 150px;
   overflow: hidden;
   z-index: -1;
 }
-
-/*html {
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: border-box;
-}*/
 
 body {
   margin: 0;
@@ -44,19 +35,13 @@ nav {
 }
 
 .nav {
-  //display: inherit;
-  //margin: 0rem auto 0;
-  //background: none;
-  //color: $color-blue;
-  //width: 100vw;
   text-align: left;
-  position: absolute;
   top: 0;
   font-family: "Lato", sans-serif;
   box-shadow: 0px 3px 5px 0px #aaaaaa;
   z-index: 99;
   width: 100vw;
-  //height: 10px;
+  height: $navbar-height;
 
   a {
     display: block;
@@ -69,12 +54,6 @@ nav {
 }
 
 .nav__menu {
-  //position: relative;
-  //height: 80px;
-  //left: 0%;
-  //right: 0%;
-  //top: 0%;
-  //bottom: 0%;
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
@@ -83,52 +62,30 @@ nav {
   font-weight: normal;
   font-size: 18px;
   padding: 0px 20px;
-  //line-height: 21px;
   color: $color-blue;
 
-  // following is old stuff
-  //line-height: 50px;
-  //font-weight: 700;
-  //text-transform: uppercase;
-  //font-size: 18px;
   display: flex;
   justify-content: right;
   align-items: right;
-  //right: 40%;
-  //background-image: linear-gradient(to right, #ff884aff, #ff5073ff);
-  //background-size: cover;
-  //position: fixed;
-  //top: 0px;
-  //padding: 0;
-  //margin: 0;
 }
 
 .nav__menu-item {
-  //display: inline-block;
-  //position: relative;
-  //top: 32.5%;
-  //bottom: 33.41%;
   font-family: "Helvetica neue";
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
-  //padding: 0px 20px;
-  //line-height: 21px;
-
   text-align: center;
   min-width: $menu-width;
   position: relative;
 
   &:hover {
-    //background-color: #ebebeb80;
-
     .nav__submenu {
       display: block;
     }
   }
   a {
     padding: 0px;
-    line-height: 70px;
+    line-height: $navbar-height;
   }
 
   &::after {
@@ -164,7 +121,6 @@ nav {
 }
 
 .nav__submenu-item {
-  line-height: 50px;
   &:hover {
     background-color: #ebebeb80;
   }
