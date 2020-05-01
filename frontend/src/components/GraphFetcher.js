@@ -5,7 +5,7 @@ import Select from "react-select";
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createList, toDateString } from "./graphListBuilder.js";
-import SampleGraph from "./SampleGraph";
+import Graph from "./Graph";
 
 function convertIntoGraphData(ledamoter, startDate, endDate) {
 	let res = [];
@@ -33,7 +33,6 @@ function convertIntoGraphData(ledamoter, startDate, endDate) {
 
 		res.push({
 			id: ledamot.label,
-			color: "hsl(230, 70%, 50%)",
 			data: data,
 		}); //hur färger väljs måste implementeras
 	}
@@ -91,7 +90,6 @@ const GraphFetcher = () => {
 						data: res[i].data,
 					});
 				}
-				console.log(date.startDate);
 				setGraphData({
 					data: newLedamot,
 					startDate: date.startDate,
@@ -184,14 +182,15 @@ const GraphFetcher = () => {
 			</Fragment>
 			<br></br>
 			{
-				<SampleGraph
-					data={convertIntoGraphData(
-						graphData.data,
-						graphData.startDate,
-						graphData.endDate
-					)}
-					stat={selectedStat.value}
-				/>
+				<div style={{ height: "500px", width: "1000px" }}>
+					<Graph
+						data={convertIntoGraphData(
+							graphData.data,
+							graphData.startDate,
+							graphData.endDate
+						)}
+					/>
+				</div>
 			}
 		</div>
 	);

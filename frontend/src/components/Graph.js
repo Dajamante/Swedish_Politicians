@@ -15,8 +15,6 @@ class Graph extends Component {
 					format: "%Y-%m-%d", //Används för att parse x värdena
 					precision: "day",
 				}}
-				//XFormat="%b"
-				//xFormat="time:yyyy-MM-dd"
 				yScale={{
 					type: "linear",
 					min: "auto",
