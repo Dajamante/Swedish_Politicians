@@ -4,7 +4,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@nivo/line": "^0.42.1",
+    "@nivo/line": "^0.61.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.4.1",
     "@testing-library/user-event": "^7.2.1",
@@ -14,7 +14,6 @@
     "jquery": "^3.4.1",
     "mkdirp": "^1.0.4",
     "moment": "^2.24.0",
-    "nivo": "^0.31.0",
     "node-sass": "^4.13.1",
     "react": "^16.13.0",
     "react-bootstrap": "^1.0.0",
