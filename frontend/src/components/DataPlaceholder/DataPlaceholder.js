@@ -1,11 +1,11 @@
 import React from "react";
 import "./DataPlaceholder.scss";
 
-const DataPlaceholder = ({ children }) => {
+const DataPlaceholder = ({ children , overflowY }) => {
   return (
     <>
-      <div className="homeMainWindowTopLine" />
-      <div className="homeMainWindow">{children}</div>
+      <div className="mainWindowTopLine" />
+      <div className="mainWindow" style={{overflowY:overflowY}}>{children}</div>
     </>
   );
 };

@@ -9,7 +9,7 @@ class Home extends Component {
   render() {
     return (
       <div className="container">
-        <DataPlaceholder />
+        <DataPlaceholder overflowY="none"/>
       </div>
     );
   }
