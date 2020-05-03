@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, Redirect } from "react-router-dom";
 import Home from "../pages/Home/Home";
-import TopLists from "../pages/TopLists";
+import TopLists from "../pages/TopLists/TopLists";
 import AboutTeam from "../pages/AboutTeam";
 import AboutProject from "../pages/AboutProject";
 import AboutFindwise from "../pages/AboutFindwise";

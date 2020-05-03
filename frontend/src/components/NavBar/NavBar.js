@@ -16,10 +16,10 @@ const NavBar = () => {
   return (
     <nav className="nav">
       <ul className="nav__menu">
-        <NavButton path="/" value="Home" />
-        <NavButton path="/toplists" value="Toplists" />
-        <NavButton path="/sample" value="Sample" />
-        <NavButton path="/aboutProject" value="About">
+        <NavButton path="/" value="Hem" />
+        <NavButton path="/toplists" value="Topplistor" />
+        <NavButton path="/sample" value="Ev profiler" />
+        <NavButton path="/aboutProject" value="Om">
           <NavSubMenu values={aboutMenu} />
         </NavButton>
       </ul>

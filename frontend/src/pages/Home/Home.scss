@@ -5,7 +5,7 @@ $navbar-height: 7vh;
 .container {
   //display: grid;
   height: 100vh - $navbar-height;
-  width: 100vw;
+  width: 100%;
   //grid-template-columns: 13% 74% 13%;
   //grid-template-rows: $mainWindowTopPlacement 1% 70% 10%;
   //align-content: space-evenly;
