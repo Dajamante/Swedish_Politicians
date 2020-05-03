@@ -6,6 +6,7 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createList, toDateString } from "./graphListBuilder.js";
 import Graph from "./Graph";
+import "./Graph.scss";
 
 function convertIntoGraphData(ledamoter, startDate, endDate) {
 	let res = [];
@@ -117,7 +118,7 @@ const GraphFetcher = () => {
 	}, [date]);
 
 	return (
-		<div className="listPost">
+		<div className="GraphFetcherDiv">
 			<div>
 				Startdatum:{" "}
 				<DatePicker
@@ -129,10 +130,10 @@ const GraphFetcher = () => {
 					dateFormat="yyyy-MM-dd"
 				/>
 			</div>
-			<p> </p>
 			<div>
 				Stoppdatum:{" "}
 				<DatePicker
+					style={{ position: "left" }}
 					selected={date.endDate}
 					onChange={(endDate) =>
 						setdate((prevState) => ({ ...prevState, endDate }))
@@ -182,7 +183,7 @@ const GraphFetcher = () => {
 			</Fragment>
 			<br></br>
 			{
-				<div style={{ height: "500px", width: "1000px" }}>
+				<div className="GraphContainer">
 					<Graph
 						data={convertIntoGraphData(
 							graphData.data,

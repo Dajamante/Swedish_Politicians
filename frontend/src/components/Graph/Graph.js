@@ -56,7 +56,7 @@ class Graph extends Component {
 				enablePointLabel={true}
 				tooltip={() => null} //disabled tooltip as react cannot render it properly right now
 				pointLabel="y"
-				pointLabelYOffset={-12}
+				pointLabelYOffset={-100}
 				useMesh={true}
 				legends={[
 					{
