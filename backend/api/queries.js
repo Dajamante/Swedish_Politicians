@@ -28,14 +28,16 @@ const getSAResultMostNegative = (req, res) => {
       `SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) ASC) AS rank, info.person_id, info.parti, info.namn, AVG(resultat_sentiment.resultat) as resultat
         FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext
         NATURAL JOIN riksdagsledamot) as info
-        NATURAL JOIN resultat_sentiment WHERE info.datum > '${startdate}'
-        AND info.datum < '${enddate}'
+        NATURAL JOIN resultat_sentiment WHERE info.datum > $1
+        AND info.datum < $2
         GROUP BY info.person_id, info.parti, info.namn;`,
+      [startdate, enddate],
       (error, results) => {
         if (error) {
-          throw error;
+          res.status(500).json({ error: "error" });
+        } else {
+          res.status(200).json(results.rows);
         }
-        res.status(200).json(results.rows);
       }
     );
   }
@@ -60,14 +62,16 @@ const getSAResultMostPositive = (req, res) => {
       `SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) DESC) AS rank, info.person_id, info.parti, info.namn, AVG(resultat_sentiment.resultat) as resultat
         FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext
         NATURAL JOIN riksdagsledamot) as info
-        NATURAL JOIN resultat_sentiment WHERE info.datum > '${startdate}'
-        AND info.datum < '${enddate}'
+        NATURAL JOIN resultat_sentiment WHERE info.datum > $1
+        AND info.datum < $2
         GROUP BY info.person_id, info.parti, info.namn;`,
+      [startdate, enddate],
       (error, results) => {
         if (error) {
-          throw error;
+          res.status(500).json({ error: "error" });
+        } else {
+          res.status(200).json(results.rows);
         }
-        res.status(200).json(results.rows);
       }
     );
   }
@@ -89,15 +93,17 @@ const getMostAbsent = (req, res) => {
       `SELECT DENSE_RANK () OVER (ORDER BY COUNT(vot) DESC) AS rank, P.person_id, P.parti, P.namn, COUNT(vot) AS resultat
         FROM voteringar as V
         NATURAL JOIN riksdagsledamot as P
-        WHERE vot = 'Frånvarande' AND vot_datum > '${startdate}'
-        AND vot_datum < '${enddate}'
+        WHERE vot = 'Frånvarande' AND vot_datum > $1
+        AND vot_datum < $2
         GROUP BY P.person_id, P.namn, P.parti
         ORDER BY rank;`,
+      [startdate, enddate],
       (error, results) => {
         if (error) {
-          throw error;
+          res.status(500).json({ error: "error" });
+        } else {
+          res.status(200).json(results.rows);
         }
-        res.status(200).json(results.rows);
       }
     );
   }
@@ -128,21 +134,22 @@ const getVotedAgainstPartiMode = (req, res) => {
       NATURAL JOIN riksdagsledamot as P
       WHERE NOT P.parti = '-'
       GROUP BY voterings_id, P.Parti) PartiMode
-      WHERE NOT vot = 'Frånvarande' AND NOT vot = modal_value AND V1.vot_datum > '${startdate}' AND V1.vot_datum< '${enddate}'
+      WHERE NOT vot = 'Frånvarande' AND NOT vot = modal_value AND V1.vot_datum > $1 AND V1.vot_datum< $2
       ORDER BY P1.namn) AS PVAPartiMode
       GROUP BY PVAPartiMode.parti, PVAPartiMode.namn) AS CountPVAPartiMode
       GROUP BY CountPVAPartiMode.namn, CountPVAPartiMode.CountVA, countpvapartimode.parti) as nopersonid
       natural join riksdagsledamot;`,
+      [startdate, enddate],
       (error, results) => {
         if (error) {
-          throw error;
+          res.status(500).json({ error: "error" });
+        } else {
+          res.status(200).json(results.rows);
         }
-        res.status(200).json(results.rows);
       }
     );
   }
 };
-
 
 /** Get all ledamoter that has results within a time interval **/
 /**
@@ -151,7 +158,7 @@ http://localhost:3000/getLedamot?startdate=2019-01-01&enddate=2020-04-09&type=ab
 http://localhost:3000/getLedamot?startdate=2019-01-01&enddate=2020-04-09&type=votedagainst
 **/
 const getLedamot = (req, res) => {
-  if (!req.query.startdate ||!req.query.enddate || !req.query.type) {
+  if (!req.query.startdate || !req.query.enddate || !req.query.type) {
     res.json({
       info:
         "Please enter dates (startdate and enddate) for which you would like to get data between and what type of results you want to see",
@@ -164,40 +171,43 @@ const getLedamot = (req, res) => {
     // console.log(enddate);
     // console.log(type);
     if (type == "posneg") {
-        pool.query(
-            `select person_id, namn, parti
+      pool.query(
+        `select person_id, namn, parti
             from riksdagsledamot r
             where exists
                 (select 1 from anforandetext a
                 where r.person_id = a.person_id
-                and a.datum < '${enddate}' and a.datum > '${startdate}');`,
+                and a.datum < $1 and a.datum > $2);`,
+        [enddate, startdate],
         (error, results) => {
-            if (error) {
-              throw error;
-            }
-            res.status(200).json(results.rows);
+          if (error) {
+            throw error;
+          }
+          res.status(200).json(results.rows);
         }
-        );
+      );
     } else if (type == "absent") {
-        pool.query(
-            `select person_id, namn, parti
+      pool.query(
+        `select person_id, namn, parti
             from riksdagsledamot r
             where exists
                 (select 1 from voteringar v
-                where v.vot = 'Frånvarande' AND v.vot_datum > '${startdate}'
-                AND v.vot_datum < '${enddate}'
+                where v.vot = 'Frånvarande' AND v.vot_datum > $1
+                AND v.vot_datum < $2
                 and r.person_id = v.person_id
                 order by namn);`,
+        [startdate, enddate],
         (error, results) => {
-            if (error) {
-              throw error;
-            }
+          if (error) {
+            res.status(500).json({ error: "error" });
+          } else {
             res.status(200).json(results.rows);
+          }
         }
-        );
+      );
     } else if (type == "votedagainst") {
-        pool.query(
-            `select person_id, namn, parti
+      pool.query(
+        `select person_id, namn, parti
             from riksdagsledamot r
             natural join
                 (SELECT DENSE_RANK () OVER (ORDER BY CountPVAPartiMode.CountVA DESC) as rank, CountPVAPartiMode.parti AS parti, CountPVAPartiMode.namn AS namn, CountPVAPartiMode.countVA AS resultat
@@ -210,75 +220,78 @@ const getLedamot = (req, res) => {
                   NATURAL JOIN riksdagsledamot as P
                   WHERE NOT P.parti = '-'
                   GROUP BY voterings_id, P.Parti) PartiMode
-                  WHERE NOT vot = 'Frånvarande' AND NOT vot = modal_value AND V1.vot_datum < '${enddate}' AND V1.vot_datum > '${startdate}'
+                  WHERE NOT vot = 'Frånvarande' AND NOT vot = modal_value AND V1.vot_datum < $1 AND V1.vot_datum > $2
                   ORDER BY P1.namn) AS PVAPartiMode
                   GROUP BY PVAPartiMode.parti, PVAPartiMode.namn) AS CountPVAPartiMode
                   GROUP BY CountPVAPartiMode.namn, CountPVAPartiMode.CountVA, countpvapartimode.parti) as bar;`,
+        [enddate, startdate],
         (error, results) => {
-            if (error) {
-              throw error;
-            }
+          if (error) {
+            res.status(500).json({ error: "error" });
+          } else {
             res.status(200).json(results.rows);
+          }
         }
-        );
-
-      }
+      );
     }
+  }
 };
 
-
 /** Get daily results for a ledamot
-* Example:
-* http://localhost:3000/getResultOverTime?type=posneg&personid=309480686522
-* http://localhost:3000/getResultOverTime?type=absent&personid=309480686522
-* http://localhost:3000/getResultOverTime?type=votedagainst&personid=309480686522 **/
+ * Example:
+ * http://localhost:3000/getResultOverTime?type=posneg&personid=309480686522
+ * http://localhost:3000/getResultOverTime?type=absent&personid=309480686522
+ * http://localhost:3000/getResultOverTime?type=votedagainst&personid=309480686522 **/
 const getResultOverTime = (req, res) => {
   if (!req.query.type || !req.query.personid) {
     res.json({
-      info:
-        "Please enter dates type of result and person_id",
+      info: "Please enter dates type of result and person_id",
     });
   } else {
     let type = req.query.type;
     let personid = req.query.personid;
     if (type == "posneg") {
-        pool.query(
-            `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
+      pool.query(
+        `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
                 (select date_trunc('day', datum)::date as datum,
                 avg(resultat) as resultat, count(1) from
                 (select datum, resultat from resultat_sentiment
                     natural join anforandetext
                     natural join riksdagsledamot
-                    where person_id = '${personid}') as bar
+                    where person_id = $1) as bar
                     group by 1
                     order by datum) as foo;`,
-          (error, results) => {
-            if (error) {
-              throw error;
-            }
+        [personid],
+        (error, results) => {
+          if (error) {
+            res.status(500).json({ error: "error" });
+          } else {
             res.status(200).json(results.rows);
           }
-        );
+        }
+      );
     } else if (type == "absent") {
-        pool.query(
-            `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
+      pool.query(
+        `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
                 (select date_trunc('day', vot_datum)::date as datum,
                 count(vot) as resultat from
                 (select vot_datum, vot from voteringar
-                    where person_id = '${personid}'
+                    where person_id = $1
                     and vot = 'Frånvarande') as foo
                     group by vot_datum
                     order by vot_datum asc) as bar;`,
-          (error, results) => {
-            if (error) {
-              throw error;
-            }
+        [personid],
+        (error, results) => {
+          if (error) {
+            res.status(500).json({ error: "error" });
+          } else {
             res.status(200).json(results.rows);
           }
-        );
+        }
+      );
     } else if (type == "votedagainst") {
-        pool.query(
-            `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
+      pool.query(
+        `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
                 (select date_trunc('day', vot_datum)::date as datum, count(*) as resultat from
                     (select * from
                         (select voterings_id, vot_datum, parti_vot, vot as personal_vot, parti from voteringar natural join
@@ -289,93 +302,97 @@ const getResultOverTime = (req, res) => {
                                         natural join riksdagsledamot
                                         where parti =
                                             (select parti from riksdagsledamot
-                                            where person_id = '${personid}')) as foo
+                                            where person_id = $1)) as foo
                                         group by voterings_id, vot_datum, vot, parti) as bar
                                     group by voterings_id, vot, vot_datum, parti
                                     order by voterings_id, max desc) as boo
                                 order by vot_datum asc) as far
-                            where person_id = '${personid}'
+                            where person_id = $1
                             order by vot_datum asc) as doo
                         where not personal_vot = parti_vot
                         and not personal_vot = 'Frånvarande'
                         and not parti_vot = 'Frånvarande'
                         and not parti = '-') as dar
                     group by vot_datum order by vot_datum asc) as final;`,
-          (error, results) => {
-            if (error) {
-              throw error;
-            }
+        [personid],
+        (error, results) => {
+          if (error) {
+            res.status(500).json({ error: "error" });
+          } else {
             res.status(200).json(results.rows);
           }
-        );
-     }
+        }
+      );
+    }
   }
 };
 
-
 /** Get daily results by party
-* Example
-* http://localhost:3000/getResultOverTimeParty?type=posneg&party=S
-* http://localhost:3000/getResultOverTimeParty?type=absent&party=S
-* http://localhost:3000/getResultOverTimeParty?type=votedagainst&party=S **/
+ * Example
+ * http://localhost:3000/getResultOverTimeParty?type=posneg&party=S
+ * http://localhost:3000/getResultOverTimeParty?type=absent&party=S
+ * http://localhost:3000/getResultOverTimeParty?type=votedagainst&party=S **/
 const getResultOverTimeParty = (req, res) => {
   if (!req.query.type || !req.query.party) {
     res.json({
-      info:
-        "Please enter dates type of result and person_id",
+      info: "Please enter dates type of result and person_id",
     });
   } else {
     let type = req.query.type;
     let party = req.query.party;
     if (type == "posneg") {
-        pool.query(
-            `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
+      pool.query(
+        `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
                 (select date_trunc('day', datum)::date as datum, avg(resultat) as resultat, count(1) from
                     (select datum, resultat from resultat_sentiment
                     natural join anforandetext natural join riksdagsledamot
-                    where parti = '${party}') as bar
+                    where parti = $1) as bar
                 group by 1
                 order by datum) as foo;`,
-          (error, results) => {
-            if (error) {
-              throw error;
-            }
+        [party],
+        (error, results) => {
+          if (error) {
+            res.status(500).json({ error: "error" });
+          } else {
             res.status(200).json(results.rows);
           }
-        );
+        }
+      );
     } else if (type == "absent") {
-        pool.query(
-            `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
+      pool.query(
+        `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
                 (select date_trunc('day', vot_datum)::date as datum, count(vot) as resultat from
                     (select vot_datum, vot from voteringar
                     natural join riksdagsledamot
-                    where parti = '${party}'
+                    where parti = $1
                     and vot = 'Frånvarande') as foo
                 group by vot_datum
                 order by vot_datum asc) as bar;`,
-          (error, results) => {
-            if (error) {
-              throw error;
-            }
+        [party],
+        (error, results) => {
+          if (error) {
+            res.status(500).json({ error: "error" });
+          } else {
             res.status(200).json(results.rows);
           }
-        );
+        }
+      );
     } else if (type == "votedagainst") {
-        pool.query(
-            `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
+      pool.query(
+        `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
                 (select date_trunc('day', vot_datum)::date as datum, count(*) as resultat from
                     (select vot_id as voterings_id, vot as personal_vot, parti_vot, p as parti, vot_datum from
                         (select * from
                             (select voterings_id as vot_id, person_id, vot, parti as p from voteringar
                             natural join riksdagsledamot
-                            where parti = '${party}') as dar
+                            where parti = $1) as dar
                             cross join
                             (select voterings_id, vot_datum, vot as parti_vot, parti from
                                 (select distinct on (voterings_id) voterings_id, vot_datum, max(count), vot, parti from
                                     (select voterings_id, vot_datum, vot, count(vot), parti from
                                         (select * from voteringar
                                         natural join riksdagsledamot
-                                        where parti = '${party}') as foo
+                                        where parti = $1) as foo
                                         group by voterings_id, vot_datum, vot, parti) as bar
                                     group by voterings_id, vot, vot_datum, parti
                                     order by voterings_id, max desc) as boo
@@ -387,17 +404,18 @@ const getResultOverTimeParty = (req, res) => {
                             and not p = '-') as gar
                         group by vot_datum
                         order by vot_datum asc) as final;`,
-          (error, results) => {
-            if (error) {
-              throw error;
-            }
+        [party],
+        (error, results) => {
+          if (error) {
+            res.status(500).json({ error: "error" });
+          } else {
             res.status(200).json(results.rows);
           }
-        );
+        }
+      );
     }
   }
 };
-
 
 /** Rank the politicians who are most absent combined with sentiement
  * example http://localhost:3000/getInfluence?startdate=2019-01-01&enddate=2020-04-09 **/
@@ -418,8 +436,8 @@ const getInfluence = (req, res) => {
                     (SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) ASC) AS rank1, info.parti, info.namn, person_id, AVG(resultat_sentiment.resultat) as resultat
                         FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext
                         NATURAL JOIN riksdagsledamot) as info
-                        NATURAL JOIN resultat_sentiment WHERE info.datum > '${startdate}'
-                        AND info.datum < '${enddate}'
+                        NATURAL JOIN resultat_sentiment WHERE info.datum > $1
+                        AND info.datum < $2
                         GROUP BY info.parti, info.namn, info.person_id) as neg
 
                     natural join
@@ -427,8 +445,8 @@ const getInfluence = (req, res) => {
                     (SELECT DENSE_RANK () OVER (ORDER BY AVG(resultat_sentiment.resultat) DESC) AS rank2, info.parti, info.namn, person_id, AVG(resultat_sentiment.resultat) as resultat
                         FROM (SELECT person_id, parti, namn, datum, anforande_id FROM anforandetext
                         NATURAL JOIN riksdagsledamot) as info
-                        NATURAL JOIN resultat_sentiment WHERE info.datum > '${startdate}'
-                        AND info.datum < '${enddate}'
+                        NATURAL JOIN resultat_sentiment WHERE info.datum > $1
+                        AND info.datum < $2
                         GROUP BY info.parti, info.namn, info.person_id) as pos
                     where neg.person_id = pos.person_id)
                 as posneg)
@@ -439,16 +457,18 @@ const getInfluence = (req, res) => {
             (SELECT DENSE_RANK () OVER (ORDER BY COUNT(vot) ASC) AS rank2, P.person_id,  P.parti, P.namn, COUNT(vot) AS resultat
                 FROM voteringar as V
                 NATURAL JOIN riksdagsledamot as P
-                WHERE vot = 'Frånvarande' AND vot_datum > '${startdate}'
-                AND vot_datum < '${enddate}'
+                WHERE vot = 'Frånvarande' AND vot_datum > $1
+                AND vot_datum < $2
                 GROUP BY P.person_id, P.namn, P.parti
                 ORDER BY rank2) as absent
             where sentiment.person_id = absent.person_id) as final;`,
+      [startdate, enddate],
       (error, results) => {
         if (error) {
-          throw error;
+          res.status(500).json({ error: "error" });
+        } else {
+          res.status(200).json(results.rows);
         }
-        res.status(200).json(results.rows);
       }
     );
   }
