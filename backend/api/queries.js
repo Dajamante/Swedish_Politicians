@@ -181,9 +181,10 @@ const getLedamot = (req, res) => {
         [enddate, startdate],
         (error, results) => {
           if (error) {
-            throw error;
+            res.status(500).json({ error: "error" });
+          } else {
+            res.status(200).json(results.rows);
           }
-          res.status(200).json(results.rows);
         }
       );
     } else if (type == "absent") {
