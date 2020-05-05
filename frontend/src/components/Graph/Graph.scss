@@ -1,16 +1,112 @@
-.GraphFetcherDiv {
+@import "../TopList/TopListComponent.scss";
+
+.graphPageContainer {
 	position: absolute;
+	top: 2%;
 	left: 2%;
 	right: 2%;
-	background-color: white;
-	height: 98%;
-	width: 96%;
+
+	display: grid;
+	justify-content: space-around;
+	grid-template-columns: 50px 50px 50px 50px 50px 50px;
+	grid-template-rows: 50px 50px 420px;
+	column-gap: 6px;
+	row-gap: 3px;
+
+	font-size: 18px;
+	font-family: "Helvetica neue";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
 }
 
-.GraphContainer {
-	height: 350px;
-	width: 90%;
-	top: 10%;
-	left: 5%;
-	position: relative;
+.ledamotDropDown {
+	grid-column-start: 1;
+	grid-column-end: 4;
+	grid-row-start: 1;
+	grid-row-end: 2;
+	z-index: 1;
+}
+
+.dropDown1 {
+	z-index: 2;
+	grid-column-start: 1;
+	grid-column-end: 4;
+	grid-row-start: 0;
+	grid-row-end: 1;
+
+	float: left;
+	width: 100%;
+	//height: 45px;
+	background: rgb(78, 125, 152);
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border: 0px;
+	border-radius: 6px;
+
+	text-align: left;
+	font-size: 18px;
+	color: green($color: #000000);
+	font-family: "Helvetica neue";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 21px;
+	text-align: left;
+	color: rgb(255, 255, 255);
+}
+
+.startDate2 {
+	grid-column-start: 4;
+	grid-column-end: 6;
+	grid-row-start: 2;
+	grid-row-end: 3;
+
+	float: left;
+	width: 150px;
+	height: 45px;
+	background: #4e7d98;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border: 0px;
+	border-radius: 6px;
+
+	font-size: 18px;
+	font-family: "Helvetica neue";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 21px;
+	text-align: center;
+	color: #ffffff;
+}
+
+.endDate2 {
+	grid-column-start: 1;
+	grid-column-end: 5;
+	grid-row-start: 2;
+	grid-row-end: 3;
+
+	float: left;
+	width: 150px;
+	height: 45px;
+	background: #4e7d98;
+	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+	border: 0px;
+	border-radius: 6px;
+
+	font-size: 18px;
+	font-family: "Helvetica neue";
+	font-style: normal;
+	font-weight: normal;
+	font-size: 18px;
+	line-height: 21px;
+	text-align: center;
+	color: #ffffff;
+}
+
+.graphContainer {
+	background-color: white;
+	grid-column-start: 1;
+	grid-column-end: 7;
+	grid-row-start: 2;
+	grid-row-end: 4;
 }
