@@ -29,7 +29,7 @@ class Graph extends Component {
 					tickSize: 5,
 					tickPadding: 15,
 					tickRotation: 45,
-					legend: "datum",
+					legend: "",
 					legendOffset: -20,
 					legendPosition: "middle",
 					format: "%b %d", //Format för att printa label

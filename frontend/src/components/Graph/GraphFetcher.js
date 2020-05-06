@@ -165,7 +165,11 @@ const GraphFetcher = () => {
 
 	return (
 		<div className="graphPageContainer">
-			<div>
+			<div className="txt1">Välj graf</div>
+			<div className="txt2">Välj personer</div>
+			<div className="txt3">Välj startdatum</div>
+			<div className="txt4">Välj slutdatum</div>
+			<div className="startDatePos">
 				<DatePicker
 					selected={date.startDate}
 					onChange={(startDate) =>
@@ -179,7 +183,7 @@ const GraphFetcher = () => {
 					withPortal
 				/>
 			</div>
-			<div>
+			<div className="endDatePos">
 				<DatePicker
 					selected={date.endDate}
 					onChange={(endDate) =>
@@ -193,58 +197,49 @@ const GraphFetcher = () => {
 					withPortal
 				/>
 			</div>
-
-			<br></br>
-			<Fragment>
-				<Select
-					className="dropDown1"
-					classNamePrefix="select"
-					defaultValue={statOptions[0]}
-					isDisabled={isDisabled}
-					isLoading={isLoading}
-					isClearable={false}
-					isRtl={isRtl}
-					isSearchable={false}
-					name="color"
-					options={statOptions}
-					value={selectedStat}
-					onChange={(selectedStat) => setSelectedStat(selectedStat)}
-					styles={customStyles}
+			<Select
+				className="dropDown1"
+				classNamePrefix="select"
+				defaultValue={statOptions[0]}
+				isDisabled={isDisabled}
+				isLoading={isLoading}
+				isClearable={false}
+				isRtl={isRtl}
+				isSearchable={false}
+				name="color"
+				options={statOptions}
+				value={selectedStat}
+				onChange={(selectedStat) => setSelectedStat(selectedStat)}
+				styles={customStyles}
+			/>
+			<Select
+				className="ledamotDropDown"
+				classNamePrefix="select"
+				defaultValue={{ value: "Michael", label: "Michael" }}
+				isDisabled={isDisabled}
+				isMulti
+				isLoading={isLoading}
+				isClearable={isClearable}
+				isRtl={isRtl}
+				isSearchable={isSearchable}
+				name="color"
+				options={ledamoter}
+				value={selectedLedamoter}
+				onChange={(ledamoter) =>
+					ledamoter === null
+						? setSelectedLedamoter([])
+						: setSelectedLedamoter(ledamoter)
+				}
+			/>
+			<div className="graphContainer">
+				<Graph
+					data={convertIntoGraphData(
+						graphData.data,
+						graphData.startDate,
+						graphData.endDate
+					)}
 				/>
-			</Fragment>
-			<Fragment>
-				<Select
-					className="ledamotDropDown"
-					classNamePrefix="select"
-					defaultValue={{ value: "Michael", label: "Michael" }}
-					isDisabled={isDisabled}
-					isMulti
-					isLoading={isLoading}
-					isClearable={isClearable}
-					isRtl={isRtl}
-					isSearchable={isSearchable}
-					name="color"
-					options={ledamoter}
-					value={selectedLedamoter}
-					onChange={(ledamoter) =>
-						ledamoter === null
-							? setSelectedLedamoter([])
-							: setSelectedLedamoter(ledamoter)
-					}
-				/>
-			</Fragment>
-			<br></br>
-			{
-				<div className="graphContainer">
-					<Graph
-						data={convertIntoGraphData(
-							graphData.data,
-							graphData.startDate,
-							graphData.endDate
-						)}
-					/>
-				</div>
-			}
+			</div>
 		</div>
 	);
 };

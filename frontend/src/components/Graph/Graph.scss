@@ -1,17 +1,10 @@
-@import "../TopList/TopListComponent.scss";
-
 .graphPageContainer {
-	position: absolute;
-	top: 2%;
-	left: 2%;
-	right: 2%;
-
 	display: grid;
 	justify-content: space-around;
-	grid-template-columns: 50px 50px 50px 50px 50px 50px;
-	grid-template-rows: 50px 50px 420px;
+	grid-template-columns: 45% 5% 23% 23% auto;
+	grid-template-rows: 2% 8% 2% 7% 440px;
 	column-gap: 6px;
-	row-gap: 3px;
+	row-gap: 4px;
 
 	font-size: 18px;
 	font-family: "Helvetica neue";
@@ -22,18 +15,18 @@
 
 .ledamotDropDown {
 	grid-column-start: 1;
-	grid-column-end: 4;
-	grid-row-start: 1;
-	grid-row-end: 2;
+	grid-column-end: 2;
+	grid-row-start: 4;
+	grid-row-end: 5;
 	z-index: 1;
 }
 
 .dropDown1 {
 	z-index: 2;
 	grid-column-start: 1;
-	grid-column-end: 4;
-	grid-row-start: 0;
-	grid-row-end: 1;
+	grid-column-end: 2;
+	grid-row-start: 2;
+	grid-row-end: 3;
 
 	float: left;
 	width: 100%;
@@ -55,12 +48,14 @@
 	color: rgb(255, 255, 255);
 }
 
-.startDate2 {
-	grid-column-start: 4;
-	grid-column-end: 6;
+.startDatePos {
+	grid-column-start: 3;
+	grid-column-end: 4;
 	grid-row-start: 2;
 	grid-row-end: 3;
+}
 
+.startDate2 {
 	float: left;
 	width: 150px;
 	height: 45px;
@@ -79,12 +74,14 @@
 	color: #ffffff;
 }
 
-.endDate2 {
-	grid-column-start: 1;
+.endDatePos {
+	grid-column-start: 4;
 	grid-column-end: 5;
 	grid-row-start: 2;
 	grid-row-end: 3;
+}
 
+.endDate2 {
 	float: left;
 	width: 150px;
 	height: 45px;
@@ -101,12 +98,41 @@
 	line-height: 21px;
 	text-align: center;
 	color: #ffffff;
+}
+
+.txt1 {
+	grid-column-start: 1;
+	grid-column-end: 2;
+	grid-row-start: 1;
+	grid-row-end: 2;
+	font-size: 12px;
+}
+.txt2 {
+	grid-column-start: 1;
+	grid-column-end: 2;
+	grid-row-start: 3;
+	grid-row-end: 4;
+	font-size: 12px;
+}
+.txt3 {
+	grid-column-start: 3;
+	grid-column-end: 4;
+	grid-row-start: 1;
+	grid-row-end: 2;
+	font-size: 12px;
+}
+.txt4 {
+	grid-column-start: 4;
+	grid-column-end: 5;
+	grid-row-start: 1;
+	grid-row-end: 2;
+	font-size: 12px;
 }
 
 .graphContainer {
 	background-color: white;
 	grid-column-start: 1;
-	grid-column-end: 7;
-	grid-row-start: 2;
-	grid-row-end: 4;
+	grid-column-end: 6;
+	grid-row-start: 5;
+	grid-row-end: 6;
 }
