@@ -1,7 +1,7 @@
 .graphPageContainer {
 	display: grid;
 	justify-content: space-around;
-	grid-template-columns: 45% 5% 23% 23% auto;
+	grid-template-columns: 45% 15% 15% 15% auto;
 	grid-template-rows: 2% 8% 2% 7% 440px;
 	column-gap: 6px;
 	row-gap: 4px;
@@ -115,6 +115,7 @@
 	font-size: 12px;
 }
 .txt3 {
+	text-align: left;
 	grid-column-start: 3;
 	grid-column-end: 4;
 	grid-row-start: 1;
@@ -122,6 +123,7 @@
 	font-size: 12px;
 }
 .txt4 {
+	text-align: left;
 	grid-column-start: 4;
 	grid-column-end: 5;
 	grid-row-start: 1;
