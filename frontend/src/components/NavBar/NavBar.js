@@ -1,6 +1,5 @@
 import React from "react";
 import NavButton from "./NavButton";
-import NavSubMenu from "./NavSubMenu";
 import "./NavBar.scss";
 
 /**
@@ -8,20 +7,12 @@ import "./NavBar.scss";
  */
 
 const NavBar = () => {
-  const aboutMenu = [
-    { title: "Team", path: "/aboutTeam" },
-    { title: "FindWise", path: "/aboutFindwise" },
-  ];
-
   return (
     <nav className="nav">
       <ul className="nav__menu">
         <NavButton path="/" value="Hem" />
         <NavButton path="/toplists" value="Topplistor" />
-        <NavButton path="/sample" value="Ev profiler" />
-        <NavButton path="/aboutProject" value="Om">
-          <NavSubMenu values={aboutMenu} />
-        </NavButton>
+        <NavButton path="/about" value="Om"></NavButton>
       </ul>
     </nav>
   );
