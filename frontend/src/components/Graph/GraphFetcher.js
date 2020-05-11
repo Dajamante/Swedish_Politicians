@@ -6,6 +6,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { createList, toDateString } from "./graphListBuilder.js";
 import Graph from "./Graph";
+import "../TopList/TopListComponent.scss";
+import "./Graph.scss";
 
 function convertIntoGraphData(ledamoter, startDate, endDate) {
 	let res = [];
@@ -59,6 +61,51 @@ const GraphFetcher = () => {
 		startDate: date.startDate,
 		endDate: date.endDate,
 	});
+
+	const StartDateCustomInput = ({ value, onClick }) => (
+		<button className="startDate2" onClick={onClick}>
+			{value}
+		</button>
+	);
+	const StopDateCustomInput = ({ value, onClick }) => (
+		<button className="endDate2" onClick={onClick}>
+			{value}
+		</button>
+	);
+
+	const customStyles = {
+		option: (provided, state) => ({
+			...provided,
+			color: state.isSelected ? "black" : "black",
+			backgroundColor: state.isSelected ? "lightgrey" : "white",
+			backgroundColor: state.isFocused ? "lightgrey" : "white",
+			border: "1px",
+		}),
+		control: (provided) => ({
+			...provided,
+			height: "45px",
+			border: "0px",
+			borderRadius: "6px",
+			boxShadow: "0px",
+			background: (78, 125, 152),
+		}),
+		singleValue: (base) => ({
+			...base,
+			color: "#fff",
+		}),
+		input: (base) => ({
+			...base,
+			color: "#fff",
+		}),
+		dropdownIndicator: (base) => ({
+			...base,
+			color: "#fff",
+		}),
+		loadingIndicator: (base) => ({
+			...base,
+			color: "#fff",
+		}),
+	};
 
 	const isDisabled = false;
 	const isLoading = false;
@@ -117,81 +164,82 @@ const GraphFetcher = () => {
 	}, [date]);
 
 	return (
-		<div className="listPost">
-			<div>
-				Startdatum:{" "}
+		<div className="graphPageContainer">
+			<div className="txt1">Välj graf</div>
+			<div className="txt2">Välj personer</div>
+			<div className="txt3">Välj startdatum</div>
+			<div className="txt4">Välj slutdatum</div>
+			<div className="startDatePos">
 				<DatePicker
 					selected={date.startDate}
 					onChange={(startDate) =>
 						setdate((prevState) => ({ ...prevState, startDate }))
 					}
 					name="startDate"
+					customInput={<StartDateCustomInput />}
 					dateFormat="yyyy-MM-dd"
+					showYearDropdown="true"
+					showMonthDropdown="true"
+					withPortal
 				/>
 			</div>
-			<p> </p>
-			<div>
-				Stoppdatum:{" "}
+			<div className="endDatePos">
 				<DatePicker
 					selected={date.endDate}
 					onChange={(endDate) =>
 						setdate((prevState) => ({ ...prevState, endDate }))
 					}
+					customInput={<StopDateCustomInput />}
 					name="endDate"
 					dateFormat="yyyy-MM-dd"
+					showYearDropdown="true"
+					showMonthDropdown="true"
+					withPortal
 				/>
 			</div>
-
-			<br></br>
-			<Fragment>
-				<Select
-					className="dropDown"
-					classNamePrefix="select"
-					defaultValue={statOptions[0]}
-					isDisabled={isDisabled}
-					isLoading={isLoading}
-					isClearable={false}
-					isRtl={isRtl}
-					isSearchable={false}
-					name="color"
-					options={statOptions}
-					value={selectedStat}
-					onChange={(selectedStat) => setSelectedStat(selectedStat)}
+			<Select
+				className="dropDown1"
+				classNamePrefix="select"
+				defaultValue={statOptions[0]}
+				isDisabled={isDisabled}
+				isLoading={isLoading}
+				isClearable={false}
+				isRtl={isRtl}
+				isSearchable={false}
+				name="color"
+				options={statOptions}
+				value={selectedStat}
+				onChange={(selectedStat) => setSelectedStat(selectedStat)}
+				styles={customStyles}
+			/>
+			<Select
+				className="ledamotDropDown"
+				classNamePrefix="select"
+				defaultValue={{ value: "Michael", label: "Michael" }}
+				isDisabled={isDisabled}
+				isMulti
+				isLoading={isLoading}
+				isClearable={isClearable}
+				isRtl={isRtl}
+				isSearchable={isSearchable}
+				name="color"
+				options={ledamoter}
+				value={selectedLedamoter}
+				onChange={(ledamoter) =>
+					ledamoter === null
+						? setSelectedLedamoter([])
+						: setSelectedLedamoter(ledamoter)
+				}
+			/>
+			<div className="graphContainer">
+				<Graph
+					data={convertIntoGraphData(
+						graphData.data,
+						graphData.startDate,
+						graphData.endDate
+					)}
 				/>
-			</Fragment>
-			<Fragment>
-				<Select
-					className="dropDown"
-					classNamePrefix="select"
-					defaultValue={{ value: "Michael", label: "Michael" }}
-					isDisabled={isDisabled}
-					isMulti
-					isLoading={isLoading}
-					isClearable={isClearable}
-					isRtl={isRtl}
-					isSearchable={isSearchable}
-					name="color"
-					options={ledamoter}
-					value={selectedLedamoter}
-					onChange={(ledamoter) =>
-						ledamoter === null
-							? setSelectedLedamoter([])
-							: setSelectedLedamoter(ledamoter)
-					}
-				/>
-			</Fragment>
-			<br></br>
-			{
-				<div style={{ height: "500px", width: "1000px" }}>
-					<Graph
-						data={convertIntoGraphData(
-							graphData.data,
-							graphData.startDate,
-							graphData.endDate
-						)}
-					/>
-				</div>
-			}
+			</div>
 		</div>
 	);
 };
