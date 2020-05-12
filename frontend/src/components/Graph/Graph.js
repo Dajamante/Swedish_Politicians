@@ -70,7 +70,7 @@ class Graph extends Component {
 						itemWidth: 80,
 						itemHeight: 20,
 						itemOpacity: 0.75,
-						symbolSize: 6,
+						symbolSize: 4,
 						symbolShape: "circle",
 						symbolBorderColor: "rgba(0, 0, 0, .5)",
 						effects: [
