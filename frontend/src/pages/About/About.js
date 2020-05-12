@@ -17,7 +17,7 @@ class About extends Component {
                 <img style={{gridColumnStart: "2", gridRowStart: "6", marginLeft: "0vw", marginRight: "auto", marginTop: "3vw", maxHeight: "10vh", maxWidth: "20vw"}} src={require("../../resources/findwise-logo.png")}  alt="findwise logo" />
             </div>
 
-            <div class="indicator">
+            <div className="indicator">
                 <a href="#inflytande"><span></span></a>
             </div>
 
@@ -25,10 +25,10 @@ class About extends Component {
                 <img src={require("../../resources/riksdagen.jpg")} alt="riksdagen" style={{gridColumnStart: "1", gridRowStart: "1", gridRowEnd: "5", marginLeft: "auto", marginRight: "2vw", marginTop: "18vh", maxWidth: "30vw"}}/>
                 <h1 style={{gridRowStart: "1"}}>Inflytande</h1>
                 <p style={{gridRowStart: "2"}}>
-                    Definition av inflytande och vad det innebär i detta sammanhang sträcker sig längre än vad som rimlig fanns möjlighet att svara på inom detta projekts ramar.
+                    Definitionen av inflytande och vad det innebär i detta sammanhang sträcker sig längre än vad som rimligt finns möjlighet att svara på inom detta projekts ramar.
                 </p>
                 <p style={{gridRowStart: "3"}}>
-                    Vad vi valt att visa är data på en del faktor vi tror spelar roll viktigt roll för att en politiker ska vara inflytesrik. Dessa är framförallt:
+                    Vad vi har valt att visa är data för de faktorer som vi tror spelar en roll när en politiker försöker vara inflytesrik. Dessa är framförallt:
                 </p>
                 <p style={{gridRowStart: "4"}}>
                     Deras närvaro i riksdagen
@@ -37,7 +37,7 @@ class About extends Component {
                 </p>
             </div>
 
-            <div class="indicator">
+            <div className="indicator">
                 <a href="#arbetslaget"><span></span></a>
             </div>
 
@@ -91,7 +91,13 @@ class About extends Component {
                     Viktor Åryd
                     <br /><span className="containerBottomTitle">Frontend</span>
                 </div>
+
+                <div className="indicatorUp" style={{gridRow: "7", gridColumnStart: "4", gridColumnEnd: "6"}}>
+                    <a href="about"><span></span></a>
+                </div>
             </div>
+
+
         </>
     );
   }
