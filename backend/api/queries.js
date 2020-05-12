@@ -273,28 +273,29 @@ const getResultOverTime = (req, res) => {
       );
     } else if (type == "absent") {
       pool.query(
-        `select d.datum, COALESCE(b.resultat,0) as resultat from
-            (select generate_series(min(datum), max(datum), '1d')::date as datum from
+        `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
+            (select d.datum, COALESCE(b.resultat,0) as resultat from
+                (select generate_series(min(datum), max(datum), '1d')::date as datum from
+                    (select date_trunc('day', vot_datum)::date as datum,
+                    count(vot) as resultat from
+                    (select vot_datum, vot from voteringar
+                        where person_id = $1
+                        and vot = 'Frånvarande') as foo
+                        group by vot_datum
+                        order by vot_datum asc) as res
+                    order by datum asc) as d
+
+                left join
+
                 (select date_trunc('day', vot_datum)::date as datum,
                 count(vot) as resultat from
                 (select vot_datum, vot from voteringar
                     where person_id = $1
                     and vot = 'Frånvarande') as foo
                     group by vot_datum
-                    order by vot_datum asc) as res
-                order by datum asc) as d
-
-            left join
-
-            (select date_trunc('day', vot_datum)::date as datum,
-            count(vot) as resultat from
-            (select vot_datum, vot from voteringar
-                where person_id = '252067342313'
-                and vot = 'Frånvarande') as foo
-                group by vot_datum
-                order by vot_datum asc) as b on d.datum = b.datum
-            group by d.datum, b.resultat
-            order by datum asc;`,
+                    order by vot_datum asc) as b on d.datum = b.datum
+                group by d.datum, b.resultat
+                order by datum asc) as final;`,
         [personid],
         (error, results) => {
           if (error) {
@@ -307,28 +308,57 @@ const getResultOverTime = (req, res) => {
     } else if (type == "votedagainst") {
       pool.query(
         `select to_char(datum, 'YYYY-MM-DD') as datum, resultat from
-                (select date_trunc('day', vot_datum)::date as datum, count(*) as resultat from
-                    (select * from
-                        (select voterings_id, vot_datum, parti_vot, vot as personal_vot, parti from voteringar natural join
-                            (select voterings_id, vot_datum, vot as parti_vot, parti from
-                                (select distinct on (voterings_id) voterings_id, vot_datum, max(count), vot, parti from
-                                    (select voterings_id, vot_datum, vot, count(vot), parti from
-                                        (select * from voteringar
-                                        natural join riksdagsledamot
-                                        where parti =
-                                            (select parti from riksdagsledamot
-                                            where person_id = $1)) as foo
-                                        group by voterings_id, vot_datum, vot, parti) as bar
-                                    group by voterings_id, vot, vot_datum, parti
-                                    order by voterings_id, max desc) as boo
-                                order by vot_datum asc) as far
-                            where person_id = $1
-                            order by vot_datum asc) as doo
-                        where not personal_vot = parti_vot
-                        and not personal_vot = 'Frånvarande'
-                        and not parti_vot = 'Frånvarande'
-                        and not parti = '-') as dar
-                    group by vot_datum order by vot_datum asc) as final;`,
+            (select d.datum, COALESCE(b.resultat,0) as resultat from
+                (select generate_series(min(datum), max(datum), '1d')::date as datum from
+                    (select date_trunc('day', vot_datum)::date as datum, count(*) as resultat from
+                        (select * from
+                            (select voterings_id, vot_datum, parti_vot, vot as personal_vot, parti from voteringar natural join
+                                (select voterings_id, vot_datum, vot as parti_vot, parti from
+                                    (select distinct on (voterings_id) voterings_id, vot_datum, max(count), vot, parti from
+                                        (select voterings_id, vot_datum, vot, count(vot), parti from
+                                            (select * from voteringar
+                                            natural join riksdagsledamot
+                                            where parti =
+                                                (select parti from riksdagsledamot
+                                                where person_id = $1)) as foo
+                                            group by voterings_id, vot_datum, vot, parti) as bar
+                                        group by voterings_id, vot, vot_datum, parti
+                                        order by voterings_id, max desc) as boo
+                                    order by vot_datum asc) as far
+                                where person_id = $1
+                                order by vot_datum asc) as doo
+                            where not personal_vot = parti_vot
+                            and not personal_vot = 'Frånvarande'
+                            and not parti_vot = 'Frånvarande'
+                            and not parti = '-') as dar
+                        group by vot_datum order by vot_datum asc) as final) as d
+
+                     left join
+
+                        (select date_trunc('day', vot_datum)::date as datum, count(*) as resultat from
+                            (select * from
+                                (select voterings_id, vot_datum, parti_vot, vot as personal_vot, parti from voteringar natural join
+                                    (select voterings_id, vot_datum, vot as parti_vot, parti from
+                                        (select distinct on (voterings_id) voterings_id, vot_datum, max(count), vot, parti from
+                                            (select voterings_id, vot_datum, vot, count(vot), parti from
+                                                (select * from voteringar
+                                                natural join riksdagsledamot
+                                                where parti =
+                                                    (select parti from riksdagsledamot
+                                                    where person_id = $1)) as foo
+                                                group by voterings_id, vot_datum, vot, parti) as bar
+                                            group by voterings_id, vot, vot_datum, parti
+                                            order by voterings_id, max desc) as boo
+                                        order by vot_datum asc) as far
+                                    where person_id = $1
+                                    order by vot_datum asc) as doo
+                                where not personal_vot = parti_vot
+                                and not personal_vot = 'Frånvarande'
+                                and not parti_vot = 'Frånvarande'
+                                and not parti = '-') as dar
+                            group by vot_datum order by vot_datum asc) as b on d.datum = b.datum
+                        group by d.datum, b.resultat
+                        order by datum asc) as final;`,
         [personid],
         (error, results) => {
           if (error) {
