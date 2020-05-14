@@ -4,7 +4,7 @@ $color-blue-dark: #285f7f;
 $mainWindowTopPlacement: 20%;
 
 .App {
-  background-color: FFFFFF;
+  //background-color: white;
 }
 
 .mainItem {
@@ -18,7 +18,7 @@ $mainWindowTopPlacement: 20%;
 }
 
 body {
-  background-color: $bkg-color;
+  //background-color: $color-blue;
   margin: 0;
   padding: 0;
   font-family: "Helvetica neue";
@@ -46,7 +46,7 @@ div {
 
 a.link:link,
 a.link:visited {
-  color: #38488f;
+  color: $color-blue-dark;
   text-decoration: none;
 }
 
