@@ -9,14 +9,14 @@ import DataPlaceholder from "../../components/DataPlaceholder/DataPlaceholder";
 class TopLists extends Component {
     render() {
         return (
-        <div className="bottom_background">
-            <div className="toplists_background"></div>
-            <div className="toplists_container">
-                <DataPlaceholder overflowY="scroll">
-                    <Fetcher />
-                </DataPlaceholder>
+            <div>
+                <div className="toplists_background"></div>
+                <div>
+                    <DataPlaceholder overflowY="scroll">
+                        <Fetcher />
+                    </DataPlaceholder>
+                </div>
             </div>
-        </div>
         );
     }
 }
