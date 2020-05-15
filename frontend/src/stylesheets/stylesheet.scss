@@ -2,6 +2,7 @@ $bkg-color: #ffffff;
 $color-blue: #4e7d98;
 $color-blue-dark: #285f7f;
 $mainWindowTopPlacement: 20%;
+$mainFont: "Arial";
 
 .App {
 }
@@ -20,13 +21,13 @@ body {
   //background-color: $color-blue;
   margin: 0;
   padding: 0;
-  font-family: "Helvetica neue";
+  font-family: $mainFont;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
 code {
-  font-family: "Helvetica neue";
+  font-family: $mainFont;
 }
 
 section {
