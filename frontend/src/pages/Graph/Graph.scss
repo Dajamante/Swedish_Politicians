@@ -1,0 +1,21 @@
+$color-blue: #4e7d98;
+$mainWindowTopPlacement: 20%;
+$navbar-height: 7vh;
+
+.container {
+  //display: grid;
+  height: 100vh - $navbar-height;
+  width: 100%;
+  //grid-template-columns: 13% 74% 13%;
+  //grid-template-rows: $mainWindowTopPlacement 1% 70% 10%;
+  //align-content: space-evenly;
+  //justify-content: center;
+  //padding: 0;
+  //margin: 0;
+  background-image: url("../../resources/kammaren.png");
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-color: $color-blue;
+  //backdrop-filter: blur(2px);
+}
