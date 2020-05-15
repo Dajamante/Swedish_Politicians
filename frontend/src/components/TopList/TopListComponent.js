@@ -73,6 +73,3 @@ render() {
   }
 }
 export default TopList;
-  }
-}
-export default TopList;
