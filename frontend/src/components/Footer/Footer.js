@@ -28,11 +28,10 @@ const Footer = () => {
 
     <span className="footerRight" style={{gridColumn: "4", gridRow: "3"}}>
       <h3>Kontakta oss</h3>
-      <span>michaelwink@hotmail.com</span>
-      <br />
-      <span>08 - 111 222 34 56</span>
-      <br />
-      <span>Länk till valfri medlems Tinder-konto</span>
+      <span>political.influence.project@gmail.com</span>
+      <br /><br />
+      <h3>Källa till data</h3>
+      <span> Sveriges Riksdag</span>
     </span>
     
 
