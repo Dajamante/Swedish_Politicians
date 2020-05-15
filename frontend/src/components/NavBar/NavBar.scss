@@ -14,7 +14,6 @@ $navbar-height: 7vh;
 
 body {
   margin: 0;
-  font-family: "Helvetica neue";
   font-size: 14px;
   line-height: 1.5;
   text-align: center;
@@ -37,7 +36,7 @@ nav {
 .nav {
   text-align: left;
   top: 0;
-  font-family: "Lato", sans-serif;
+  font-family: inherit;
   box-shadow: 0px 3px 5px 0px #aaaaaa;
   z-index: 99;
   width: 100%;
@@ -57,7 +56,6 @@ nav {
   background: #ffffff;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
-  font-family: "Helvetica neue";
   font-style: normal;
   font-weight: normal;
   font-size: 18px;
@@ -70,7 +68,6 @@ nav {
 }
 
 .nav__menu-item {
-  font-family: "Helvetica neue";
   font-style: normal;
   font-weight: normal;
   font-size: 18px;

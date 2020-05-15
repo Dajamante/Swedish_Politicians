@@ -8,6 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
 const APIoptions = [
+  { value: "getInfluence", label: "Kombinerat politiskt inflytande"},
   { value: "resultSAMostPos", label: "Mest positiv" },
   { value: "resultSAMostNeg", label: "Mest negativ" },
   { value: "getMostAbsent", label: "Mest frånvaro vid votering" },
@@ -27,7 +28,7 @@ class Fetcher extends Component {
       QUERY_START: "2019-01-01",
       QUERY_STOP: "2020-03-20",
       isLoading: false,
-      selectedOption: APIoptions[2],
+      selectedOption: APIoptions[0],
       startDate: new Date("2019-01-01"),
       stopDate: new Date("2020-03-20"),
     };
@@ -136,7 +137,7 @@ class Fetcher extends Component {
         <div className="topTitles">Filtrera på parti</div>
         <Select
           className="dropDown"
-          defaultValue={APIoptions[1]}
+          defaultValue={APIoptions[0]}
           isLoading={isLoading}
           options={APIoptions}
           value={selectedOption}
