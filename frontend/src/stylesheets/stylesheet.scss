@@ -4,7 +4,6 @@ $color-blue-dark: #285f7f;
 $mainWindowTopPlacement: 20%;
 
 .App {
-  //background-color: white;
 }
 
 .mainItem {
@@ -36,14 +35,6 @@ section {
   padding: 0em;
 }
 
-div {
-  // margin: 0em auto;
-  // padding: 0em;
-  // background-color: $bkg-color;
-  // border-radius: 0.5em;
-  /* box-shadow: 2px 3px 7px 2px rgba(0,0,0,0.02); */
-}
-
 a.link:link,
 a.link:visited {
   color: $color-blue-dark;
@@ -54,7 +45,3 @@ script {
   width: 100vw;
 }
 
-.sampleGraph {
-  height: 75%;
-  width: 100vw;
-}

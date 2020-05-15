@@ -9,10 +9,13 @@ import GraphFetcher from "../../components/Graph/GraphFetcher.js";
 class Home extends Component {
 	render() {
 		return (
-			<div className="container">
-				<DataPlaceholder>
-					<GraphFetcher />
-				</DataPlaceholder>
+			<div>
+				<div className="home_background"></div>
+				<div>
+					<DataPlaceholder>
+						<GraphFetcher />
+					</DataPlaceholder>
+				</div>
 			</div>
 		);
 	}
