@@ -12,7 +12,7 @@ class Home extends Component {
 			<div>
 				<div className="home_background"></div>
 				<div>
-					<DataPlaceholder>
+					<DataPlaceholder overflowY="auto">
 						<GraphFetcher />
 					</DataPlaceholder>
 				</div>
