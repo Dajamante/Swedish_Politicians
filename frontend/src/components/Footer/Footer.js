@@ -31,7 +31,7 @@ const Footer = () => {
       <span>political.influence.project@gmail.com</span>
       <br /><br />
       <h3>Källa till data</h3>
-      <span> Sveriges Riksdag</span>
+      <span>Sveriges Riksdag</span>
     </span>
     
 
