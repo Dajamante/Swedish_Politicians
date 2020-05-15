@@ -13,16 +13,12 @@ class TopList extends Component {
         };
     }
 
-    /**
-     * limiting to 50 characters
-     * @param {*} event
-     */
     updateSearchName(event) {
         this.setState({ searchName: event.target.value.substring(0, 50) });
     }
 
     updateSearchParty(event) {
-        this.setState({ searchParty: event.target.value.substring(0, 50) });
+        this.setState({ searchParty: event.target.value.substring(0, 3) });
     }
 
 render() {
@@ -33,12 +29,13 @@ render() {
             .indexOf(this.state.searchName.toLowerCase()) !== -1
         );
     });
+
     let filteredPostsByParty = filteredPostsByName.filter((listPost) => {
-        return (
-            listPost.parti
-            .toLowerCase()
-            .indexOf(this.state.searchParty.toLowerCase()) !== -1
-        );
+        if (this.state.searchParty.toLowerCase() === "") {
+            return listPost.parti
+        } else {
+            return listPost.parti.toLowerCase() === this.state.searchParty.toLowerCase()
+        }
     });
 
     let list = filteredPostsByParty.map((listPost) => {
@@ -73,6 +70,9 @@ render() {
             </dl>
         </>
     );
+  }
+}
+export default TopList;
   }
 }
 export default TopList;
