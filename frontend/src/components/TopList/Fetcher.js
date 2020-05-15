@@ -9,8 +9,8 @@ import moment from "moment";
 
 const APIoptions = [
   { value: "getInfluence", label: "Kombinerat politiskt inflytande"},
-  { value: "getSAResultMostPositive", label: "Mest positiv" },
-  { value: "getSAResultMostNegative", label: "Mest negativ" },
+  { value: "resultSAMostPos", label: "Mest positiv" },
+  { value: "resultSAMostNeg", label: "Mest negativ" },
   { value: "getMostAbsent", label: "Mest frånvaro vid votering" },
   {
     value: "getVotedAgainstPartiMode",
