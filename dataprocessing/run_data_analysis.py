@@ -8,15 +8,17 @@ from sklearn import svm
 import os
 import numpy as np
 
+from sklearn.feature_extraction.text import TfidfVectorizer
+
 
 def main():
 
     # =====Environmental variables=====
-    host = os.environ['DBHOST']  
+    host = os.environ['DBHOST']
     port = '5432'
-    database = os.environ['DBDB']  
-    user = os.environ['DBUSER']  
-    password = os.environ['DBPASS'] 
+    database = os.environ['DBDB']
+    user = os.environ['DBUSER']
+    password = os.environ['DBPASS']
     # ================================
 
     # ====Instatiation of Classes====
@@ -40,7 +42,7 @@ def main():
 
     # Build a pipeline
     text_clf = model.building_pipeline(
-        SGDClassifier, test_sentances=test_sentances, test_targets=test_targets)
+        classifier=SGDClassifier, test_sentances=test_sentances, test_targets=test_targets)
 
     # train the classifier
     text_clf.fit(model.training, model.train_target)
@@ -50,21 +52,49 @@ def main():
     predicted = text_clf.predict(docs_test)
 
     res_test = model.test_classification(predicted)
-    print(predicted,res_test)
+    print(predicted, res_test)
 
     # strip anförande of <p>,</p>,...
     anforande_stripped = [anforande.strip('<p>').strip(
         '</p>').replace('</p><p>', '') for anforande in np.array(anforande_texts)]
 
-    # preict sentiment of anförande
-    predicted_anforande = text_clf.predict(anforande_stripped)
-    # convert to labels to floats
-    predicted_anforande = [float(label) for label in predicted_anforande]
+    # Predict anforande and how close the sentiment is to neighouring sentiments
+    test_desc_func = text_clf.decision_function(anforande_stripped)
+    indicies = test_desc_func.argmax(axis=1)
+    result = []
+    for j in range(len(test_desc_func)):
+        index = indicies[j]
+        norm = np.linalg.norm(test_desc_func[j])
+        if index == 0:
+            # (label = pos ,neutral,neg)
+            result.append((model.emotions[index], np.abs(
+                test_desc_func[j][index]-test_desc_func[j][1])/norm, np.abs(test_desc_func[j][index]-test_desc_func[j][2])/norm))
+
+        elif index == 1:
+            # (label = neutral ,pos,neg)
+            result.append((model.emotions[index], np.abs(
+                test_desc_func[j][index]-test_desc_func[j][0])/norm, np.abs(test_desc_func[j][index]-test_desc_func[j][2])/norm))
+
+        elif index == 2:
+            # (label = negative ,neutral,pos)
+            result.append((model.emotions[index], np.abs(
+                test_desc_func[j][index]-test_desc_func[j][1])/norm, np.abs(test_desc_func[j][index]-test_desc_func[j][0])/norm))
+
+    result_anforande = []
+    for i in range(len(result)):
+        res = result[i]
+        if res[0] == '0':
+            result_anforande.append(0 + res[1] - res[2])
+        elif res[0] == '-1':
+            result_anforande.append(-1 + res[1] + res[2])
+        elif res[0] == '1':
+            result_anforande.append(1 - res[1] - res[2])
 
     df_target['anforande_id'] = df_anforanden['anforande_id']
-    df_target['resultat'] = predicted_anforande
+    df_target['resultat'] = result_anforande
 
     print(df_target)
+
     database.insert_data_table(df_target, df_target, 'resultat_sentiment')
 
 
