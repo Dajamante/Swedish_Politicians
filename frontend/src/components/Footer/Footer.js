@@ -20,7 +20,7 @@ const Footer = () => {
       <br />
       <h3>Sitemap</h3>
       <a href="home">Hem</a>{" | "}
-      <a href="toplists">Topplistor</a>{" | "}
+      <a href="graph">Graf</a>{" | "}
       <a href="about">Om</a>
       <br /><br /><br />
       <EmailIcon size={32} round={true} />{" "}<FacebookIcon size={32} round={true} />{" "}<TwitterIcon size={32} round={true} />{" "}<RedditIcon size={32} round={true} />{" "}<WhatsappIcon size={32} round={true} />
@@ -31,7 +31,7 @@ const Footer = () => {
       <span>political.influence.project@gmail.com</span>
       <br /><br />
       <h3>Källa till data</h3>
-      <span> Sveriges Riksdag</span>
+      <span>Sveriges Riksdag</span>
     </span>
     
 

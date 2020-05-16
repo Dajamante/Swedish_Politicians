@@ -11,7 +11,7 @@ const NavBar = () => {
     <nav className="nav">
       <ul className="nav__menu">
         <NavButton path="/" value="Hem" />
-        <NavButton path="/toplists" value="Topplistor" />
+        <NavButton path="/graph" value="Graf" />
         <NavButton path="/about" value="Om"></NavButton>
       </ul>
     </nav>
