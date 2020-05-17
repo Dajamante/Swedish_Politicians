@@ -12,7 +12,9 @@ class ListPost extends Component {
           <div className="rankCSS">{this.props.listPost.rank}</div>
           <div className="namnCSS">{this.props.listPost.namn}</div>
           <div className="resultatCSS">
-            {Math.round(this.props.listPost.resultat * 100) / 100}
+            {this.props.listPost.resultat
+              ? Math.round(this.props.listPost.resultat * 100) / 100
+              : null}
           </div>
           <div></div>
           <div className="partiCSS">{this.props.listPost.parti}</div>

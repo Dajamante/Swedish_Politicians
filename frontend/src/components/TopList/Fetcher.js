@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
 const APIoptions = [
-  { value: "getInfluence", label: "Kombinerat politiskt inflytande"},
+  { value: "getInfluence", label: "Kombinerat politiskt inflytande" },
   { value: "resultSAMostPos", label: "Mest positiv" },
   { value: "resultSAMostNeg", label: "Mest negativ" },
   { value: "getMostAbsent", label: "Mest frånvaro vid votering" },
@@ -165,7 +165,10 @@ class Fetcher extends Component {
           withPortal
           todayButton="Idag"
         />
-        <TopListComponent listPosts={this.state.list} />
+        <TopListComponent
+          resultat={this.state.selectedOption.value !== "getInfluence"}
+          listPosts={this.state.list}
+        />
       </div>
     );
   }
