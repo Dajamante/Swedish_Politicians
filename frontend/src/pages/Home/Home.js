@@ -1,21 +1,21 @@
 import React, { Component } from "react";
+import Fetcher from "../../components/TopList/Fetcher";
+import "./Home.scss"
 import DataPlaceholder from "../../components/DataPlaceholder/DataPlaceholder";
-import "./Home.scss";
-import GraphFetcher from "../../components/Graph/GraphFetcher.js";
 
-/**
- * Home component containing the first page of the site with logos and link to GitHub.
- */
 class Home extends Component {
-	render() {
-		return (
-			<div className="container">
-				<DataPlaceholder>
-					<GraphFetcher />
-				</DataPlaceholder>
-			</div>
-		);
-	}
+    render() {
+        return (
+            <div>
+                <div className="home_background"></div>
+                <div>
+                    <DataPlaceholder overflowY="scroll">
+                        <Fetcher />
+                    </DataPlaceholder>
+                </div>
+            </div>
+        );
+    }
 }
 
 export default Home;
