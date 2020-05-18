@@ -11,12 +11,12 @@ $navbar-height: 7vh;
 .containerTop {
   display: grid;
   grid-template-columns:  50% 50%;
-  grid-template-rows: auto auto auto auto auto 35%;
+  grid-template-rows: auto auto auto auto auto 40%;
   padding-left: 14%;
   padding-right: 14%;
   padding-top: 6%;
 
-  height: 76.5vh;
+  height: 77vh;
   background-color: $color-blue;
   background-repeat: no-repeat;
   background-size: cover;
@@ -73,7 +73,7 @@ $navbar-height: 7vh;
 
 .containerCenter h1 {
   grid-column: 2;
-  margin-top: 6vh;
+  margin-top: 3vh;
   margin-right: auto;
   margin-left: 2vw;
 }
@@ -114,11 +114,26 @@ $navbar-height: 7vh;
 
 .containerBottomName {
   margin-top: 0.9vw;
+  z-index: 4;
 }
 .containerBottomTitle {
   font-size: 0.9vw;
+  z-index: 4;
 }
 
+.avatar {
+  width: 14vw;
+  max-height: 14vw;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+}
+
+.avatar img{
+  max-width: inherit; 
+  max-height: inherit;
+}
 
 .circle {
   width: 14vw;
@@ -127,13 +142,39 @@ $navbar-height: 7vh;
   background-color: white;
   margin-left: auto;
   margin-right: auto;
+  z-index: 1;
+}
+
+.circle_head {
+  width: 5vw;
+  height: 5vw;
+  border-radius: 50%;
+  border: 1vh solid white;
+  background-color:$color-blue;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  z-index: 3;
+}
+
+.circle_body {
+  width: 9vw;
+  height: 9vw;
+  border-radius: 50%;
+  background-color:$color-blue;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10vw;
+  margin-bottom: auto - 15vh;
+  z-index: 2;
 }
 
 .indicator{
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1.0vh;
+  margin-top: 1vh;
   margin-bottom: 2.1vh;
   width: 1.8vh;
   height: 1.8vh;
@@ -158,7 +199,7 @@ $navbar-height: 7vh;
   position: relative;
   margin-left: auto;
   margin-right: auto;
-  margin-top: 1.0vh;
+  margin-top: 1vh;
   margin-bottom: 2.1vh;
   width: 1.8vh;
   height: 1.8vh;
