@@ -12,6 +12,8 @@ $color-blue: #4e7d98;
   font-size: 0.8vw;
   font-style: normal;
   line-height: normal;
+
+  position: relative;
 }
 
 .footerLeft {
@@ -45,7 +47,7 @@ $color-blue: #4e7d98;
 .footerHR {
   background-color: white;
   border: 0px;
-  height: 0.5px;
+  height: 1px;
   margin: 0px;
   line-height: 0px;
 }
