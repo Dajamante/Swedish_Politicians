@@ -114,11 +114,26 @@ $navbar-height: 7vh;
 
 .containerBottomName {
   margin-top: 0.9vw;
+  z-index: 4;
 }
 .containerBottomTitle {
   font-size: 0.9vw;
+  z-index: 4;
 }
 
+.avatar {
+  width: 14vw;
+  max-height: 14vw;
+  background-color: white;
+  margin-left: auto;
+  margin-right: auto;
+  z-index: 1;
+}
+
+.avatar img{
+  max-width: inherit; 
+  max-height: inherit;
+}
 
 .circle {
   width: 14vw;
@@ -127,6 +142,32 @@ $navbar-height: 7vh;
   background-color: white;
   margin-left: auto;
   margin-right: auto;
+  z-index: 1;
+}
+
+.circle_head {
+  width: 5vw;
+  height: 5vw;
+  border-radius: 50%;
+  border: 1vh solid white;
+  background-color:$color-blue;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: auto;
+  margin-bottom: auto;
+  z-index: 3;
+}
+
+.circle_body {
+  width: 9vw;
+  height: 9vw;
+  border-radius: 50%;
+  background-color:$color-blue;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 10vw;
+  margin-bottom: auto - 15vh;
+  z-index: 2;
 }
 
 .indicator{

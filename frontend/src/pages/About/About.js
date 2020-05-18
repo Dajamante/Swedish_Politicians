@@ -44,49 +44,49 @@ class About extends Component {
             <div className="containerBottom" id="arbetslaget">
                 <h1 style={{gridRowStart: "1", gridColumn: "2", gridColumnEnd: "8"}}>Arbetslaget</h1>
 
-                <div className="circle" style={{gridRow: "2", gridColumn: "3"}}></div>
+                <div className="avatar" style={{gridRow: "2", gridColumn: "3"}}><img src={require("../../resources/avatar.jpg")} alt="default avatar"></img></div>
                 <div className="containerBottomName" style={{gridRow: "3", gridColumn: "3"}}>
                     Michael Wink
                     <br /><span className="containerBottomTitle">Project Owner</span>
                 </div>
 
-                <div className="circle" style={{gridRow: "2", gridColumn: "4"}}></div>
+                <div className="avatar" style={{gridRow: "2", gridColumn: "4"}}><img src={require("../../resources/avatar.jpg")} alt="default avatar"></img></div>
                 <div className="containerBottomName" style={{gridRow: "3", gridColumn: "4"}}>
                     Erik Vanhainen
                     <br /><span className="containerBottomTitle">Scrum Master</span>
                 </div>
                 
-                <div className="circle" style={{gridRow: "2", gridColumn: "5"}}></div>
+                <div className="avatar" style={{gridRow: "2", gridColumn: "5"}}><img src={require("../../resources/avatar.jpg")}></img></div>
                 <div className="containerBottomName" style={{gridRow: "3", gridColumn: "5"}}>
                     Markus Tollet
                     <br /><span className="containerBottomTitle">Data Processing</span>
                 </div>
 
-                <div className="circle" style={{gridRow: "2", gridColumn: "6"}}></div>
+                <div className="avatar" style={{gridRow: "2", gridColumn: "6"}}><img src={require("../../resources/avatar.jpg")} alt="default avatar"></img></div>
                 <div className="containerBottomName" style={{gridRow: "3", gridColumn: "6"}}>
                     Aissata Maiga
                     <br /><span className="containerBottomTitle">Data Processing</span>
                 </div>
                 
-                <div className="circle" style={{gridRow: "5", gridColumn: "3"}}></div>
+                <div className="avatar" style={{gridRow: "5", gridColumn: "3"}}><img src={require("../../resources/avatar.jpg")} alt="default avatar"></img></div>
                 <div className="containerBottomName" style={{gridRow: "6", gridColumn: "3"}}>
                     Johanna Löv
                     <br /><span className="containerBottomTitle">Data Management / UI</span>
                 </div>
                 
-                <div className="circle" style={{gridRow: "5", gridColumn: "4"}}></div>
+                <div className="avatar" style={{gridRow: "5", gridColumn: "4"}}><img src={require("../../resources/avatar.jpg")} alt="default avatar"></img></div>
                 <div className="containerBottomName" style={{gridRow: "6", gridColumn: "4"}}>
                     Daniel Onegård
                     <br /><span className="containerBottomTitle">Backend</span>
                 </div>
 
-                <div className="circle" style={{gridRow: "5", gridColumn: "5"}}></div>
+                <div className="avatar" style={{gridRow: "5", gridColumn: "5"}}><img src={require("../../resources/avatar.jpg")} alt="default avatar"></img></div>
                 <div className="containerBottomName" style={{gridRow: "6", gridColumn: "5"}}>
                     Pontus Cowling Mantefors
                     <br /><span className="containerBottomTitle">Frontend</span>
                 </div>
                 
-                <div className="circle" style={{gridRow: "5", gridColumn: "6"}}></div>
+                <div className="avatar" style={{gridRow: "5", gridColumn: "6"}}><img src={require("../../resources/avatar.jpg")} alt="default avatar"></img></div>
                 <div className="containerBottomName" style={{gridRow: "6", gridColumn: "6"}}>
                     Viktor Åryd
                     <br /><span className="containerBottomTitle">Frontend</span>

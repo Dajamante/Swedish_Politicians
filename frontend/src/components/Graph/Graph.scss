@@ -1,3 +1,10 @@
+$font-size-standard: 1.1vw;
+$font-size-medium: 1vw;
+$font-size-small: 0.6vw;
+$font-size-big: 1.4vw;
+$font-size-large: 1.5vw;
+$font-size-xlarge: 1.9vw;
+
 .graphPageContainer {
 	position: absolute;
 	top: 1%;
@@ -7,15 +14,15 @@
 	display: grid;
 	justify-content: space-around;
 	grid-template-columns: 0px 45% 15% 15% 15% auto;
-	grid-template-rows: 18px 8% 2% 7% auto;
-	column-gap: 6px;
-	row-gap: 4px;
+	grid-template-rows: 1.1vw 8% 2% 7% auto;
+	column-gap: 0.7vw;
+	row-gap: 0.1vw;
 
 	font-family: inherit;
-	font-size: 18px;
+	font-size: $font-size-standard;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 18px;
+	font-size: $font-size-standard;
 }
 
 .ledamotDropDown {
@@ -36,7 +43,7 @@
 
 	float: left;
 	width: 100%;
-	height: 45px;
+	height: 2.5vw;
 	background: rgb(78, 125, 152);
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border: 0px;
@@ -44,11 +51,10 @@
 
 	font-family: inherit;
 	text-align: left;
-	font-size: 18px;
+	font-size: $font-size-standard;
 	color: green($color: #000000);
 	font-style: normal;
 	font-weight: normal;
-	font-size: 18px;
 	line-height: 21px;
 	text-align: left;
 	color: rgb(255, 255, 255);
@@ -63,19 +69,18 @@
 
 .startDate2 {
 	float: left;
-	width: 150px;
-	height: 45px;
+	width: 75%;
+	height: 2.5vw;
 	background: #4e7d98;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border: 0px;
 	border-radius: 6px;
 
 	font-family: inherit;
-	font-size: 18px;
+	font-size: $font-size-standard;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 18px;
-	line-height: 21px;
+	line-height: $font-size-big;
 	text-align: center;
 	color: #ffffff;
 }
@@ -89,19 +94,18 @@
 
 .endDate2 {
 	float: left;
-	width: 150px;
-	height: 45px;
+	width: 75%;
+	height: 2.5vw;
 	background: #4e7d98;
 	box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 	border: 0px;
 	border-radius: 6px;
 
 	font-family: inherit;
-	font-size: 18px;
+	font-size: $font-size-standard;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 18px;
-	line-height: 21px;
+	line-height: $font-size-big;
 	text-align: center;
 	color: #ffffff;
 }
@@ -112,7 +116,7 @@
 	grid-column-end: 3;
 	grid-row-start: 1;
 	grid-row-end: 2;
-	font-size: 12px;
+	font-size: $font-size-small;
 }
 .txt2 {
 	text-align: left;
@@ -120,7 +124,7 @@
 	grid-column-end: 3;
 	grid-row-start: 3;
 	grid-row-end: 4;
-	font-size: 12px;
+	font-size: $font-size-small;
 }
 .txt3 {
 	text-align: left;
@@ -128,7 +132,7 @@
 	grid-column-end: 5;
 	grid-row-start: 1;
 	grid-row-end: 2;
-	font-size: 12px;
+	font-size: $font-size-small;
 }
 .txt4 {
 	text-align: left;
@@ -136,7 +140,7 @@
 	grid-column-end: 6;
 	grid-row-start: 1;
 	grid-row-end: 2;
-	font-size: 12px;
+	font-size: $font-size-small;
 }
 
 .graphContainer {

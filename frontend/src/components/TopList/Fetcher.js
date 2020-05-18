@@ -8,7 +8,7 @@ import "react-datepicker/dist/react-datepicker.css";
 import moment from "moment";
 
 const APIoptions = [
-  { value: "getInfluence", label: "Kombinerat politiskt inflytande"},
+  { value: "getInfluence", label: "Kombinerat politiskt inflytande" },
   { value: "resultSAMostPos", label: "Mest positiv" },
   { value: "resultSAMostNeg", label: "Mest negativ" },
   { value: "getMostAbsent", label: "Mest frånvaro vid votering" },
@@ -100,31 +100,46 @@ class Fetcher extends Component {
         color: state.isSelected ? "black" : "black",
         backgroundColor: state.isSelected ? "lightgrey" : "white",
         backgroundColor: state.isFocused ? "lightgrey" : "white",
-        border: "1px",
+        border: "0px",
       }),
       control: (provided) => ({
         ...provided,
-        height: "45px",
         border: "0px",
         borderRadius: "6px",
         boxShadow: "0px",
         background: (78, 125, 152),
+        width: "100%",
+        fontSize: "1.1vw",
+      }),
+      indicatorsContainer: (base) => ({
+        ...base,
+        height: "2.5vw",
       }),
       singleValue: (base) => ({
         ...base,
         color: "#fff",
+        width: "100%",
+        height: "2.5vw",
+        position: "relative",
+        marginTop: "1.7vw",
       }),
       input: (base) => ({
         ...base,
         color: "#fff",
+        width: "100%",
+        height: "100%",
       }),
       dropdownIndicator: (base) => ({
         ...base,
         color: "#fff",
+        width: "100%",
+        height: "auto",
       }),
       loadingIndicator: (base) => ({
         ...base,
         color: "#fff",
+        width: "100%",
+        height: "auto",
       }),
     };
 
@@ -165,7 +180,10 @@ class Fetcher extends Component {
           withPortal
           todayButton="Idag"
         />
-        <TopListComponent listPosts={this.state.list} />
+        <TopListComponent
+          resultat={this.state.selectedOption.value !== "getInfluence"}
+          listPosts={this.state.list}
+        />
       </div>
     );
   }
